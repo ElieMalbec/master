@@ -1,0 +1,78 @@
+# -*- coding: utf-8 -*-
+"""Module permettant de gérer la confrontation de deux armées"""
+import random
+import Armee
+
+def moteur_de_combat(armee1, armee2):
+    """
+    Il faut passer en paramètres des copies d'armées pour ne pas modifier directement les troupes des armées elles-mêmes
+
+    Le moteur de combat permet de déterminer une armée gagnante, nous pasosns en paramètres les deux armées
+    qui doivent combattre.
+    L'armée la plus rapide dispose d'un bonus d'attaque et 2.5%, le combat se déroule en tour par tour, où la première
+    armée attaque la seconde et inversement. La hiérarchie des troupes permet de supprimer certaines unités avant
+    d'autres. Les points infligés à l'armée adverse sont : armeeAdverse.PA - monarmee.DF
+
+    Des troupes sont supprimées tant que les points de vie de cette unité sont inférieurs aux points d'attaque restants.
+    Si il ne reste pas assez de points d'attaque pour supprimer les dernières troupes (Généraux), ils s'additionnent
+    à chaque tour. Les totaux des armées sont recalculés à chaque tour.
+
+    Le moteur de combat retourne une valeur 1 pour une victoire de l'armée 1 et 2 pour la seconde, -1 pour une égalité.
+
+    Le combat continue tant qu'il ny' a pas d'armée battue dans la limite de 100 tours."""
+
+    tour = 0
+    # Construction des hiérarchies des armées pour après ere utilisées dans retirer_morts
+    armee1.construire_hierarchie()
+    armee2.construire_hierarchie()
+
+    # Comparaison de la vitesse des armées, la plus rapide gagne 2.5% de bonus d'attaque pour le premier tour
+    # Si aucune armée n'a un avantage, une armée au hasard bénéficie de cette amélioration
+    if armee1.VIT > armee2.VIT:
+        armee1.modifier_stats()
+    elif armee2.VIT > armee1.VIT:
+        armee2.modifier_stats()
+    else:
+        # Cette condition est validée lorsque aucune armée n'a un avantage de vitesse, une armée sur les deux dispose
+        # alors du bonus d'attaque
+        rand = random.randint(0, 1)
+        if rand == 0:
+            armee1.modifier_stats()
+        else:
+            armee2.modifier_stats()
+
+    #     Tant qu'une armée n'est pas battue, nous continuons le combat.
+    while not armee1.armee_battue() and not armee2.armee_battue():
+        if tour > 100:  # Si partie infinie stopper
+            # C'est donc une égalitée renvoyée par -1
+            # La parti infinie est générée quand il faut bcp de tours pour éliminer les dernières troupes même avec
+            # l'ajout du reste de points d'attaque après le tour. L'égalité est aussi renvoyée si les deux armées sont
+            # identiques (-1) et provoque l'affiche de la frame égalite
+            break
+
+        # Calcul des points infligés sur l'armée adverse
+        degats_recus_armee1 = armee2.PA - armee1.DF
+        degats_recus_armee2 = armee1.PA - armee2.DF
+        # Ces points sont utilisés pour retirer les combattants des armées selon la hiérarchie de mort
+        reste_pa2 = armee1.retirer_morts(degats_recus_armee1)
+        reste_pa1 = armee2.retirer_morts(degats_recus_armee2)
+
+        # Nous recalculons les totaux des armées pour le prochain tour avec les combattants restants
+        armee1.calcul_totaux()
+        armee2.calcul_totaux()
+
+        # Si des restes étaient présents de points d'attaque, ils sont conservés pour le tour suivant
+        armee1.PA += reste_pa1
+        armee2.PA += reste_pa2
+        # Ajout d'un tour supplémentaire
+        tour += 1
+
+    # Quand une armée est battue, nous retournons une valeur correspondant à sa position dans les paramètres
+    # -1 est renvoyé pour une égalité ou partie infinie de plus de 100 tours quand les dernières unités n'arrrivent
+    # pas à s'éliminer
+    if armee1.armee_battue():
+        return 2
+    elif armee2.armee_battue():
+        return 1
+    else:
+        return -1

@@ -1,0 +1,105 @@
+body {
+	font-family: Courier, cursive, Times, sans-serif;
+	font-size: 12px;
+	background-color: White;
+}
+
+footer {
+	padding: 2%;
+	background-color: Black;
+	color: White;
+	display: flex;
+	flex-wrap : nowrap;
+	flex-direction : row-reverse;
+	justify-content: space-evenly;
+	font-size: 1.4em;
+}
+footer a {
+	color: white;
+}
+h1 {
+	text-align: center;
+	font-weight: bold;
+	color :Blue;
+}
+/***********/
+.choice {
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+	margin : 5px 5% 5px 5%;
+}
+.choice p {
+	font-size: 16px;
+	margin: auto;
+	
+}
+em {
+	text-decoration: underline; 
+}
+
+/*********/
+main {
+	background-color: GhostWhite;
+}
+.twoform {
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+	
+}
+.un, .deux {
+	display: flex;
+	flex-direction : column;
+	text-align: center;
+}
+
+.in {
+	margin: 0 15% 0 15%;
+}
+.out {
+	margin: 0 10% 0 10%;
+}
+
+/****************/
+textarea {
+}
+button {
+	border : 0;
+	border-radius: 5%;
+	text-shadow: 2px 2px 2px Red;
+}
+button:hover{
+	background-color: Purple;
+	color: White;
+}
+button:active {
+	background-color: Yellow;
+	color: Red;
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+	text-decoration: none;
+}
+.projects a p{
+	color: white;
+}

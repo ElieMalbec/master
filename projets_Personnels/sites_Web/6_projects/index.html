@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="./index.css">
+		<meta name="author" content="Elie" >
+		<title>6_1</title>
+	</head>
+	<body>
+		<h1>Two forms</h1>
+		<div class="choice">
+			<p><em>Choose me if you like pizza</em></p>
+			<p><em>Choose me if you like potatoes</em></p>	
+		</div>
+		<main class="themain">
+			<div class="twoform">
+				<form class="un" action="#" method="GET">
+					<label for="name">Name</label>
+						<input class="in" type="text">
+					<label for="surname">Surname</label>
+						<input class="out" type="text" >
+					<label for="tel">Give me your telephone number ! ;)</label>
+						<input class="in"type="tel" name="tel">
+					<label for="url">Give me your url also !</label>
+						<input class="out"type="url" name="url">
+				</form>
+				
+				<form class="deux" action="./page2.html" method="POST">
+					<label for="email">Email</label>
+						<input class="in"type="email" >
+					<label for="pwd">Your password</label>
+						<input class="out"type="password">
+					<label for="search">Search</label>
+						<input class="in"type="search">
+					<select class="out">
+						<optgroup label="fruits">
+							<option selected>fruit 1</option>
+							<option>fruit 2</option>						
+						</optgroup>
+						<optgroup label="objects">
+							<option>object 1</option>
+							<option>object 2</option>
+						</optgroup>			
+					</select>
+				</form>
+			</div>		
+		</main>
+	
+	
+		<footer>
+		<p>Contact us by using the form on your <a href="./index.html#forms">left</a></p>
+
+		<form id="forms" action="#" method="POST">
+			<select multiple="contacts">
+				<option selected>only email</option>
+				<option>email and phone</option>
+				<option>email, phone and address</option>
+			</select>
+			<button type="submit">SEND</button>
+		</form>
+		<textarea cols="25" rows="3" placeholder="Please use ctrl to choose multiple options" readonly=""></textarea>
+		</footer>
+	</body>
+	<div class="projects">
+		<a href="../5_projects/index.html"><p>Old project</p></a>
+		<a href="../7_projects/index.html"><p>Next project</p></a>	
+	</div>
+</html>

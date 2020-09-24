@@ -1,0 +1,84 @@
+-iostream
+-using namespace -->not a good practice : instead use typedefs (typedef std::cout cout_std) or import truncated namespaces (using namespace std::cout) or inside function
+-main()
+-cout et cin et endl
+-cin et getline()
+-cin.ignore() & cin.clear()      
+	std::cin.clear() restaure std::cin à un état fonctionnel, sans erreur.
+   	std::cin.ignore() permet d’ignorer un nombre défini de caractères, soit jusqu’à un nombre maximum (exemple 500), soit jusqu’à un caractère précis (exemple '\n' ou 'a'). Dans notre cas, nous allons utiliser ceci :
+			std::cin.ignore(255, '\n');
+
+-declarer variable
+-cmath (sqrt, sin, cos, tan, log, pow, etc)
+-if
+-switch
+-while, do while, for
+-fonction, appel par valeur(créé une copie), appel par référence (pas de copie), passage par référence constante
+-fichiers .cpp (code source) et .h(contient les prototypes des fonctions)
+-include <> & ""
+-valeur par défaut dans les arguments function(int a =0, int b=0);(paramètres facultatifs à la fin)
+-tableau statique 
+	(int name[size];); .front(), .back(), .fill(valeur); std::size(arr); std::empty(arr); 
+	std::array (include array), .fill(value),
+-tableau dynamique (vector<int> my_name(size);); 
+	possibilité de le préremplir : vector<int> name(size,0) ; 
+	push_back(value) pour ajouter à la fin; 
+	pop_back() pour supprimer à la fin; 
+	size() pour connaitre la taille; 
+	erase() pour supprimer un élément;
+	.front() et .back() (retourne un référence)
+-tableau multi dimensionnel (int name[x][y]), vector<vector<int>> nom; il vaut mieux utiliser un tableau statique
+-les strings : size(), push_back()
+-les fichiers :
+	en écriture : ofstream my_file(chemin); c_str(); écrire dans un fichier (my_stream << "ce qu'on veut écrire"); ios::app (pour éviter de remplace les données du fichier) ofstream monFlux(nomFichier.c_str(), ios::app)
+	en lecture : ifstream monFlux(chemin); trois manières de lire un fichier (getline(), >>, get())(par ligne, par mot, par caractère);
+	close();
+	open();
+	tellg() et tellp() (ifstream & ofstream) pour connaitre position curseur dans le fichier
+	seekg() & seekp() "" 			  pour se déplacer (flux.seekp(nbcaractères, position)))/pour la position utiliser:  ios::beg/end/cur
+	connaitre taille du fichier (nbre de carac) : aller à la fin et demander position actuelle
+-string.erase(position, number of times)
+-pointeurs : déclaration, assignement, choper sa valeur
+	allocation dynamique : new int
+	libération : delete pointeur;pointeur=0; (indique pointeur pointe vers rien)
+
+-Sur les strings :
+	déclaration, re-assignement, concaténation, comparaison (== & !=)
+	size(), erase(), substr(), c_str() (renvoie pointeur sur tableau de char), 
+Objets:
+-constructeur : 
+	surcharge
+	liste d'initialisation
+	constructeur de copie
+	destructeur (~)
+-méthodes constantes (void maMethode(int parametre) const;)
+-surcharge des opérateurs
+-héritage
+	surcharge des constructeurs
+	le masquage/démasquage
+
+-#include <algorithm>
+	-std::count (compte occurence valeur)
+	-std::find(operator first, operator last, value) retourne itérator sur le premier élément toruvé
+	-std::sort(iterator debut, iterator fin)
+	-std::reverse(iterator debut, iterator fin)
+	-std::remove(iterator debut, iterator fin, value)
+	-std::search()
+	-std::equal()
+
+-#include <functional>  //prédicat
+	-std::greater<int> {} // std::greter<int> foncteur{}
+	-std::sort
+-#include <numeric>
+	-std::multiplies // std::accumulate
+-#include <cctype> //prédicat sur les lettres
+	-islower, etc
+-scope operator(::)/opérateur de résolution de portée
+
+-std::setw(int n) //#include <iomanip>
+
+-list<>
+
+-Chaines brutes avec R"ma_chaine"
+-------------------------------------------------------
+

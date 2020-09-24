@@ -1,0 +1,6 @@
+Marco 5 15 14 13
+Jean 16 19 17 14
+Louise 8 9 10 11
+Hellene 12 11 8.5 7
+Jeannot 12.5 13 17 5
+Mickael 6 6.5 7.5 8.25

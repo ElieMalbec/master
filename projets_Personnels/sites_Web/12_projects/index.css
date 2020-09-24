@@ -1,0 +1,121 @@
+a {
+	text-decoration: none;
+	color: pink;
+}
+
+nav {
+	width: 100%;
+	height: 50px;
+}
+
+.first {
+	background: #30a80f;
+
+}
+.first-ul {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content : flex-start;
+	align-items: flex-end;
+	height: 100%;
+	padding : 0;
+	margin:0;
+}
+.first-ul li {
+	display: flex;
+	flex-flow : column nowrap;
+	justify-content : center;
+	align-items: center;
+	list-style-type: none;
+	height: 100%;
+	padding : 0 5px 0 5px;
+	font-size: 25px;
+	
+}
+.first-ul li:hover {
+	background: #237104;
+	color: #ffffffc9;
+}
+
+.first-ul li a{
+	text-decoration: none;
+	color: white;
+}
+
+.home {
+	background: #237104;
+	font-size: 28px;
+}
+
+/************************************/
+.second {
+	background: red;
+	font-size: 25px;
+}
+.second-ul {
+	display: grid;
+	grid-template-columns : repeat(4,25%);
+	text-align: center;
+	align-items: center;
+	height: 100%;
+	padding:0;
+	margin: 0;
+}
+.second ul li {
+	list-style-type: none;
+}
+
+ul li ul {
+	display: none;
+}
+.home-2:hover a ~ ul{
+	display: flex;
+	flex-flow : column nowrap;
+	background:Blue;
+}
+
+.old-project:hover a ~ ul {
+	display: block
+}
+.second-ul-home {
+	font-size: 23px;
+}
+
+
+
+/*******************************/
+.trytounderstand {
+	width: 100%;
+	height: auto;
+	background: #778899;
+}
+
+li.level1:hover ~ .t{
+	display: block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/***********************/
+.big {
+	width: 100%;
+	height: 1000px;
+}
+
+
+
+
+
+
+
+
+

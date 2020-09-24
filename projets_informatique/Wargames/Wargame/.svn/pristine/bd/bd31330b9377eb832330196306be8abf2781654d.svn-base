@@ -1,0 +1,43 @@
+from Combattants import*
+
+class Piquiers(Combattants):
+
+    """Classe Piquiers héritant de combattant"""
+
+    def __init__(self, nom="Piquier", pv=5, pa=2, df=2, vit=1, cout=3):
+
+        """Création d'un Piquier hérité de Combattant"""
+
+        # Appel du constructeur de la classe mère
+
+        Combattants.__init__(self, nom, pv, pa, df, vit, cout)
+
+    def creerTroupePiquiers(self, nombre):
+        laTroupePiquiers = []
+        for i in range(0, nombre):
+            laTroupePiquiers.append(Piquiers())
+        return laTroupePiquiers
+
+    def afficherTroupePiquiers(self, troupe):
+        for i in range(len(troupe)):
+            print(i+1, " ",troupe[i])
+
+    def calculPV(self, nombre, troupe):
+        pvTotal = (troupe[0].pv)*nombre
+        return pvTotal
+    
+    def calculPA(self, nombre, troupe):
+        paTotal = (troupe[0].pa)*nombre
+        return paTotal
+    
+    def calculDF(self, nombre, troupe):
+        dfTotal = (troupe[0].df)*nombre
+        return dfTotal
+    
+    def calculVIT(self, nombre, troupe):
+        vitTotal = (troupe[0].vit)*nombre
+        return vitTotal
+    
+    def calculCOUT(self, nombre, troupe):
+        coutTotal = (troupe[0].cout)*nombre
+        return coutTotal

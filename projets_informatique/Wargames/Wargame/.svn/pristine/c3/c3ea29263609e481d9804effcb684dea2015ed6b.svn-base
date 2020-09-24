@@ -1,0 +1,46 @@
+Projet réalisé par Emmanuel Garreau, Alex Lefevre et Elie Malbec
+
+Comment jouer contre l'Intelligence Artificielle ?
+Pour cela, veuillez vous rendre dans le menu optimisateur et cliquer sur l'option "préparer l'armée contre l'IA". 
+Après avoir généré l'armée via l'optimisateur. Il faut vous rendre dans le menu "un joueur", créer votre armée et 
+lancer le combat contre l'IA.
+Vous pouvez également jouer contre une armée aléatoire. Pour cela, rendez vous dans le menu solo et choisissez "combat
+contre aléatoire".
+
+Comment jouer en multijoueur ?
+Pour jouer à deux, veuillez vous rendre dans le menu multijoueur, créer vos armées respectives et cliquer sur "Combattre".
+
+Comment créer une armée aléatoire ?
+Rendez vous dans le menu correspondant à votre mode de jeu. Dans la création d'armée, choisissez 
+"Créer une armée aléatoire", puis entrez le nombre de points souhaité.
+
+A quoi sert "Enregistrer une armée" dans le menu principal ? 
+Cette option permet de sauvegarder une armée sur votre ordinateur. Elle pourra être utilisée grâce à la récupération.
+Vous pouvez sélectionner une armée préalablement enregistrée dans "Récupérer une Armée" et choisir pour quel joueur
+elle sera formée.
+
+A quoi sert le bouton "Reset" ?
+Le bouton reset permet de réinitialiser les armées de tous les joueurs et de l'IA.
+
+Comment fonctionne l'optimisateur ?
+L'optimisateur génère une population initiale d'armées et les fait combattre entre elles. L'armée qui gagne le premier tournoi 
+accède au niveau suivant. Ce principe est répété pour affronter les différentes armées gagnantes entre elles. Selon les
+paramètres choisis, le nombre de tournois augmente. L'armée finale est la gagnante de l'ensemble des tournois. Elle est
+considérée comme optimisée.
+Cette dernière peut être enregistrée dans votre armée ou pour l'affronter, mais également dans un fichier local.
+Niveau 1 : champion départemental / Niveau 2 : champion régional / Niveau 3 : champion national / Niveau 4 : champion mondial
+
+Quelle est la différence entre une IA faible et une IA forte ?
+Une IA faible débute les tournois avec une population initiale non évoluée. Une IA forte débute avec une population initiale
+évoluée, c'est à dire que chaque armée la constituant possède déjà un certain nombre de victoires à son actif.
+Attention, le temps de calcul pour une IA forte est beaucoup plus important !
+
+Comment fonctionne la mutation ?
+En fonction du niveau choisi, l'algorithme génétique va concevoir deux armées de ce niveau. Il va ensuite procéder au transfert
+de quelques unités de l'armée 1 dans l'armée 2, et vice-versa (ce que l'on nomme mutation génétique). La meilleure des deux sera retournée !
+
+A quoi sert l'algorithme d'évaluation ?
+Il permet de vérifier qu'une armée conçue par l'optimisateur est capable de remporter un certain nombre de combats.
+
+Comment connaître les caractéristiques des différentes unités ?
+Dans la page d'accueil, veuillez cliquer sur "Afficher caractéristiques".

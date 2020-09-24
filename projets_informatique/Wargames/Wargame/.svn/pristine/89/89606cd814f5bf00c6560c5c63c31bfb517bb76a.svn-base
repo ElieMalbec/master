@@ -1,0 +1,175 @@
+\documentclass[a4paper,12pt]{article} %style de document
+\usepackage[utf8]{inputenc} %encodage des caractères
+\usepackage[french]{babel} %paquet de langue français
+\usepackage[T1]{fontenc} %encodage de la police
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry} %marges
+\usepackage{graphicx} %'affichage des images
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\definecolor{astral}{RGB}{46,116,181} 
+\sectionfont{\color{red}}
+\subsectionfont{\color{astral}}
+\subsubsectionfont{\color{green}}
+
+\begin{document} %début du document
+
+\title{Optimisateur de Wargame}
+\author{2018-2019 - Conceptions de logiciels}
+\maketitle{\includegraphics[scale= 0.3]{Images/Rapport_front_page.jpg}}
+%faut rogner l'image les contours sont bien trop grand ou en choisir une autre
+\date{Elie Malbec 21805304 - Alex Lefevre 21809848 Emmanuel Garreau 21700336 - étudiant en L1 Informatique}
+
+
+
+\vspace{25\baselineskip}
+
+
+\section{Introduction}
+%Plan-type d’un rapport (15 à 20 pages)
+%1. Objectifs du projetIDescription du concept derrière l’applicationICe qu’il fallait faireICe qui existe déjà
+%2. Fonctionnalités implémentéesIDescription des fonctionalitésIOrganisation du projet
+%3. Élements techniquesIAlgorithmesIStructures de donnéesIBibliothèques
+%4. Architecture du projetIDiagrammes des modules et des classesICas d’utilisationIChaînes de traitement
+%5. Expérimentations et usagesICapture d’écransIMesures de performance
+%6. ConclusionIRécapitulatif des fonctionnalités principalesIPropositions d’améliorations
+	\subsection{Table des matières}
+		\tableofcontents
+
+
+
+\section{Objectifs du projet, Description du concept derrière l’application, Ce qu’il fallait faire, Ce qui existe déjà}
+	\subsection{Objectifs du projet} 
+La réalisation du projet a été faîte par Alex Lefevre, Emmanuel Garreau et Elie Malbec. Nous avons décidé en commun de créer un optimisateur de wargame. Notre choix s'est naturellement porté vers le wargame car il fallait mettre en place un algorithme génétique et que la thématique du wargame nous plaisait.
+Les buts du projet sont multiples. Il fallait créer un moteur de combat entre deux armées, un algorithme génétique qui permet d'optimiser la création d'armée ainsi qu'une interface graphique.
+
+-->(d'autres buts ou alors mieux les détailler ?)
+
+	\subsection{Description du concept derrière l’application}
+	Qu'est-ce qu'un wargame ? Un wargame est un jeu de plateau qui se joue avec des figurines. Le but est de détruire l'armée adverse. Ici l'utilisateur devra constituer son armée en ne dépassant pas un nombre de points préalablement défini. Une fois cela fait, le combat démarre. Dans notre cas un calcul au tour par tour permet de connaître le vainqueur, l'utilisateur n'a rien à faire. 
+Chaque troupe dispose de caractéristiques (point de vie, d'attaque, de défense, de vitesse ainsi que son coût) qui nous permettent de calculer le nombre total de chacune d'elles dans une armée. Au premier tour, l'armée avec la plus grande vitesse gagne un bonus en attaque de 2.5%. 
+Pour connaître le nombre d'unités à enlever nous faisons ce calcul : Points de vie Armée B - (Attaque armée A - Défense armée B). Ensuite nous parcourons chaque troupe crée et si le nombre de points de vie de la troupe est inférieure aux points de dégâts restants alors nous retirons cette unité. Une hiérarchie est mise en place pour nous permettre d'enlever les troupes les plus faibles en premier. 
+Tout au long du jeu, dans le but d'éviter d'avoir un combat infini, un reste de points de dégâts est crée. Il contient le nombre de points d'attaque qui n'ont pas pu être utilisés pour tuer une unité car leur point de vie était trop important. Ce reste est ajouté au tour suivant. Ainsi deux unités qui ne pouvaient se tuer directement le peuvent grâce à ce reste (accumulation des points d'attaque au fur et à mesure).
+Enfin le vainqueur est déclaré.
+
+	\subsection{Ce qu’il fallait faire}
+Déjà décris dans l'objectif du projet
+
+Dans le projet il était signalé de faire :
+\begin{itemize}
+        \item Premièrement : un moteur de combat entre plusieurs armées avec des règles simplifiées
+        \item Deuxièmement : un générateur automatique d'armées respectant une limite de points
+        \item Troisièmement : un optimisateur d'armées issu d'un algorithme génétique
+\end{itemize}
+
+	\subsection{Ce qui existe déjà}
+càd ? ce qui existe sur internet ? Ou le concept s'il existe déjà ?
+D'anciens jeux vidéos sur le thème du wargame existent : Panzer General (1994), Warlords(1989) etc
+Sur internet des wargames amateurs non payant existent aussi
+
+
+\section{Fonctionnalités implémentées, Description des fonctionalités, Organisation du projet}
+	\subsection{Fonctionnalités implémentées}
+(Qu'est-ce qu'une fonctionnalité concrètement ( une fonction, un grand ensemble de fonctions qui fonctionnent entre elles, un truc encore plus généraliste ???)) S'aider du ReadMe.txt
+
+Au cours du projet de multiples fonctionnalités ont été implémentées : (les lister) la création d'armée par un utilisateur, la création d'une armée de manière automatique, le moteur de combat, l'algorithme génétique.
+\begin{itemize}
+	\item 
+	\item 
+\end{itemize}
+	
+
+	\subsection{Description des fonctionnalités}
+Voyons en détail chacune d'elles.
+En premier nous avons...
+En deuxième il y a ...
+En troisième ...
+
+	\subsection{Organisation du projet}
+Sur l'organisation en général ou un détail de notre calendrier et de ce que l'on y faisait.
+cf Elie
+
+
+
+\section{Élements techniques, Algorithmes, Structures de données, Bibliothèques}
+	\subsection{Éléments techniques}
+
+Quels éléments techniques choisir ? 
+
+	\subsection{Algorithmes}
+
+Algorithme pour le moteur de combat : 
+Algorithme pour la création aléatoire d'armées :
+Algorithme pour l'algorithme génétique : 
+Algorithme pour la partie graphique (?): 
+
+	\subsection{Structures de données}
+Parler de ça : les listes, tuples, dictionnaires, ensembles, classes, listes chainées, piles, files, arbres, arbres binaire de recherche, 
+
+	\subsection{Bibliothèques}
+Voici les bibliothèques utilisées.
+
+Pour le moteur de combat : random, time
+Pour l'algorithme génétique : copy, time, shelve, tkinter, ttk
+Pour la partie graphique : tkinter, Pil, json, os.path, copy, time, threading, tkinter.filedialog, tkinter.messagebox
+
+
+
+\section{Architecture du projet, Diagrammes des modules et des classes, Cas d’utilisation, Chaînes de traitement}
+	\subsection{Architecture du projet}
+cad concretement, arborescence des dossiers ? , 
+%cf tuto openclassroom : (https://openclassrooms.com/fr/courses/4192086-gerez-votre-projet-informatique-facilement/4192391-etape-2-concevez-larchitecture-du-programme)
+
+
+	\subsection{Diagrammes des modules et des classes}
+Faire un diagramme UML des classes de chaque fichier/ en général ? Puis l'expliquer ?
+
+	\subsection{Cas d’utilisation}
+Cas d'utilisation pour chacune des classes ou seulement certaines, sur quelles critères la choisir alors ? 
+
+	\subsection{Chaînes de traitement}
+??
+
+
+
+\section{Expérimentations et usages, Capture d’écrans, Mesures de performance}
+	\subsection{Expérimentations et usages}
+
+Expérimentations sur la partie moteur de combat : 
+Expérimentations sur la partie algorithme génétique : 
+Expérimentations sur la partie graphique : EGraphique avec image de fond et boutons par dessus
+
+	\subsection{Capture d’écrans}
+capture d'écrans :
+
+	\subsection{Mesures de performance}
+Peu après avoir commencé à produire du code, la performance de notre code nous a paru important. C'est pour cela que nous avons mené des tests en calculant le temps d'exécution. Cela est devenu encore plus important après la création de l'algorithme génétique.
+Pour cela nous avons utilisé le module time.
+Performance utilisateur vs IA (armée aléatoire) : 
+
+performance algorithme génétique IA faible niveau 1 avec 100 points :
+performance algorithme génétique IA faible niveau 2 avec 100 points :
+performance algorithme génétique IA faible niveau 3 avec 100 points :
+performance algorithme génétique IA faible niveau 4 avec 100 points :
+
+performance algorithme génétique IA forte niveau 1 avec 100 points :
+performance algorithme génétique IA forte niveau 2 avec 100 points :
+performance algorithme génétique IA forte niveau 3 avec 100 points :
+performance algorithme génétique IA forte niveau 4 avec 100 points :
+
+
+
+
+\section {Conclusion}
+A faire ou pas, à voir.
+\vspace{12\baselineskip} %voir précisément le nombre de lignes à sauter
+
+\bigbreak
+\smallbreak
+\begin{itemize}
+        \item 
+        \item 
+\end{itemize}
+\end{document} %fin du document

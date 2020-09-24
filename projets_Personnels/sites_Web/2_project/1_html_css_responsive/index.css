@@ -1,0 +1,201 @@
+body {
+	color: White;
+	font-family: serif;
+}
+ /*header topblack*/
+div.topblack {
+	background-color: Black;
+	display: grid;
+	grid-template-columns : 1fr 1fr 1fr;
+	text-align: center;
+	margin: -10px -10px 5px -10px;
+}
+
+div.topblack2 {
+	color :Yellow;
+}
+
+div.topblack3 {
+	text-align: right;
+	padding-right: 15px;
+
+}
+
+div.topblack3 a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/*header logosandinfos*/
+div.logoandinfos {
+	border: 5px solid black;
+	display: grid;
+	grid-template-columns : 1fr 1fr 1fr 1fr 1fr;
+	text-align: center;
+}
+
+div.infoselements {
+	color: LightBlue;
+	padding-top: 25px;
+	margin-right: 15px;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+	font-size: 18px;
+}
+div.infos2 {
+	margin-right: 35px;
+}
+div.infos3 {
+	margin-left: 15px;
+	margin-right: 35px;
+}
+
+div.logo:hover {
+	opacity: 0.9;
+}
+/*Navigation*/
+div.navigation {
+	background-color: LightGrey;
+	margin-top: 25px;
+	font-size: 13px;
+	padding : 0 20% 0 20%;
+	display : grid;
+	grid-template-columns : 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	opacity: 0.7;
+	
+}
+div.navigation a {
+	text-decoration: none;
+	color: Grey;
+	padding-top: 12px;
+}
+ div.navigation a.navSale {
+	color: DarkRed;
+}
+
+/* Pictures */
+div.pictures {
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+	padding : 2px 25px 2px 25px;
+	margin-top: 15px;
+}
+div.pictures1 {
+	margin-right: 5px;
+}
+img.imgs:hover {
+	opacity: 0.5;
+}
+/* footer */
+div.footer {
+	background-color: Black;
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+		padding: 0 25px 0 25px;
+}
+footer a {
+	color: White;
+	text-decoration: none;
+	font-size: 12px;
+	margin: 5px 5px 5px 5px;
+}
+.footerboth {
+
+	display: grid;
+	grid-template-rows : 1fr 1fr 1fr 1fr;
+	text-align: center;
+}
+a.firstelementfooter {
+	text-decoration: underline;
+	color: Grey;
+	font-size: 18px;
+}
+
+/*******Media QUERIES*******/
+@media screen and (max-width: 1300px){
+	.boutiques {
+		margin-right: 15px;	
+	}
+	.coupon {
+		width: 150px;	
+	}
+}
+@media screen and (max-width : 1050px){
+	div.navigation {
+		text-align: center;	
+	}
+}
+@media screen and (max-width : 778px) {
+	/*.hidden {
+		display: none;	
+	}*/
+	div.navigation {
+		padding: 0 0 0 0;	
+	}
+	div.pictures {
+		display: flex;
+		flex-flow : column nowrap;
+			
+	}
+	.left {
+		text-align: left;	
+	}
+	.right {
+		text-align: right;	
+	}
+}
+
+@media screen and (max-width : 365px){
+
+	div.footer {
+		display: flex;
+		flex-flow : column nowrap;	
+	}
+	.left, .right {
+		text-align: center;	
+	}
+	.hidden {
+		display: none;	
+	}
+	div.topblack {
+		max-height: 75px;
+		display: none;
+	}
+	div.logoandinfos {
+		display: flex;
+		flex-flow : row nowrap;		
+	}
+	div.navigation {
+		display: block;	
+	}
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+}
+.projects a {
+	text-align: center;
+	text-decoration: none;
+}
+.projects a p{
+	color: white;
+}

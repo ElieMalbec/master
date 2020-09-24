@@ -1,0 +1,123 @@
+body {
+	background-image: url("./images/van.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	/*background-position: 30px 50px;*/
+	background-size: 1366px 750px;
+	font-family: Courier, Helvetica, Arial, serif;
+}
+/*
+.loopvideo {
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+}*/
+.test {
+	display: grid;
+	grid-template-columns : 1fr 2fr 1fr;
+	width :100%;
+	height: 750px;
+}
+
+.menu {
+	background-color: LightBlue;
+	border : 5px solid White;
+	max-height: 100%;
+	max-width: 100%;
+	min-height: 100%;
+	min-width: 100%
+}
+.menu a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.barmenu {
+	display: flex;
+	flex-flow : row  nowrap;
+	justify-content : space-between;
+	text-align: center;
+	height: 50%;
+}
+.barmenu a {
+	color: White;
+	font-size: medium;
+}
+.barmenu a:active {
+	background-color: Red;
+}
+/*
+.history {
+	padding-top: 0%;
+}
+.paintings {
+	padding-top: 10%;
+}
+.art {
+	padding-top: 20%;
+}
+.contact {
+	padding-top: 30%;
+}
+*/
+.history:hover {
+	padding-top: 15%;
+	/*background-color:  #027f04  ;*/
+}
+.paintings:hover {
+	padding-top: 25%;
+	/*background-color:  #19a91b ;*/
+}
+.art:hover {
+	padding-top: 35%;
+	/*background-color:  #43ca45  ;*/
+}
+.contact:hover {
+	padding-top: 45%;
+	/*background-color: #86ea87 ;*/
+}
+
+.menu p {
+	font-family: cursive;
+	text-align: center;
+}
+
+figure {
+	display :grid;
+	grid-template-columns : 1fr 1fr;
+	padding: 3px 15% 0 15%;
+}
+figure img {
+	width:  45px;
+	height: 45px;
+}
+.facebook, .twitter {
+	text-align:center;
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+	text-decoration: none;
+}
+.projects a p{
+	color: white;
+}

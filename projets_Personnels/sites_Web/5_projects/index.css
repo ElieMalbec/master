@@ -1,0 +1,129 @@
+body {
+	font-family: Helvetica, sans-serif;
+	font-size: 12px;
+}
+h1 {
+	text-align: center;
+	text-decoration: underline;
+	font-weight: bolder;
+	font-family: monospace;
+	font-size: 1.5em;
+	background : linear-gradient(0.25turn, #3f87a6, #ebf8e1, #f69d3c);
+	margin : auto;
+}
+hr {
+	color: Red;
+	border-top: 1px dashed red;
+}
+
+.header {
+	background-image: url(./images/banniere.jpg);
+	width: 100%;
+	height: 250px;
+}
+
+.container {
+	display: flex;
+	flex-direction : row;
+	flex-wrap : wrap;
+	justify-content : space-between;
+	align-items: stretch;
+	align-content: space-between;
+}
+
+
+.floatpic {
+	float: left;
+}
+
+.articles {
+	padding : 5px;
+	border : 2px solid LightBlue;
+}
+
+.article1 {
+	flex-grow : 4;
+}
+.article5 {
+	flex-shrink : 2
+}
+.article3 {
+	clear: both;
+}
+
+/****************/
+.centered {
+	text-align: center;
+}
+.centered div {
+	display: inline-block;
+	text-align: justify;
+	max-width: 150px;
+}
+/********************************/
+
+.centered2 {
+	/*margin: 5px auto;*/
+	display: inline;
+	padding: 5px 10% 5px 10%;
+}
+
+.centered2 div {
+	text-align: center;
+	margin : 15px;
+}
+/******************/
+div.test {
+	display: grid;
+	color: Green;	
+}
+
+p.p {
+	margin: auto;
+	font-family: cursive;
+	font-style: italic;
+	font-variant: small-caps;
+	font-size: 15px;
+}
+/**************/
+.formula1 {
+	text-align: center;
+	color: White;
+	background: rgb(222,94,190);
+	background: linear-gradient(90deg, rgba(222,94,190,1) 4%, rgba(163,100,26,1) 45%, rgba(0,206,247,1) 100%);
+}
+.myform {
+	margin: 0 10% 0 10%;
+	/*max-width: 50%;*/
+	display: flex;
+	flex-direction : column;
+	flex-wrap : nowrap;
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+	text-decoration: none;
+}
+.projects a p{
+	color: white;
+}

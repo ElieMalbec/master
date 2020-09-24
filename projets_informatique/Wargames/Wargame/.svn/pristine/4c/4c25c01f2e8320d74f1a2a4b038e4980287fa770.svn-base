@@ -1,0 +1,364 @@
+\documentclass{beamer} % Création d'un document beamer
+\usepackage[utf8]{inputenc} %utf = l'option de inputenc/le type d'encodage (Ecriture fr), inputenc permet de mettre les caractères spéciaux (par ex les accents)
+\usepackage[T1]{fontenc} % fontenc permet de prendre correctement ces caractères spéciaux dans le fichier de sortie, T1 est le type d'encodage
+\usetheme{Warsaw} % Dîtes moi le thème que vous voulez : (http://mcclinews.free.fr/latex/beamergalerie/completsgalerie.html)  Warsaw est bien sinon Ilmenau.
+\setbeamercolor{normal text}{fg=black} % Couleur du texte basique
+\setbeamercolor{frametitle}{fg=white} % Couleur des titres des frames
+\graphicspath{{Images/}} % Le chemin pour les images, cela nous évite de devoir écrire Images/nom image en écrivant seulement image
+%\usefontheme{structureitalicserif} %Choix de la police A CHOISIR
+\usepackage{xcolor}%Permet d'utiliser des couleurs
+%\usepackage{enumitem}%Permet de modifier les itemize // créé des conflits avec beamer apparemment (à voir)
+
+%Il est possible de changer les blocks (leur couleur ou de les mettre en colonne par exemple. (http://mcclinews.free.fr/latex/introbeamer/elements_contenu.html) (http://deic.uab.es/~iblanes/beamer_gallery/individual/CambridgeUS-default-professionalfonts.html)
+
+%\includegraphics[Height= cm, width= cm, scale= cm]{fichier source} Pour les include graphics
+\title{Optimisateur de WarGame}
+\author{Elie MALBEC - Alex LEFEVRE - Emmanuel GARREAU \\
+\small{{ 21805304 - 21809848 - 21700336}}}
+\date{\includegraphics[height=2.6cm, width=10cm]{wargame.jpg}}
+\institute{Université de Caen Normandie}
+%source image : https://www.france-troc.com/Troc_echange_wargames_figurines_epoque_napoleon-annonce-622005.html
+\begin{document}
+
+\logo{\includegraphics[height=12mm]{Images/LogoUNICAENv.png}}
+
+\begin{frame}[plain]
+%	\includegraphics[scale= 0.2]{LogoUNICAENv.png}
+	\titlepage 
+\end{frame}
+
+\begin{frame}[plain]
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+%\insertpagenumber %Pour avoir un numéro de page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%INFOS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Barème :
+%Grille d’évaluation de l’oral (5 points) :
+%	• Diaporama non surchargé mais présentant des informations pertinentes (1 point)
+%	• La présentation orale et la démonstration se sont faites dans les temps (1 point)
+%	• Explication claire du projet et des points principaux (1 point)
+%	• Démonstration de l’application correctement préparée (1 point)
+%	• Réponses correctes aux questions du jury (1 point)
+
+%1. Préparez un diaporama  2. Pas de diapositives trop chargées, pas de diapositives vides    3. Numérotez les diapositives    4. Répartissez-vous équitablement la parole    5. Ne lisez pas votre texte    6. Tout ce qui est dans le rapport n’a pas vocation à être à l’oral    7. Mettez en valeur votre réalisation    8. Assurez-vous de la lisibilité des diagrammes et images    9. Préparez votre démonstration à l’avance (faites une vidéo
+
+%Ce qu'il faut faire :
+	%Finaliser le plan
+	%Finaliser le texte de chaque diapo
+	%Rajouter des images dans les diapos (pas besoin d'images lors de la démonstration)
+	%Varier les itemize et enumerate (couleurs + formes)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%INFOS%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Partie 1 - Introduction, choix du sujet}
+	\subsection{Partie 1.1 - Introduction}
+
+
+\begin{frame}[plain]
+\frametitle{Partie 1 : Introduction, choix du sujet}
+\framesubtitle{1.1 - Qu'est-ce qu'un wargame ?}
+Le wargame est un jeu de plateau se jouant avec des figurines
+\begin{figure}
+	\includegraphics[width=10cm]{wargamebeamer.jpg}
+	%source image : https://www.figurine-strategie.fr/LEM2018/fr
+	\caption{Plateau de jeu d'un wargame}
+\end{figure}
+
+\end{frame}
+
+	\subsection{Partie 1.2 - Choix du sujet}
+\begin{frame}[plain]
+\frametitle{Partie 1 - Introduction, choix du sujet}
+\framesubtitle{1.2 - Choix du sujet}
+\begin{alertblock}{Pourquoi avoir choisi ce sujet ?}
+	\begin{itemize}
+		\item Thème intéressant
+		\item Création d'un algorithme génétique
+	\end{itemize}
+\end{alertblock}
+\begin{exampleblock}{Constitution de l'équipe}
+Par affinité, vers la fin décembre.
+\end{exampleblock}
+\end{frame}
+
+\section{Partie 2 - L'organisation du projet}
+	\subsection{Partie 2.1 - La phase de planification}
+\begin{frame}[plain]
+\frametitle{Partie 2 : L'organisation du projet}
+\framesubtitle{2.1 - La phase de planification}
+%Les premières pistes pour le wargame, choix du mode de jeu, mind-map...
+%Objectifs à remplir, moteur combat, alegorithme, armée aléatoire
+\begin{alertblock}{Les premières pistes}
+	\begin{itemize}
+		\item Choix du mode de jeu, avec ou sans plateau
+		\item Création d'une carte mentale pour réunir toutes les idées
+		\item Combat uniquement algorithmique, optimisation d'un jeu de plateau difficile
+	\end{itemize}
+\end{alertblock}
+
+\begin{exampleblock}{Les choix stratégiques}
+	\begin{itemize}
+		\item Implémentation du moteur de combat
+		\item Méthode de création d'armée aléatoire
+		\item Interface produite en Tkinter
+		\item Factorisation du premier code et utilisation de dictionnaires
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+	\subsection{Partie 2.2 - La phase de conception}
+\begin{frame}[plain]
+\frametitle{Partie 2 : L'organisation du projet}
+\framesubtitle{2.2 - La phase de conception}
+%Déroulement de la programmation, premier objectif : jeu en console
+%Répartition du travail, comme pour rapport
+%Premiers tests concluants et modification des objectifs (interface envisageable)
+Déroulement de la programmation et premier objectif : finaliser un jeu en console
+\medbreak
+La répartition des rôles :
+\begin{itemize}
+		\item Alex et Elie : moteur de combat, création d'armées aléatoire
+		\item Emmanuel : algorithme génétique
+\end{itemize}
+\smallbreak
+Premiers tests concluants et modification des objectifs (interface envisageable)
+\end{frame}
+
+	\subsection{Partie 2.3 - L'arborescence du programme}
+\begin{frame}[plain]
+\frametitle{Partie 2 : L'organisation du projet}
+\framesubtitle{2.3 - L'arborescence du programme}
+Fonctionnement des fichiers entre eux. Lancement du programme
+Image ? ou figure tikz présente dans le rapport ?
+\end{frame}
+
+
+	\subsection{Partie 2.4 - La phase de finalisation}
+\begin{frame}[plain]
+\frametitle{Partie 2 : L'organisation du projet}
+\framesubtitle{2.4 - La phase de finalisation}
+%Interface en TKinter, plusieurs projets au début
+%Derniers problèmes corrigés et mise au norme PEP8 : explication pour code lisible et clair
+%Rédaction du rapport
+Écriture de l'interface Tkinter : 
+\begin{itemize}
+		\item Alex et Elie : deux interfaces puis choix celle d'Alex
+		\item Emmanuel aide barre de chargement (+ prof?)
+\end{itemize}
+\bigbreak
+Écriture du rapport latex et présentation beamer :
+\begin{itemize}
+	\item Majorité par Elie 
+	\item Appuyé par Alex et Emmanuel.
+\end{itemize}
+\end{frame}
+
+
+\section{Partie 3 - Démonstration graphique du projet}
+	\subsection{Partie 3.1 - La page d'Accueil}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.1 - La page d'accueil}
+Les caractéristiques de la page d'accueil:
+\begin{enumerate}
+	\item Fonctionnement des frames pour changer de menu
+	\item Classe principale MaFen qui utilise toutes les classes et modules : diag classes
+\end{enumerate}
+\end{frame}
+
+	\subsection{Partie 3.2 - Le menu Solo}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.2 - Le menu Solo}
+Présentation du menu Solo :
+\begin{enumerate}
+	\item Présentation su stockage des armées dans la classe MaFen, affichage dynamique
+	\item Création armée aléatoire implémentée
+\end{enumerate}
+%exceptions prises en compte -->?
+\end{frame}
+
+	\subsection{Partie 3.3 - Affichage des armées}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.3 - Affichage des armées}
+(Récupération dans partie duo)
+\end{frame}
+
+	\subsection{Partie 3.4 - Combat contre l'aléatoire}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.4 - Combat contre aléatoire}
+Démonstration d'un combat 
+et attente du joueur (càd?)
+\end{frame}
+
+	\subsection{Partie 3.5 - Le menu Multijoueur}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.5 - Le menu multijoueur}
+%Meme fonctionnement, création identique, mais comme pour solo, moye, de récupérer une armée : détails de fonctionnement à l'oral
+%		Affichage des armées identiques (génrérer une armée aléatoire), puis créer manuellement la seconde et présenter la limite de points qui s'affiche.
+		
+Présentation du menu Multijoueur :
+\begin{enumerate}
+	\item Pareil que pour "un joueur" ( créer armée et afficher armée)
+	\item Sauf que cette fois-ci combat contre l'IA
+\end{enumerate}
+\end{frame}
+
+	\subsection{Partie 3.6 - Le menu Optimisateur}
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.6 - Le menu Optimisateur}
+%Détails sur son fonctionnement, test en live et pendant la génération expliquer séleciton par tournois et les mutations
+Présentation de la partie Optimisateur :
+\begin{itemize}
+	\item Le choix d'une IA faible ou d'une IA forte
+	\item Les niveaux de l'IA
+	\item Les croisements génétiques
+	\item L'algorithme d'évaluation		 
+\end{itemize}
+\end{frame}
+
+	\subsection{Partie 3.7 - Enregistrement d'une armée, FAQ et Règles}
+
+\begin{frame}[plain]
+\frametitle{Partie 3 : Démonstration graphique du projet}
+\framesubtitle{3.7 - Enregistrement d'une armée, FAQ et Règles}
+Comment enregistrer une armée ?
+
+Présentation de la FAQ et des Règles :
+\begin{itemize}
+	\item Buts
+	\item Charge un fichier txt, exception levée si fichier manquant
+\end{itemize}
+\end{frame}
+
+\section{Partie 4 - Quelques algorithmes marquant}
+	\subsection{Partie 4.1 - Retirer des unités}
+
+\begin{frame}[plain]
+\frametitle{Partie 4 : Quelques algorithmes marquants}
+\framesubtitle{4.1 - Retirer des unités}
+\begin{alertblock}{Pourquoi est-ce que cet algorithme est marquant ?}
+La condition qui était difficile à mettre en place
+\end{alertblock}
+%afficher l'image
+\end{frame}
+
+	\subsection{Partie 4.2 - Le moteur de combat}
+
+\begin{frame}[plain]
+\frametitle{Partie 4 : Quelques algorithmes marquants}
+\framesubtitle{4.2 - Le moteur de combat}
+\begin{exampleblock}{Pourquoi est-ce que cet algorithme est marquant ?}
+-Première fois que l'on peut voir des armées combattre
+-Le reste d'attaque pour finir un combat
+\end{exampleblock}
+%image?
+\end{frame}
+
+	\subsection{Partie 4.3 - La barre de chargement / Le changement de TopLevel/Création armée / }
+
+\begin{frame}[plain]
+\frametitle{Partie 4 : Quelques algorithmes marquants}
+\framesubtitle{4.3 - Barre de chargement et création d'armée}
+
+
+\end{frame}
+
+	\subsection{Partie 4.4 - Dans l'optimisateur}
+
+\begin{frame}[plain]
+\frametitle{Partie 4 : Quelques algorithmes marquants}
+\framesubtitle{4.4 - Optimisateur}
+
+\end{frame}
+
+
+\section{Partie 5 - Conclusion}
+	\subsection{Partie 5.2 - Difficultés rencontrées}
+
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.1 - Difficultés rencontrées}
+\begin{exampleblock}{Liste des difficultés rencontrées}
+premières versions non factorisées
+Image de fond TKinter
+Mélange de programmation impérative et objet à un moment
+\end{exampleblock}
+\end{frame}
+
+	\subsection{Partie 5.2 - Fonctionnalités abandonnées}
+
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.2 - Fonctionnalités abandonnées}
+\begin{block}{Qu'est-ce qu'une fonctionnalité abandonnée ?}
+Une fonctionnalité abandonnée est une fonctionnalité qui avait été implémentée mais qui a perdu son importance au fil du temps jusqu'à en être inutile.
+\end{block}
+\begin{alertblock}{Liste des fonctionnalités abandonnées}
+	\begin{itemize}
+		\item aléatoire simple
+		\item Autre (etc)(à voir)
+	\end{itemize}
+\end{alertblock}
+\end{frame}
+
+	\subsection{Partie 5.3 - Fonctionnalités non implémentées}
+
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.3 - Fonctionnalités non implémentées}
+\begin{exampleblock}{Liste des fonctionnalités non implémentées}
+?
+\end{exampleblock}
+\end{frame}
+
+	\subsection{Partie 5.4 - Améliorations}
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.4 - Améliorations}
+Liste possible d'améliorations:
+\begin{enumerate}
+	\item Moteur de combat supérieur à deux armées 
+    \item Animations graphiques et visualisation graphique des unités
+    \item Musique de fond 
+    \item La possibilité de rajouter une unité depuis l'interface 
+    \item La possibilité de supprimer une unité de base
+   	\item Une visualisation concrète du combat
+   	\item Ajout nouvelles fonctionnalité algorithme génétique
+\end{enumerate}
+\end{frame}
+
+
+\subsection{Partie 5.4 - Retour d'expérience}
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.4 - Retour d'expérience}
+Retour d'expérience :
+\begin{enumerate}
+	\item Alex : Content d'avoir pu coder sur un projet de fond en comble
+	\item Elie : Ravi de travailler en programmation objet
+	\item Emmanuel : Enchanté d'avoir pu créer un algorithme génétique
+	\item Tous : Utilisation de la forge et de SVN
+\end{enumerate}
+\end{frame}
+
+\subsection{Partie 5.6 - Source des images}
+\begin{frame}[plain]
+\frametitle{Partie 5 : Conclusion}
+\framesubtitle{5.6 - Sources}
+Sources classées dans l'ordre : 
+\begin{itemize}
+	\item \href{https://www.figurine-strategie.fr/LEM2018/fr}{figurine-strategie.fr}
+	\item \href{https://www.france-troc.com/Troc_echange_wargames_figurines_epoque_napoleon-annonce-622005.html}{france-troc.com} 
+	\item 
+\end{itemize}
+%A delete ou pas
+\bigbreak
+En vous remerciant de votre attention ! %images smiley
+\end{frame}
+
+\end{document}

@@ -1,0 +1,44 @@
+from Combattants import*
+
+class Paysans(Combattants):
+    
+    """Classe Paysans héritant de combattant"""
+    
+    def __init__(self, nom="Paysan", pv=5, pa=1, df=0, vit=1, cout=1):
+        
+        """Création d'un Paysan hérité de Combattant"""
+        
+        # Appel du constructeur de la classe mère
+        
+        Combattants.__init__(self, nom, pv, pa, df, vit, cout)
+    
+    def creerTroupePaysans(self, nombre):
+        laTroupePaysans = []
+        for i in range(0, nombre):
+            laTroupePaysans.append(Paysans())
+        return laTroupePaysans
+    
+    def afficherTroupePaysans(self, troupe):
+        for i in range(len(troupe)):
+            print(i+1, " ",troupe[i])
+
+    def calculPV(self, nombre, troupe):
+        pvTotal = (troupe[0].pv)*nombre
+        return pvTotal
+    
+    def calculPA(self, nombre, troupe):
+        paTotal = (troupe[0].pa)*nombre
+        return paTotal
+
+    def calculDF(self, nombre, troupe):
+        dfTotal = (troupe[0].df)*nombre
+        return dfTotal
+
+    def calculVIT(self, nombre, troupe):
+        vitTotal = (troupe[0].vit)*nombre
+        return vitTotal
+
+    def calculCOUT(self, nombre, troupe):
+        coutTotal = (troupe[0].cout)*nombre
+        return coutTotal
+

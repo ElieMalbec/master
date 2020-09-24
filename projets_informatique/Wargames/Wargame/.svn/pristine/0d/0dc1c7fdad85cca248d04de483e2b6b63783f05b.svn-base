@@ -1,0 +1,84 @@
+# -*- coding: utf-8 -*-
+import time  # Pour execution time
+
+import creationArmee as Ca
+
+import moteurCombat as Mc
+
+import testIA as Ia
+
+start_time = time.time()
+
+# monarmee = Ca.creation_armee_utilisateur()
+# monarmee2 = Ca.creation_armee_nb_troupes(1600)
+# monarmee3 = Ca.creation_armee_effectif(dic)
+# monarmeealea = Ca.creation_armee_aleatoire(1200)
+
+# mesarmeesAlea = Ca.cree_n_armee_alea(2, 3000)
+
+"""Sauvegarde de deux armées pour travailler dessus"""
+# mesarmeesAlea2 = Ca.cree_n_armee_alea_troupe_par_troupe(2, 3000)
+#
+# d = shelve.open('armees')
+# d['armee1'] = mesarmeesAlea2[0]
+# d['armee2'] = mesarmeesAlea2[1]
+# d.close()
+
+"""Récupération des objets armées avec : """
+# d = shelve.open('armees')
+# Rarmee1 = d['armee1']
+# Rarmee2 = d['armee2']
+# d.close()
+
+mesarmees = Ca.cree_n_armee_alea_troupe_par_troupe(2, 2000)
+armee1 = mesarmees[0]
+armee2 = mesarmees[1]
+
+# =============================================================================
+# Moteur de combat
+armee_gagnante = Mc.moteur_de_combat(armee1, armee2)
+if armee_gagnante == 1:
+    print("L'armée gagnante et l'armée 1 !!")
+    armee1.afficher_armee_simple()
+elif armee_gagnante == 2:
+    print("L'armée gagnante et l'armée 2 !!")
+    armee2.afficher_armee_simple()
+else:
+    print("Error")
+# =============================================================================
+
+# =============================================================================
+# Ia
+meilleurarmee = Ia.meilleure_armee(50, 2000)
+# Au bout de 10 armées créer, c'est toujours la même qui gagne
+print("\nLa meilleure armée est :")
+meilleurarmee.afficher_armee_simple()
+# =============================================================================
+
+# =============================================================================
+# Utilisateur vs Ia
+# monarmee = Ca.creation_armee_utilisateur()
+# armeeBot = Ca.creation_armee_alea_troupe_par_troupe(monarmee.points)
+# Cmonarmee  = copy.deepcopy(monarmee)
+# CarmeeBot = copy.deepcopy(armeeBot)
+#
+# armee_gagnante = Mc.moteur_de_combat(monarmee, armeeBot);
+# if(armee_gagnante==1):
+#   print("Votre armée à gagné !!")
+# elif(armee_gagnante==2):
+#   print("Vous avez perdu contre l'Ia !!")
+# else:
+#   print("Error")
+#   
+# Cmonarmee.afficher_armee_simple()
+# CarmeeBot.afficher_armee_simple()
+
+# =============================================================================
+
+print("\nExecution time : ")
+print("--- %s seconds ---" % (time.time() - start_time))
+del start_time
+
+# uneFenetre = Graphique.Fenetre()
+# uneFenetre.title('Wargame')
+# uneFenetre.mainloop()

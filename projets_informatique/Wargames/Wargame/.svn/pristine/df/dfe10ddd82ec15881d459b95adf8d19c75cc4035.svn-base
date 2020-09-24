@@ -1,0 +1,355 @@
+# -*- coding: utf-8 -*-
+import random
+
+import Troupe as Tr
+
+
+class Armee(object):
+    """ Création d'un objet Armée qui permet de créer une armée dans le but de pouvoir réaliser des combats.
+    
+    La classe dispose d'attributs de classe qui sont modifiables par l'appel de la fonction Armee.choix_utilisateur.
+    La classe dispose de plusieurs méthodes qui permettent de (dans l'ordre) :  créer une armée, afficher une armée, 
+    afficher une armée de manière simple, de remettre à zéro les totauxd'une armée, de calculer les totaux d'une armée, 
+    retourner les totaux d'une armée, demander le nombre de points que l'utilisateur veut pour pouvoir créer son armée,
+    la vérification et le renvoi du nombre de troupes qu'il est possible de créer, l'affichage du nombre max d'unités
+    qu'il est possible d'avoir, définir des limites pour certaines unités de base (catapultes, etc), d'afficher les 
+    limites des unités, d'un appel utilisateur pour créer son armée, d'afficher des informations sur les combattants, 
+    de créer une troupe aléatoire, de créer une troupe aléatoire (façon troupe par troupe), d'une vérification utilisateur 
+    si sa saisie est bien un nombre et d'ajouter une unité. 
+
+    #Attribut de classe points modifiable par l'appel de la fonction Armee.choix_utilisateur
+    #Le constructeur donne un attribut troupes et des totaux à l'object issu de Armee"""
+
+    def __init__(self):
+        """Constructeur de la classe mère Armee, permet d'instancier un object Armee qui dispose des attributs suivants :
+        le nombre de points de l'armée (points), de limites suivant certaines unités (limites), de troupes contenant le
+        nom de la troupe ainsi qu'une liste vide, Points de Vie (PV), Points d'Attaque (PA), points de DéFense (DF), 
+        points de VITesse (VIT), ainsi que son coût (COUT).
+
+        L'attribut troupes est un dictionnaire composé avec pour clés les noms des troupes et en valeur une liste vide
+        qui contiendra ensuite les objets Combattant créés avec Troupe
+        Chaque combattant sera insérés dans la liste correspondante
+        
+        Tout ajout de troupe ou suppression doit se faire en ajoutant/supprimant la liste dans Armee
+        mais aussi en ajoutant/supprimant la troupe dans la liste de Troupe"""
+
+        self.points = 0  # Nombre de points de l'armée
+        self.limites = {}  # Dictionnaire contenant les futures limites en fonction du nombre de points
+        self.troupes = {}
+        self.PV = 0
+        self.PA = 0
+        self.DF = 0
+        self.VIT = 0
+        self.COUT = 0
+
+    def ajout_troupes_armee(self, effectif):
+        """Méthode permettant de créer l'ensemble des troupes passées en paramètres dans
+        un dictionnaire effectif. 
+        Ce dernier possède pour clé le nom de la troupe à créer et en valeur le
+        nombre d'objets à créer. Ces objets sont placés dans la liste correspondate de
+        l'attribut troupes de l'armée
+        La liste de toutes les troupes possible est dans l'attribut de classe troupes
+        Tr Troupess"""
+
+        for nom, nombre in effectif.items():
+            if nom not in self.troupes:
+                self.troupes[nom] = []
+            if nom in Tr.Troupe.carac:
+                for i in range(0, nombre):
+                    self.troupes[nom].append(Tr.Troupe(nom))
+            else:  # Gestion de l'erreur si la clé n'existe pas dans Troupe : ajout unité
+                print("Erreur, la troupe", nom, 'n est pas trouvée')
+
+    def former_armee_simple(self, liste):
+        self.ajout_troupes_armee(liste)
+        self.calcul_totaux()
+        self.points = self.COUT
+        self.creation_limites()
+
+    def former_armee_aleatoire(self, nombreunites):
+        self.points = nombreunites
+        self.creation_limites()
+        effectif = self.creation_effectif_aleatoire_troupe_par_troupe(nombreunites)
+        self.ajout_troupes_armee(effectif)
+        self.calcul_totaux()
+
+    def afficher_armee(self):
+        """Méthode permettant l'affichage successif de l'ensemble des troupes qui
+        composent l'armée, elle effectue un print de chaque Combattant, celui-ci apparait
+        avec une chaine de caractère renvoyée par la méthode __str__ de Combattant"""
+
+        print("Affichage de l'armée complète \n")
+        key = self.troupes.keys()
+        for cle in key:
+            for i, element in enumerate(self.troupes[cle]):
+                print(i + 1, element)
+        print("---------------------------------\n")
+
+    def afficher_armee_simple(self):
+        """Méthode qui permet de manière plus concise une armée"""
+        print("Affichage de l'armée simple")
+        for troupe in self.troupes:
+            if len(self.troupes[troupe]) > 0:
+                print(len(self.troupes[troupe]), "unité(s) de", self.troupes[troupe][0])
+
+    def reset_totaux(self):
+        """Méthode qui permet de réinitialiser les attributs PV, PA, DF, VIT, COUT de la classe objet Armée"""
+        self.PV = 0
+        self.PA = 0
+        self.DF = 0
+        self.VIT = 0
+        self.COUT = 0
+
+    def calcul_totaux(self):
+        """Méthode de calcul des totaux de l'armée en fonction des troupes contenues
+        dans l'attribut self.troupes. Passe en boucle chaque unité pour ajouter ses
+        caractéristiques aux attributs correspondants de l'armée"""
+        #        print("\nCalcul en cours des totaux", end=" --> ")
+        self.reset_totaux()
+        for listeTypeCombattant in self.troupes.values():
+            for combattant in listeTypeCombattant:
+                self.PV += combattant.pv
+                self.PA += combattant.pa
+                self.DF += combattant.df
+                self.VIT += combattant.vit
+                self.COUT += combattant.cout
+
+    #        print("Calcul terminé \n")
+
+    def afficher_totaux(self):
+        """Méthode qui affiche les totaux d'une armée, peut s'utiliser en tant que
+        méthode directe, monarmee.afficher_totaux, cette méthode met en forme l'affichage
+        de ces résultats et effectue les calculs s'ils n'ont pas encore été faits"""
+
+        if self.PV == 0 and self.COUT == 0:
+            self.calcul_totaux()
+        print("Affichage des totaux de l'armee :")
+        print("Total PV : ", self.PV)
+        print("Total PA : ", self.PA)
+        print("Total DF : ", self.DF)
+        print("Total VIT : ", self.VIT)
+        print("Total COUT : ", self.COUT)
+
+    def retour_totaux(self):
+        """Méthode permettant de retourner dans un tableau l'ensemble des totaux de l'armée.
+        Cette méthode permet de récupérer les valeurs importantes de la création d'une armée
+        sous forme de tableau simple"""
+
+        return [self.PV, self.PA, self.DF, self.VIT, self.COUT]
+
+    def choix_nombre_points(self):
+        """Méthode permettant de demander à l'utilisateur quelle quantité de points il souhaite
+        pour créer son armée. Cette valeur est placée dans l'attribut points de l'armée"""
+
+        saisie = input("Quelle quantité de points d'armée souhaitez vous ? ")
+        while not (str.isnumeric(
+                saisie)):  # La commande str.isnumeric permet de tester si l'entree est bien un chiffre
+            saisie = input("Saisie incorrecte, saisir à nouveau le nombre de points désirés : ")
+        self.points = int(saisie)
+        return int(saisie)
+
+    def verification_nombre_troupe(self, number, nom_troupe, points_restants):
+        """Méthode de vérification et de renvoi du nombre de troupes qu'il est possible de créer en prenant
+        en compte le number de points restants et les limites fixées dans self.limites.
+        Ces limites doivent être calculées avec la méthode creationLimite de Armee.
+        Permet une gestion des erreurs en cas de saisie incorrecte
+        """
+
+        # Premier cas, la troupe est dans les limites :
+        if nom_troupe in self.limites:
+            if int(number) > int(self.limites[nom_troupe]):
+                print("Le number de troupes demandé est trop grand, limite max de",
+                      Armee.max_unite(self, points_restants, nom_troupe))
+                number = input("Saisir à nouveau le number de troupes souhaité : ")
+
+                while (not str.isnumeric(number) or int(number) > self.limites[nom_troupe] or int(
+                        number) < -1 or int(number) * Tr.Troupe.carac[nom_troupe][5] > points_restants):
+                    number = input("Saisie incorrecte, saisir à nouveau le number de troupe désiré: ")
+
+            else:
+                if int(number) * int(Tr.Troupe.carac[nom_troupe][5]) > points_restants:
+                    print("Pas assez de points pour créer", number, "troupes, saisir un entier plus petit")
+                    number = input()
+                    while (not str.isnumeric(number) or int(number) > self.limites[nom_troupe] or int(
+                            number) < -1 or int(number) * Tr.Troupe.carac[nom_troupe][5] > points_restants):
+                        number = input("Saisie incorrecte, saisir à nouveau le number de troupe désiré: ")
+
+        else:  # Si la troupe n'est pas dans les limites :
+            if int(number) * int(Tr.Troupe.carac[nom_troupe][5]) > points_restants:
+                print("Pas assez de points pour créer", number, "troupes, saisir un entier plus petit")
+                number = input()
+                while (not str.isnumeric(number) or int(number) * int(
+                        Tr.Troupe.carac[nom_troupe][5]) > points_restants):
+                    number = input(
+                        "Saisie incorrecte, trop de troupes demandées ou saisie incorrecte, saisir à nouveau :")
+        return number
+
+    def max_unite(self, nombre_points, troupe):
+        """ Méthode qui permet de calculer le maximum d'unités qu'il est possible d'avoir avec un certain solde de
+        points et en fonction des limites.
+        
+        La méthode prend en paramètres le nombres de points restant ainsi que la troupe en question (ex : Archers).
+        Elle vérifie si la
+        la troupe en question dispose d'une limite (ex : Catapultes). Elle fait ensuite le calcul du maximum du nombre
+        de troupes qu'il est possible de créer. Elle renvoie "i", à savoir le nombre maximal d'unités de cette troupe.
+        """
+        maxi = int(nombre_points / Tr.Troupe.carac[troupe][5])
+        if troupe in self.limites:
+            if maxi > self.limites[troupe]:
+                return self.limites[troupe]
+            else:
+                return maxi
+        else:
+            return maxi
+
+    def creation_limites(self):
+        self.limites = {
+            "Catapulte": int(self.points / 250),
+            "Chariot": int(self.points / 150),
+            "ElephantDeCombat": int(self.points / 200),
+            "Généraux": 3  # 3 Généraux maximum dans chaque armée
+        }
+
+    def afficher_limites(self):
+        print("Affichage des limites de l'armée\n")
+        for cle, valeur in self.limites.items():
+            print("Limite de {0} : {1}".format(cle, valeur))
+        print("----------------------------------------\n")
+
+    def choix_utilisateur(self):
+        """Méthode qui appelle l'ensemble des autres méthodes pour la création d'une armée avec les choix
+        de l'utilisateur.
+        Elle crée un dictionnaire effectif qui sera complété avec le nom de la troupe et son effectif correspondant
+        après avoir effectué les test grâce à la méthode Armee.verification_nombre_troupe. Cette méthode
+        parcours l'ensemble des troupes possible dans l'attribut self.troupes de l'armée et demande à l'utilisateur
+        de saisir le nombre de troupes souhaité. Le total des points nécessaire pour la création de l'armée est
+        placé dans l'attribut self.totalPOINTS
+        Cette méthode ne permet pas la création des troupes mais renvoi uniquement le dictionnaire composé du nombre de
+        troupes à créer.
+        La méthode affiche également le nombre maximum d'unités qu'il est possible de former. De plus s'il n'y a plus
+        aucun points restants elle saisie automatiquement la valeur zéro.
+        """
+
+        effectif = {}
+        points = self.points
+        print("Vous avez {0} points".format(points))
+
+        for cle in Tr.Troupe.carac:  # On va chercher la listes des troupes a demander dans l'attribut de classe de Troupe
+            print("---------------------------------")
+            max_nb_unite = Armee.max_unite(self, points, cle)
+
+            if max_nb_unite == 0 or points == 0:
+                print("Il n'y a plus de points disponible pour créer une unité de ", cle)
+                saisie = 0
+            else:
+                print("Combien voulez-vous de {0} ? ".format(cle), "Le maximum de troupes pour cette unité est de : ",
+                      max_nb_unite, "le coût de l'unité est : ", Tr.Troupe.carac[cle][5])
+                saisie = input()
+                while not str.isnumeric(saisie):
+                    print("Saisie incorrecte, donner le nombre de {0} : ".format(cle))
+                    saisie = input()
+                saisie = self.verification_nombre_troupe(saisie, cle, points)
+            # Ajoute dans le dictionnaire d'effectif le nombre de troupes à créer d'une certaine unité
+            effectif[cle] = int(saisie)
+            points -= Tr.Troupe.carac[cle][5] * int(saisie)
+            print("Il reste encore", points, "points")
+        return effectif
+
+    @classmethod
+    def informations_combattants(cls):
+        """ Méthode permettant d'afficher successivement les caractéristiques de chaque troupe possible
+        Permet de visualiser les caractéristiques de chaque troupe"""
+
+        print("Affichage des caractéristiques de chaque troupe \n")
+        print(
+            "1 Catapulte pour 250 combattants, 1 chariot pour 150 points, 1 éléphant de combat pour 200 points et "
+            "maximum de 3 généraux\n")
+        for valeurs in Tr.Troupe.carac.values():
+            print("Combattant {0}, pv:{1}, pa:{2}, df:{3}, vit:{4}, cout:{5}".format(valeurs[0], valeurs[1], valeurs[2],
+                                                                                     valeurs[3], valeurs[4],
+                                                                                     valeurs[5]))
+
+    def creation_effectif_aleatoire(self, nb_points):
+        """Méthode permettant de créer un effectif aléatoire en fonction d'un nombre de points passé en paramètre
+        Cette méthode n'est pas optimisée et peut créer soit le maximum de troupe si il y a une limite pour une troupe
+        ou le maximum possible d'unité avec les autres troupes non contengentées.
+        Cette fonction permet de créer une armée en prenant une troupe aléatoire et ensuite prend en nombre random entre
+        0 et le max_unite de cette troupe. Inconvénient, peu y avoir bcp de troupes identiques et troupes non présentes.
+        Optimisation possible, passer un argument et ne pas pouvoir dépasser le nombre d'unité de chaque troupe"""
+
+        print("Création d'une armée aléatoire")
+        points = nb_points
+        print("------------------------------")
+        print("Vous avez {0} points\n".format(points))
+        effectif = {}
+        items = list(
+            Tr.Troupe.carac.keys())  # Conversion en liste simple car renvoie normalement un dict_keys()
+        random.shuffle(items)  # Mélange de la liste des troupes au hasard
+        for troupe in items:
+            if points == 0:
+                break  # Si plus de points pas la peine de continuer à faire les calculs
+            max_nb_unite = Armee.max_unite(self, points, troupe)
+            nb_unite = random.randint(0, max_nb_unite)
+            effectif[troupe] = nb_unite
+            points -= Tr.Troupe.carac[troupe][5] * nb_unite
+        return effectif
+
+    def creation_effectif_aleatoire_troupe_par_troupe(self, nb_points):
+        """
+        Cette méthode permet de créer une armée aléatoire en prenant une troupe au hasard et en 
+        ajoutant une unité de cette troupe à chaque fois si c'est possible( pour ne pas dépasser les limites)
+        Cette méthode est plus optmisée et permet d'avoir des unités de chaque combattant.
+        
+        Gérer si pas assez de points pour créer la dernière troupe, passer à la suivante
+        car actuellement une armée peut avoir plus de nb_points"""
+
+        effectif = {}
+        troupes = list(Tr.Troupe.carac.keys())
+        for cle in troupes:
+            effectif[cle] = 0
+        length = len(troupes) - 1
+        while nb_points > 0:
+            rand = random.randint(0, length)
+            troupe = troupes[rand]  # On récupère le nom de la troupe du hasard
+            if Tr.Troupe.carac[troupe][5] > nb_points:
+                continue
+            if troupe in self.limites:
+                if troupe in effectif:
+                    if effectif[troupe] >= self.limites[troupe]:
+                        continue
+            effectif[troupe] += 1
+            nb_points -= Tr.Troupe.carac[troupe][5]
+        return effectif
+
+    @classmethod
+    def saisie_number(cls, question):
+        """ Méthode de classe qui prend en paramètre une question et vérifie si l'entrée de l'utilisateur est un nombre.
+        
+        Elle retourne l'entrée.
+        C'est une méthode de classe car elle ne travaille pas directement sur l'objet en lui même(self)
+
+        """
+        entree = input(question)
+        while not str.isnumeric(entree):
+            print("Error - Must be a integer")
+            entree = input(question)
+        return int(entree)
+
+    def ajout_unite(self):
+        """ Méthode qui permet à l'utilisateur d'ajouter une unité avec les caractéristiques voulues"""
+        print("Voulez-vous ajouter une unité dans les effectifs ? 0 = Oui, 1 = Non")
+        saisie = int(input())
+        if (saisie == 0):
+            saisie_nom = input("Choisissez le nom de votre unité ")
+            saisie_pv = Armee.saisie_number("Choisissez le nombre de Point de Vie de votre unité ")
+            saisie_pa = Armee.saisie_number("Choisissez le nombre de Point d'attaque de votre unité ")
+            saisie_df = Armee.saisie_number("Choisissez le nombre de Point de défense de votre unité ")
+            saisie_vit = Armee.saisie_number("Choisissez le nombre de Point de Vitesse de votre unité ")
+            saisie_cout = Armee.saisie_number("Choisissez le Coût de votre unité (>0)")
+            hierarchie = len(Tr.Troupe.carac) + 1
+            newunite = [saisie_nom, saisie_pv, saisie_pa, saisie_df, saisie_vit, saisie_cout, hierarchie]
+            Armee.troupes[saisie_nom] = []  # On ajoute la nouvelle troupe dans attribut de classe de Armee
+            self.troupes[saisie_nom] = []
+            Tr.Troupe.carac[saisie_nom] = newunite
+        else:
+            print("Bien, bon combat")

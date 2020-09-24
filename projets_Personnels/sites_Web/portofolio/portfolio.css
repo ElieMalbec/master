@@ -1,0 +1,621 @@
+html {
+	scroll-behavior: smooth;
+}
+body {
+	background-color: white;
+	font-family: Arial, sans-serif;
+	margin: 0;
+}
+
+a {
+	font-size: 19px;
+	letter-spacing: 0.158em;
+	text-decoration: none;
+	color: black;
+	transition-duration: 0.5s;
+	transition-timing-function: ease;
+}
+a:hover {
+	color: red;
+}
+
+li {
+	list-style-type: none;
+	padding: 0 1.25em 0 1.25em;
+}
+
+
+/**********HEADER**********/
+.home-header{
+	background-image: url("./images/hacking.webp") ;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 670px;
+	display: flex;
+	flex-flow : column nowrap;
+	text-align: center;
+	color: white;
+}
+	
+nav {
+	display: grid;
+	grid-template-areas: "empty center empty"
+	grid-template-columns : 33% 33% 33%;
+	text-align: center;
+}
+.my_nav{
+	display: flex;
+	flex-flow : row nowrap;
+	grid-area : center;
+	padding : 0;
+	width: 100%;
+	text-align: center;
+}
+
+.space {
+	margin : 0 1.5em 0 1.5em;
+}
+li a, p a {
+	color: white;
+}
+
+.small-hr {
+	margin: 0 45% 0 45%;
+}
+
+.name {
+	padding-top: 2%;
+}
+
+.transition{
+	transition-duration: 0.5s;
+	transition-timing-function: ease;
+}
+
+.git:hover a{
+	color : #7fdefd;
+}
+.CV:hover a{
+	color: #fd6b00;
+}
+.contact:hover a{
+	color: #10e394;
+}
+.elie:hover {
+	color: #e8f0f0;
+}
+.elie {
+	font-size: 25px;
+}
+.student {
+	font-size: 16px;
+}
+.portfolio-student {
+	color: white;
+}
+
+/**********MAIN**********/
+main{
+	display: grid;
+	grid-template-areas : "projects CV"
+								 "Git Stuffs";
+	grid-template-columns: 1fr 1fr;
+	background-color: #e6edee26;
+	padding: 0 1.5em 0 1.5em;
+}
+
+main div {
+	text-align: center;
+	margin: 4.5em 0 4.5em 0;
+}
+
+main div img{
+	padding: 5px 10% 5px 10%;
+	text-align: center;
+	max-width: 50%;
+}
+main div img:hover{
+	opacity: 0.5;
+}
+
+figure {
+	margin : 0;
+}
+
+
+/***STUFF FOR THE TEXT ON THE PIC***/
+/*
+.hhh{
+	display: none;
+	z-index : 100;
+	
+}
+
+.projects:hover div .hhh {
+	position: absolute;
+  	top: 200%;
+	left: 18%;
+}
+.projects {
+	position: relative;
+}
+.overlay {
+    position: absolute;
+    background-color: rgba(0,0,0,0.7);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: .6s;
+}
+
+.overlay:hover {
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.description_overlay {
+    position: absolute;
+    top: 30%;
+    text-align: center;
+    color: #f7f7f7;
+    opacity: 0;
+    left: 10%;
+    right: 10%;
+    border: 1px solid white;
+    padding: 10px;
+}
+*/
+
+/* FIGCAPTION
+.test figcaption {
+  display: none;
+  position: relative;
+}
+
+.test:hover figcaption {
+  display: block;
+}
+figcaption {
+	position: absolute;
+	top: 35%;
+	left: 30%;
+}
+*/
+.main-figcap {
+	text-decoration: underline;
+}
+figcaption .main-figcap {
+ 	color: black;
+}
+*:hover .main-figcap {
+	color: black; 
+}
+.hello:hover {
+	color: black; 
+}
+/**********FOOTER**********/
+.color {
+	background-color: #DEE0E3;
+	min-height: 25px;
+}
+
+footer {
+	background-color: #2b252c;
+	min-height: 200px;
+	height: 100%;
+	width: 100%;
+	color: #fff;
+}
+
+.footer-ul {
+	display: inline-block;
+	padding: 0.35em 0.75em 0.35em 0.75em;
+	background-color: rgba(128, 128, 128, 0.05);
+	list-style-type: none;
+	border-radius: 4em;
+	
+}
+.footer-ul li{
+	display: inline-block;
+}
+
+.contact-form {
+	display: flex;
+	flex-flow : nowrap column;
+	justify-content : center;
+	align-items: center;
+	padding: 1.5em 0 1.5em 0;
+}
+
+.arrow:after, .arrow:before {
+	content : '\21CA';
+}
+
+.first-padding, .last-padding {
+	padding-left: 0;
+}
+
+.iconify {
+	transition-duration: 3s;
+	transition-timing-function: ease;
+	font-size: 3em;
+	
+}
+.iconify:hover {
+	rotate : 360deg;
+}
+
+.italic {
+	font-style: italic;
+}
+
+.arrow-top {
+	padding: 0;
+	margin-top: 2em;
+	background: url('https://api.iconify.design/bx:bx-up-arrow-circle.svg') no-repeat center center / contain;
+	background-color: white;
+	border-radius: 50%;
+	min-height: 1.25em;
+	min-width: 1.25em;
+	height: 2em;
+	width: 2em;
+}
+
+
+/**********CV**********/
+.cv-header {
+	background-image: url("./images/cv1.webp") ;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 670px;
+	display: flex;
+	flex-flow : column nowrap;
+	text-align: center;
+	color: white;
+}
+.cv-student {
+	color: white;
+}
+.cv-main{
+	display: grid;
+	display : flex;
+	flex-flow : column nowrap;
+	/*grid-template-columns : 30% 40% 30 %;
+	grid-template-areas : "infos infos infos"
+									"color1 experiences experiences"
+									"formations formations color2"
+									"color3 langues langues";
+	*/
+	background-color: white;
+	color: black;
+	height: auto;
+	width: 100%;
+	margin: 2% 0 10% 0;
+	padding : 0;
+	
+}
+.cv-main div{
+	margin : 0;
+	margin : 0 25% 0 25%;
+	
+}
+.informations {
+	background-color: #2b252c;
+	grid-area : infos;
+	padding : 0;
+}
+.experiences {
+	grid-area : experiences;
+}
+.formation {
+	grid-area : formations;
+}
+.langues {
+	grid-area : langues;
+}
+.color1 {
+	background-color: pink;
+}
+.color2 {
+	background-color: yellow;
+}
+.color3 {
+	background-color: green;
+}
+
+.name{
+	text-align: center;
+	color : #71b7e1;
+	font-size : 3.5em;
+}
+.separator {
+	color: grey;
+	height: 3px;
+	background-color: gray;
+}
+div .cv-infos {
+	margin : 0;
+}
+.cv-infos {
+	display: grid;
+	grid-template-columns : 50% 50%;
+	height: auto;
+}
+
+.left {
+	text-align: left;
+}
+.right {
+	text-align: right;
+}
+
+.cv-education, .cv-experience, .cv-other, .cv-projets-informatique {
+	text-align: left;
+	color: #0e7319;
+}
+
+.cv-education a, .cv-infos a  {
+	color: inherit;
+	letter-spacing: 0;
+}
+.cv-education a:hover {
+	color: #1784e3;
+	text-decoration: underline;
+}
+.cv-h2::before {
+content: "";
+display: inline-block;
+margin-right: 1%;
+width: 16%;
+height: 10px;
+background-color: #9CB770;
+}
+
+.cv-experience li {
+	text-align : justify;
+	list-style-type: inherit;
+	padding: 5px 0 5px 0;
+}
+
+.black{
+	color: black;
+}
+.blue {
+	color: #1784e3;
+}
+.red {
+	color: red;
+}
+.underline {
+	text-decoration: underline;
+}
+
+.cv-li-projets {
+	text-align: justify;
+	list-style-type: inherit;
+	padding: 5px 0 5px 0;
+	color: black;
+}
+
+.cv-a-projets {
+	text-decoration: underline;
+	color: black;
+	letter-spacing: 0;
+	font-size: inherit;
+}
+.cv-a-projets:hover {
+	color: #1784e3;
+}
+
+.no-color-hover:hover {
+	color : black;
+}
+
+
+/******ALGO****/
+.algo-header {
+	background-image: url("./images/algo2.png") ;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	width: 100%;
+	height: 670px;
+	display: flex;
+	flex-flow : column nowrap;
+	text-align: center;
+	color: white;
+}
+.algo-black {
+	color: black;
+}
+
+.algo-main {
+	display : flex;
+	flex-flow : column nowrap;
+	margin : 3% 0 3% 0;
+}
+.algo-main h2 {
+	color: #1438c6;
+	margin-bottom: 0;
+	text-align: center;
+}
+.algo-h1 {
+	text-align: center;
+	color: purple;
+	text-decoration: underline;
+}
+.algo-a {
+	color: inherit;
+	letter-spacing: 0;
+	font-size: inherit;
+	text-decoration: underline;
+}
+.algo-li {
+	text-align : justify;
+	list-style-type: inherit;
+	padding: 5px 0 5px 0;
+}
+.algo-first-p {
+	padding-bottom: 0;
+	margin-bottom: 0;
+}
+
+
+/*********C++***********/
+.cpp-header {
+	background-image: url("./images/c_code.jpeg") ;
+	background-size: cover;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 670px;
+	display: flex;
+	flex-flow : column nowrap;
+	text-align: center;
+	color: white;
+}
+.cpp-algo-black {
+	color: white;
+}
+.cpp-a {
+	color: black;
+	font-size: inherit;
+	letter-spacing: 0;
+	text-decoration: underline;
+}
+
+.cpp-main {
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.cpp-li {
+	list-style-type: disclosure-closed;
+	padding: 0;
+}
+
+.cpp-h2 {
+	color: #377bd2;
+}
+
+.cpp-margin {
+	margin-left: 3%;
+}
+.cpp-margin2 {
+	margin-left: 6%;
+}
+/***PROJECTS***/
+.projects-header {
+	background-image: url("./images/project1.webp") ;
+	background-size: contain;
+	background-repeat: round;
+	background-position: center;
+	width: 100%;
+	height: 670px;
+	display: flex;
+	flex-flow : column nowrap;
+	text-align: center;
+	color: white;
+}
+.projects-student {
+	color: white;
+	display: none;
+}
+
+
+.projects-main {
+	display: flex;
+	flex-flow : column nowrap;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	padding-left: 20%;
+	padding-right: 20%;
+}
+/*
+thead, tfoot {
+    background-color: #333;
+    color: #fff;
+}
+
+td {
+    border: 1px solid #333;
+    text-align: center;
+    padding: 1%;
+}*/
+
+
+/*Copy paste from https://css-tricks.com/responsive-data-tables/ */
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+  text-align: center;
+}
+
+@media only screen and (max-width: 900px), (min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+	}
+	
+	/*
+	Label the data
+	*/
+	td:nth-of-type(1):before { content: "Défis"; }
+	td:nth-of-type(2):before { content: "Erreurs & échecs"; }
+	td:nth-of-type(3):before { content: "A apprécié"; }
+	td:nth-of-type(4):before { content: "Leadership"; }
+	td:nth-of-type(5):before { content: "Conflits"; }
+	td:nth-of-type(6):before { content: "A faire autrement"; }
+	/*td:nth-of-type(7):before { content: "g"; }
+	td:nth-of-type(8):before { content: "h"; }
+	td:nth-of-type(9):before { content: "k"; }
+	td:nth-of-type(10):before { content: "l"; }*/
+}

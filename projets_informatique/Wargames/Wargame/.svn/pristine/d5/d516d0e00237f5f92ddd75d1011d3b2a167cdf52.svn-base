@@ -1,0 +1,29 @@
+Projet réalisé par Emmanuel Garreau, Alex Lefevre et Elie Malbec
+
+Comment jouer contre l'IA ?
+Vous pouvez choisir de jouer contre une IA optimisé ou pas. 
+Dans le premier cas, veuillez vous rendre dans le menu optimisateur et cliquer sur le bouton "préparer l'armée contre l'IA". 
+Après avoir attendu que l'optimisateur ait fini, il vous suffit d'aller dans le menu un joueur, de créer une armée et de 
+cliquer sur "combattre contre IA". 
+Dans le deuxième cas, veuillez vous rendre dans le menu un joueur et cliquer sur "combattre contre aléatoire".
+
+Comment jouer à deux ?
+Pour jouer à deux, veuillez aller dans le menu multijoueur, créer vos armées respectives et cliquer sur "Combattre".
+
+A quoi sert "Enregistrer une armée" ? 
+Le bouton "Enregistrer une armée" permet de sauvegarder une armée qui va pouvoir être utilisée plus tard. 
+Vous pouvez sélectionner une armée préalablement enregistré dans "Récupérer une Armée".
+nb: ne fonctionne pas pour le multijoueur.
+
+A quoi le bouton "reset" ?
+Le bouton reset permet de réinitialiser les armées de tous les joueurs ainsi que la limite de points.
+
+Comment fonctionne l'optimisateur ?
+L'optimisateur génère un premier set d'armées et les fait combattre entre elles. L'armée qui a gagné le premier tournoi 
+accède au stade suivant. Un nouveau set d'armée est générer pour à nouveau avoir une armée qui accède au stade suivant
+(le niveau national). Le tournoi national se remplit donc petit à petit d'armées. Une fois le nombre requis le tournoi 
+du niveau national commence. L'armée gagnante accède au niveau international. Le processus est repris depuis le début. 
+Au final l'armée qui a gagné le tournoi au niveau mondial est renvoyé et utilisé par l'IA pour combattre contre l'utilisateur. 
+
+Comment connaître les caractéristiques des différentes unités ?
+Dans la page d'accueil, veuillez cliquer sur "Afficher caractéristiques".

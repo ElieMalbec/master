@@ -1,0 +1,249 @@
+\documentclass{beamer} % Création d'un document beamer
+\usepackage[utf8]{inputenc} %utf = l'option de inputenc/le type d'encodage (Ecriture fr), inputenc permet de mettre les caractères spéciaux (par ex les accents)
+\usepackage[T1]{fontenc} % fontenc permet de prendre correctement ces caractères spéciaux dans le fichier de sortie, T1 est le type d'encodage
+\usetheme{Ilmenau} % Dîtes moi le thème que vous voulez : (http://mcclinews.free.fr/latex/beamergalerie/completsgalerie.html)
+\setbeamercolor{normal text}{fg=cyan} % Couleur du texte basique
+\setbeamercolor{frametitle}{fg=cyan} % Couleur des titres des frames
+\graphicspath{{Images/}} % Le chemin pour les images, cela nous évite de devoir écrire Images/nom image en écrivant seulement image
+%\usefontheme{structureitalicserif} %Choix de la police A CHOISIR
+
+
+%\includegraphics[Height= cm, width= cm, scale= cm]{fichier source} Pour les include graphics
+\title{Optimisateur de WarGame}
+\author{Emmanuel Garreau 21700336 \and Alex Lefevre 21809848 \and Elie Malbec 21805304}
+\institute{Université de Caen Normandie}
+\date{\includegraphics[scale= 0.1]{LogoUNICAENv.png}} %Belle image ici
+
+\begin{document}
+
+\begin{frame}
+	\includegraphics[scale= 0.2]{LogoUNICAENv.png}
+	\titlepage 
+\end{frame}
+
+%\begin{frame}
+%\insertpagenumber %Pour avoir un numéro de page
+%	\tableofcontents 
+%\end{frame}
+
+%J'ai mis à votre disposition une cheatsheet sur Beamer si vous souhaitez modifier le document
+
+%Les parties :
+%Choix du sujet
+%Arborescence des dossiers et fichiers / des classes /choix du
+%Le travail d'équipe / Organisation pour le projet / choix du programme que l'on a voulu (les décisions que l'on a prise avant de coder(du style : comment on choisit aléatoire, le moteur de combat comment on le fait, plateau ou pas, etc)
+%Choisir une armée de manière aléatoire
+%Le moteur de combat / détails techniques
+%L'algorithme génétique /créations (buts, etc), mise en place, modifications / détails techniques
+%La démonstration
+%Ce que l'on aurait voulu mettre en place, ce que l'on a raté, ce que l'on a réussi, ce que l'on a aimé 
+%Conclusion ou pas
+
+
+\section{Partie 1 - Introduction, Choix du sujet et arborescence du programme}
+	\subsection{Partie 1.2 - Introduction et Choix du sujet}
+\begin{frame}
+\begin{block}{Qu'est-ce qu'un wargame ?}
+Le wargame est un jeu de plateau se jouant avec des figurines. Il faut détruire l'armée adverse.
+\end{block}
+\begin{alertblock}{Pourquoi avoir choisi ce sujet ?}
+	\begin{itemize}
+		\item Thème intéressant
+		\item Possibilité d'écrire un algorithme génétique
+	\end{itemize}
+\end{alertblock}
+\begin{exampleblock}{Constitution de l'équipe ?}
+Par affinité, vers la fin décembre.
+\end{exampleblock}
+\end{frame}
+
+	\subsection{Partie 1.2 - L'arborescence du programme}
+\begin{frame}
+Ajouter figure du dossier !
+\begin{figure}[ht!]
+ \centering
+ %\includegraphics[width=0.7\linewidth]{picture.jpg}
+\end{figure}
+\end{frame}
+
+\section{Partie 2 - L'organisation du projet}
+	\subsection{Partie 2.1 - La phase de planification}
+\begin{frame}
+
+
+\begin{block}{}
+\end{block}
+
+\begin{alertblock}{Pourquoi avoir choisi ce sujet ?}
+	\begin{itemize}
+		\item Thème intéressant
+		\item Possibilité d'écrire un algorithme génétique
+	\end{itemize}
+\end{alertblock}
+
+\begin{exampleblock}{Les choix stratégiques du début}
+	\begin{itemize}
+		\item Interface
+		\item 
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+	\subsection{Partie 2.2 - La phase de conception}
+\begin{frame}
+\begin{block}{La répartition des rôles}
+	\begin{itemize}
+		\item Alex et Elie
+		\item Emmanuel
+	\end{itemize}
+\end{block}
+\end{frame}
+
+	\subsection{Partie 2.3 - La phase de finalisation}
+\begin{frame}
+\begin{alertblock}{Ecriture de l'interface}
+	\begin{itemize}
+		\item Alex et Elie 
+		\item Aide barre de chargement
+	\end{itemize}
+\end{alertblock}
+
+\begin{exampleblock}{Ecriture du rapport latex et présentation beamer}
+En équipe
+\end{exampleblock}
+\end{frame}
+
+\section{Partie 3 - Démonstration graphique du projet}
+	\subsection{Partie 3.1 - La page d'Accueil}
+
+\begin{frame}
+\begin{block}{Les caractéristiques de la page d'accueil}
+	\begin{itemize}
+		\item Menu Solo, Menu Multijoueur, Menu Optimisateur
+		\item Enregistrer une armée
+		\item FAQ et Règles
+		\item Quitter
+	\end{itemize}
+\end{block}
+\end{frame}
+
+	\subsection{Partie 3.1 - Le menu Solo}
+\begin{frame}
+\begin{alertblock}{Présentation du menu Solo}
+	\begin{itemize}
+		\item -Les différents boutons
+-1 bouton pour afficher son armée
+-1 bouton récupérer une armée
+		\item -2 boutons pour combattre (etc)(à voir)
+	\end{itemize}
+\end{alertblock}
+%image du code dans la partie solo?
+%exceptions prises en compte
+\end{frame}
+
+
+	\subsection{Partie 3.1 - Le menu Multijoueur}
+\begin{frame}
+\begin{exampleblock}{Présentation du menu Multijoueur}
+	\begin{itemize}
+		\item -Les différents boutons
+		\item -2 boutons pour afficher ses armées (etc)(à voir)
+	\end{itemize}
+\end{exampleblock}
+%image du code ?
+\end{frame}
+
+	\subsection{Partie 3.1 - Le menu Optimisateur}
+
+\begin{frame}
+\begin{block}{Présentation de la partie Optimisateur}
+	\begin{itemize}
+		\item les différents LabelFrames (leur implication, les décrire)
+		\item Autre
+		\item 
+		\item 
+	\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Partie 4 - Quelques algorithmes marquant}
+	\subsection{Partie 4.1 - Retirer des unités}
+
+\begin{frame}
+\begin{alertblock}{Pourquoi cet algorithme est marquant ?}
+La condition qui était difficile à mettre en place
+\end{alertblock}
+%afficher l'image
+\end{frame}
+
+	\subsection{Partie 4.2 - Le moteur de combat}
+
+\begin{frame}
+\begin{exampleblock}{Pourquoi cet algorithme est marquant ?}
+-Première fois que l'on peut voir des armées combattre
+-Le reste d'attaque pour finir un combat
+\end{exampleblock}
+%image?
+\end{frame}
+
+	\subsection{Partie 4.3 - La barre de chargement / Le changement de TopLevel}
+
+\begin{frame}
+
+\begin{figure}[ht!]
+ \centering
+ %\includegraphics[width=0.7\linewidth]{picture.jpg}
+\end{figure}
+\end{frame}
+
+	\subsection{Partie 4.4 - Dans l'optimisateur}
+
+\begin{frame}
+\frametitle{Go head punk, make my day}
+\begin{figure}[ht!]
+ \centering
+ %\includegraphics[width=0.7\linewidth]{picture.jpg}
+\end{figure}
+\end{frame}
+
+\section{Partie 5 - Conclusion}
+	\subsection{Partie 5.1 - Fonctionnalités abandonnées}
+
+\begin{frame}
+\begin{block}{Qu'est-ce qu'une fonctionnalité abandonnée ?}
+Une fonctionnalité abandonnée est une fonctionnalité qui avait été implémentée mais qui a perdu son importance au fil du temps jusqu'à en être inutile.
+\end{block}
+\begin{alertblock}{Liste des fonctionnalités abandonnées}
+	\begin{itemize}
+		\item aléatoire simple
+		\item Autre (etc)(à voir)
+	\end{itemize}
+\end{alertblock}
+\end{frame}
+
+	\subsection{Partie 5.2 - Fonctionnalités non implémentées}
+
+\begin{frame}
+\begin{exampleblock}{Liste des fonctionnalités non implémentées}
+A rajouter
+\end{exampleblock}
+
+\end{frame}
+
+	\subsection{Partie 5.3 - Améliorations}
+
+\begin{frame}
+\begin{block}{Liste possible d'améliorations}
+ajout unité (A voir)
+\end{block}
+
+%\frametitle{Go head punk, make my day}
+%
+%\begin{figure}[ht!]
+ %\centering
+ %\includegraphics[width=0.7\linewidth]{picture.jpg}
+%\end{figure}
+%
+\end{frame}
+
+\end{document}

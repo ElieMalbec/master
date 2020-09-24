@@ -1,0 +1,106 @@
+:root {
+	background-color: White;
+}
+p:only-child {
+	background-color: Red;
+}
+
+:not(p) {
+	background-color: Azure;
+}
+
+/***********/
+h1,h2 {
+	color: Pink;
+}
+
+.titre {
+
+	font-family: sans-serif;
+	font-style:oblique; 
+	
+}
+
+
+.pretty {
+	font-family: Arial
+}
+
+
+::selection {
+	color: Yellow;
+	/*text-decoration: underline;*/
+}
+
+h1>p {
+	color: Red;
+}
+
+[title] {
+	color White;
+	text-decoration: none;
+}
+
+[title="HI!"] {
+	color: Pink;
+	text-decoration: line-through;
+}
+h2 + p {
+	text-decoration: overline;
+	color: Blue;
+}
+
+footer:hover {
+	text-align: right;
+}
+.ugly:hover {
+	color: Black;
+	text-shadow: 1px 0, 0 0, 1px 0, 5px 0 black;
+	display: grid;
+	grid-template-columns: 25% 50% 25%;
+	text-align: center;
+}
+.floatleft {
+	float: left;
+}
+.floatright {
+	float: right;
+
+}
+.stop {
+	clear: right;
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+}
+.projects_a {
+	background-color: #f2581e;
+	text-decoration: none;
+}
+p.projects_p {
+	background-color: #f2581e;
+}
+.projects a p{
+	color: white;
+}

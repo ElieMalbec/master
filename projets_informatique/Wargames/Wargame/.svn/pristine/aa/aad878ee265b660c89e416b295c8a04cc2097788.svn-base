@@ -1,0 +1,188 @@
+# -*- coding: utf-8 -*-
+
+from tkinter import *
+import shelve
+import json
+
+troupes = { "Arbalétrier": 0,
+            "Archer": 0,
+            "ArcherCavalier": 0,
+            "Arquebusier": 0,
+            "Cataphracte": 0,
+            "Catapulte":0 ,
+            "Cavalier":0 ,
+            "Chariot": 0,
+            "ChevalierAPied": 0,
+            "ChienDeGuerre": 0,
+            "ElephantDeCombat": 0,
+            "Epeiste": 0,
+            "Frondeur":0 ,
+            "Généraux": 0,
+            "Hacheur": 0,
+            "Hallebardier": 0,
+            "Javelinier": 0,
+            "Lancier": 0,
+            "Paysan": 0,
+            "Piquier": 0}
+
+class MonScale(Scale):
+
+    def __init__(self, fen, nom):
+        self.fen=fen
+        self.var = IntVar()
+        Scale.__init__(self, fen, command= lambda x=0 :self.nouvellevaleur(nom), variable=self.var, from_=0, to=200, orient='horizontal', resolution=1, length=200, label=nom)
+    
+    def nouvellevaleur(self, nom):
+        troupes[nom] = self.var
+        self.changementNombrePoints()
+
+    def changementNombrePoints(self):
+        self.fen.labelSortie.set(u"Nombre de points")
+
+class MonScaleValue(Scale):
+
+    def __init__(self, fen, nom, var):
+        self.fen=fen
+        self.var = IntVar()
+        self.var.set(var)
+        Scale.__init__(self, fen, command= lambda x=0 :self.nouvellevaleur(nom), variable=self.var, from_=0, to=200, orient='horizontal', resolution=1, length=200, label=nom, state='disabled')
+    
+    def nouvellevaleur(self, nom):
+        troupes[nom] = self.var
+        self.changementNombrePoints()
+
+    def changementNombrePoints(self):
+        self.fen.labelSortie.set(u"Nombre de points")
+
+class EnregistrerArmee(Toplevel):
+
+    def __init__(self, fen):
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.fen = fen
+
+        for i, elem in enumerate(troupes):
+            if(i<5):
+                MonScale(self, elem).grid(column = 0, row=i, sticky='EW')
+            elif(5<i<=10):
+                MonScale(self, elem).grid(column = 1, row=i-6, sticky='EW')
+            elif(10<i<=15):
+                MonScale(self, elem).grid(column = 2, row=i-11, sticky='EW')
+            elif(15<i<=20):
+                MonScale(self, elem).grid(column = 3, row=i-16, sticky='EW')
+
+        self.labelSortie = StringVar()
+        self.entreeUtilisateur = StringVar()
+
+        self.sortie = Label(self, textvariable = self.labelSortie, pady=10, relief='groove')
+        self.sortie.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.labelSortie.set(u"Coût de l'armée")
+
+        self.entree = Entry(self, textvariable =self.entreeUtilisateur)
+        self.entree.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.entree.bind("<Return>", self.OnPressEnter) # Ajout de l'évènement de la touche entrée
+        self.entreeUtilisateur.set(u"Nom Armée, Entrée pour valider")
+
+        Button(self, text="Valider mon armée", width=20, command=self.validate).grid(column=1, columnspan=2, pady=5)
+        Button(self, text='Quitter', width=20, command=self.quitterTopLevel).grid(column=1, columnspan=2)
+
+    def validate(self):
+        print("Mon armée : ")
+        for cle in troupes:
+            if(type(troupes[cle]) != type(int())):
+                troupes[cle] = troupes[cle].get()
+
+        for cle in troupes:
+            if(type(troupes[cle]) != type(int())):
+                print(cle, troupes[cle])
+            else:
+                print(cle, troupes[cle])
+
+        # Sérialisation dans un fichier json des armées enregistrées, le fichier porte le nom de l'armée
+        if self.entreeUtilisateur.get() == "Nom Armée, Entrée pour valider":
+            self.entreeUtilisateur.set("default")
+        with open(self.entreeUtilisateur.get()+'.json', 'w', encoding='utf-8') as f:
+            json.dump(troupes, f, indent=4)
+        self.quitterTopLevel()
+
+    def quitterTopLevel(self):
+        self.destroy()
+
+    def OnPressEnter(self, event):
+        saisie = self.entreeUtilisateur.get()
+        self.entreeUtilisateur.set(saisie)
+
+class RecupererArmee(Toplevel):
+
+    def __init__(self, fen):
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.fen = fen
+
+        self.entreeUtilisateur = StringVar()
+
+        self.entree = Entry(self, textvariable =self.entreeUtilisateur)
+        self.entree.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.entree.bind("<Return>", self.OnPressEnter)
+        self.entreeUtilisateur.set(u"Nom de l'armée à chercher")
+        self.entree.focus_set()
+        self.entree.selection_range(0, END)
+
+        Button(self, text='Valider', width=20, command=self.afficherCurseurs).grid(column=1, columnspan=2)
+        Button(self, text='Quitter', width=20, command=self.quitterTopLevel).grid(column=1, columnspan=2)
+
+    def quitterTopLevel(self):
+        self.destroy()
+
+    def OnPressEnter(self, event):
+        saisie = self.entreeUtilisateur.get()
+        self.entreeUtilisateur.set(saisie)
+        self.afficherCurseurs()
+
+    def afficherCurseurs(self):
+        self.grid()
+        with open(self.entreeUtilisateur.get()+'.json') as json_data:
+            troupes = json.load(json_data)
+        for i, elem in enumerate(troupes):
+            if(i<5):
+                MonScaleValue(self, elem, troupes[elem]).grid(column = 0, row=i, sticky='EW')
+            elif(5<i<=10):
+                MonScaleValue(self, elem, troupes[elem]).grid(column = 1, row=i-6, sticky='EW')
+            elif(10<i<=15):
+                MonScaleValue(self, elem, troupes[elem]).grid(column = 2, row=i-11, sticky='EW')
+            elif(15<i<=20):
+                MonScaleValue(self, elem, troupes[elem]).grid(column = 3, row=i-16, sticky='EW')
+
+        self.labelSortie = StringVar()
+
+        self.sortie = Label(self, textvariable = self.labelSortie, pady=10, relief='groove')
+        self.sortie.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.labelSortie.set(u"Coût de l'armée")
+
+        Button(self, text="Valider mon choix", width=20, command=self.validate).grid(column=1, columnspan=2, pady=5)
+        Button(self, text='Quitter sans enregistrer', width=20, command=self.quitterTopLevel).grid(column=1, columnspan=2)
+
+    def validate(self):
+        self.destroy()
+
+class MaFen(Tk):
+    def __init__(self):
+        Tk.__init__(self)
+
+        Button(self, text="Enregistrer Mon Armée", command=self.enregistrer).pack()
+        Button(self, text="Récupérer une Armée", command=self.recuperer).pack()
+        Button(self, text="Quitter", command=self.quitter).pack()
+
+    def enregistrer(self):
+        self.top = EnregistrerArmee(self)
+
+    def recuperer(self):
+        self.top = RecupererArmee(self)
+
+    def quitter(self):
+        self.quit()
+        self.destroy()
+
+if __name__ == "__main__":
+    app = MaFen()
+    app.mainloop()

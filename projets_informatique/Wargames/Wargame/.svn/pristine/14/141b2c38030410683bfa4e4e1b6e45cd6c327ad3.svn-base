@@ -1,0 +1,37 @@
+\documentclass[a4paper,12pt]{article} %style de document
+\usepackage[utf8]{inputenc} %encodage des caractères
+\usepackage[french]{babel} %paquet de langue français
+\usepackage[T1]{fontenc} %encodage de la police
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry} %marges
+\usepackage{graphicx} %'affichage des images
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\definecolor{astral}{RGB}{46,116,181} 
+\sectionfont{\color{red}}
+\subsectionfont{\color{astral}}
+\subsubsectionfont{\color{green}}
+
+\begin{document} %début du document
+
+\title{\includegraphics[scale= 0.5]{}Optimisateur de Wargame}
+\author{Autre}
+\date{Elie Malbec 21805304 - nom + prénom - nom + prénom - étudiant en L1 Informatique - 2018-2019  -  Conception de logiciels}
+\maketitle{\includegraphics[scale= 0.5]{}}
+\vspace{25\baselineskip}
+
+
+\section{Introduction}
+	\subsection{Table des matières}
+		\tableofcontents
+\vspace{12\baselineskip} %voir précisément le nombre de lignes à sauter
+
+\bigbreak
+\smallbreak
+\begin{itemize}
+        \item 
+        \item 
+\end{itemize}
+\end{document} %fin du document

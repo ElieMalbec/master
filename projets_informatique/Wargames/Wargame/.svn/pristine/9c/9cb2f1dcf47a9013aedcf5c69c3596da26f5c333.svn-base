@@ -1,0 +1,396 @@
+# -*- coding: utf-8 -*
+import tkinter as tk  # python 3
+from tkinter import font  as tkfont  # python 3
+from PIL import Image, ImageTk
+import creationArmee as Ca
+import moteurCombat as Mc
+import Optimisateur as O
+import Armee
+
+global img
+
+
+# Ce qu'il reste à faire :
+# -Expliquer le code
+# -définir les pages
+# -définir ensuite les bouttons
+# -créer les bouttons et tout
+# -Choisir les images de fond
+class SampleApp(tk.Tk):  # tk.TK la fenetre en gros
+
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+        self.title("Conception de logiciels")  # Permet de définir le titre
+        self.title_font = tkfont.Font(family='Helvetica', size=9,
+                                      weight="bold")
+        # Permet de définir le style (ici dans tout le document) //slant="italic"
+        # self.geometry("700x500") # Permet de définir la taille de la fenêtre
+
+        # the container is where we'll stack a bunch of frames
+        # on top of each other, then the one we want visible
+        # will be raised above the other 
+
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)  #
+        container.grid_rowconfigure(0, weight=1)  #
+        container.grid_columnconfigure(0, weight=1)  #
+        self.frames = {}  #
+
+        for F in (StartPage, Un_Joueur, Multijoueur, AlgorithmeGenetique, Options,
+                  AlgorithmeGenetique_niveaux, WinningPage, LosingPage, Victory1, Victory2):
+            # Les pages sont empilées les unes sur les autres
+            page_name = F.__name__  # Donne le nom de la page
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+            # put all of the pages in the same location;
+            # the one on the top of the stacking order
+            # will be the one that is visible.
+
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("StartPage")  # Montre la première page au départ
+
+    def show_frame(self, page_name):  # Fonction qui permet d'afficher la fenêtre en question
+        # Show a frame for the given page name
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+
+class StartPage(tk.Frame):  # Page d'accueil
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        monimage = Image.open("Images/scroll.gif")
+        img2 = ImageTk.PhotoImage(file="Images/swordd.gif")
+
+        img = ImageTk.PhotoImage(Image.open("Images/battle_of_agincourt.gif"))  # Utilisation de PIL
+        self.img = img
+        a = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        a.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # self.canvas.image = self.img
+        # self.canvas.create_window(200,200,height=50, window=tk.Frame(width=270,height=300,bg="red"))
+        # 
+        # frame = tk.Frame(self, borderwidth=10, background="red")
+        # frame.pack() 
+
+        # button in create_window tkinter
+
+        # http://effbot.org/tkinterbook/button.htm  Doc pour les bouttons
+        label = tk.Label(self, text="Accueil", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=1)
+
+        button1 = tk.Button(self, text="Un joueur", command=lambda: controller.show_frame("Un_Joueur"), anchor='center',
+                            image=img2, compound='left')
+        button1.configure(width=100, activebackground="#33B5E5")
+        button1_window = a.create_window(60, 0, anchor='nw', window=button1)
+        button1.image = img2
+
+        button2 = tk.Button(self, text="Multijoueur", command=lambda: controller.show_frame("Multijoueur"))
+        button2.configure(width=16, activebackground="#e93607")
+        button2_window = a.create_window(240, 0, anchor='nw', window=button2)
+
+        # stuf= ImageTk.PhotoImage(Image.open("battle_of_agincourt.gif")) // https://www.tutorialspoint.com/python/tk_cursors.htm
+        button3 = tk.Button(self, text="Algorithme génétique",
+                            command=lambda: controller.show_frame("AlgorithmeGenetique"), cursor="fleur"
+                            )  # bitmap='gladius.gif' // image =stuf, compound='center' // font="Helvetica"
+        # autre = a.create_window(800,700, anchor='center', window=button3)
+        button3.configure(anchor='center', width=16, activebackground="#92e911")
+        button3_window = a.create_window(135, 50, anchor='nw', window=button3)
+
+        button5 = tk.Button(self, text="Options", command=lambda: controller.show_frame("Options"))
+        button5.configure(width=16, activebackground="#e93607")
+        button5_window = a.create_window(135, 300, anchor='s', window=button5)
+
+        button4 = tk.Button(self, text="Quitter", command=controller.quit)
+        # button1_window = canvas1.create_window(10, 10, window=button1)
+        button4.configure(width=16, activebackground="#9630c6")
+        button4_window = a.create_window(135, 400, anchor='nw', window=button4)
+
+        a.pack()
+
+
+class Un_Joueur(tk.Frame):  # Page quand on joue à un joueur
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Un joueur", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        # Pour l'image en background
+        img = ImageTk.PhotoImage(Image.open("Images/unjoueur.gif"))  # Utilisation de PIL
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        canvas.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # Création des boutons (facto le code ?)
+        button1 = tk.Button(self, text="Combattre contre aléatoire", command=self.lancerCombatUnJoueur, anchor='center')
+        button1.configure(width=23, activebackground="#33B5E5")
+        button1_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button4 = tk.Button(self, text="Combattre contre optimisateur", command=self.lancerCombatUnJoueur, anchor='center')
+        button4.configure(width=23, activebackground="#33B5E5")
+        button4_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button2 = tk.Button(self, text="Enregistrer une armée", command=controller.quit)
+        button2.configure(width=16, activebackground="#e93607")
+        button2_window = canvas.create_window(60, 100, anchor='nw', window=button2)
+
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+
+        # création canvas
+        canvas.pack()
+
+    def lancerCombatUnJoueur(self):
+        res = combat_solo()
+        if res == 1 :
+            self.controller.show_frame("WinningPage")
+        elif res == 2:
+            self.controller.show_frame("LosingPage")
+        else:
+            self.controller.show_frame("StartPage")
+
+
+class Multijoueur(tk.Frame):  # Page pour la multijoueur, si on en fait un
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Multijoueur", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        # Pour l'image en background
+        img = ImageTk.PhotoImage(Image.open("Images/unjoueur.gif"))  # Utilisation de PIL
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        canvas.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # Création des boutons (facto le code ?)
+        button1 = tk.Button(self, text="1 contre 1", command=self.lancerCombatMultijoueur, anchor='center')
+        button1.configure(width=16, activebackground="#33B5E5")
+        button1_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+
+        # création canvas
+        canvas.pack()
+
+    def lancerCombatMultijoueur(self):
+        res = combat_deux_deux()
+        if res == 1 :
+            self.controller.show_frame("Victory1")
+        elif res == 2:
+            self.controller.show_frame("Victory2")
+        else:
+            self.controller.show_frame("StartPage")
+
+
+class AlgorithmeGenetique(tk.Frame):  # Page de l'agorithme génétique
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Algorithme Génétique", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        # Pour l'image en background
+        img = ImageTk.PhotoImage(Image.open("Images/unjoueur.gif"))  # Utilisation de PIL
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        canvas.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # Création des boutons (facto le code ?)
+        button1 = tk.Button(self, text="Choisir une armée et lancer l'agorithme génétique",
+                            command=lambda: controller.show_frame("AlgorithmeGenetique_niveaux"), anchor='center')
+        button1.configure(width=45, activebackground="#33B5E5")
+        button1_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+
+        # création canvas
+        canvas.pack()
+
+class Options(tk.Frame):  # Page quand on joue à un joueur
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Options", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        # Pour l'image en background
+        img = ImageTk.PhotoImage(Image.open("Images/unjoueur.gif"))  # Utilisation de PIL
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        canvas.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # Création des boutons (facto le code ?)
+        button1 = tk.Button(self, text="Ajouter une unité", command=controller.quit, anchor='center')
+        button1.configure(width=16, activebackground="#33B5E5")
+        button1_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button2 = tk.Button(self, text="Thème graphique", command=controller.quit)
+        button2.configure(width=16, activebackground="#e93607")
+        button2_window = canvas.create_window(60, 100, anchor='nw', window=button2)
+
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+
+        # création canvas
+        canvas.pack()
+
+
+class AlgorithmeGenetique_niveaux(tk.Frame):  # Page de l'agorithme génétique
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Algorithme Génétique", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        # Pour l'image en background
+        img = ImageTk.PhotoImage(Image.open("Images/battle_of_agincourt.gif"))  # Utilisation de PIL
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)  # la variable a devient un canvas
+        # self.canvas = tk.Canvas(self, height=438,width=650)
+        canvas.create_image(0, 0, anchor='nw', image=img)  # Permet de créer l'image
+
+        # Création des boutons (facto le code ?)
+        button1 = tk.Button(self, text="Niveau 1", command=self.lancerOptimisateur, anchor='center')
+        button1.configure(width=16, activebackground="#33B5E5")
+        button1_window = canvas.create_window(60, 0, anchor='nw', window=button1)
+
+        button2 = tk.Button(self, text="Niveau 2", command=self.lancerOptimisateur, anchor='center')
+        button2.configure(width=16, activebackground="#33B5E5")
+        button2_window = canvas.create_window(60, 100, anchor='nw', window=button2)
+
+        button3 = tk.Button(self, text="Niveau 3", command=self.lancerOptimisateur, anchor='center')
+        button3.configure(width=16, activebackground="#33B5E5")
+        button3_window = canvas.create_window(60, 200, anchor='nw', window=button3)
+
+        button4 = tk.Button(self, text="Aller au choix de l'armée",
+                            command=lambda: controller.show_frame("AlgorithmeGenetique"))
+        button4.configure(width=16, activebackground="#e93607")
+        button4_window = canvas.create_window(135, 400, anchor='s', window=button4)
+
+        # création canvas
+        canvas.pack()
+
+    def lancerOptimisateur(self):
+        alg = O.algorithme_genetique()
+        Armee.afficher_armee(alg)
+        self.controller.show_frame("StartPage")
+
+class WinningPage(tk.Frame):  # Page pour la multijoueur, si on en fait un
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Vous avez gagné !!", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        img = ImageTk.PhotoImage(Image.open("Images/win.gif"))
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)
+        canvas.create_image(0, 0, anchor='nw', image=img)
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+        canvas.pack()
+
+class LosingPage(tk.Frame):  # Page pour la multijoueur, si on en fait un
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Désolé mais vous avez perdu contre l'Ordi !!", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        img = ImageTk.PhotoImage(Image.open("Images/lose.gif"))
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)
+        canvas.create_image(0, 0, anchor='nw', image=img)
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+        canvas.pack()
+
+
+class Victory1(tk.Frame):  # Page pour la multijoueur, si on en fait un
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Bravo Joueur 1 vous avez gagné le combat !!", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        img = ImageTk.PhotoImage(Image.open("Images/victory1.gif"))
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)
+        canvas.create_image(0, 0, anchor='nw', image=img)
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+        canvas.pack()
+
+
+class Victory2(tk.Frame):  # Page pour la multijoueur, si on en fait un
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Bravo Joueur 2 vous avez gagné le combat !!", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        img = ImageTk.PhotoImage(Image.open("Images/victory2.gif"))
+        self.img = img
+        canvas = tk.Canvas(self, height=650, width=438)
+        canvas.create_image(0, 0, anchor='nw', image=img)
+        button3 = tk.Button(self, text="Aller au menu de départ", command=lambda: controller.show_frame("StartPage"))
+        button3.configure(width=16, activebackground="#e93607")
+        button3_window = canvas.create_window(135, 400, anchor='s', window=button3)
+        canvas.pack()
+
+def combat_solo():
+    armeeUtilisateur = Ca.creation_armee_utilisateur()
+    armeeOrdi = Ca.creation_armee_alea_troupe_par_troupe(armeeUtilisateur.points)
+    armee_gagnante = Mc.moteur_de_combat(armeeUtilisateur, armeeOrdi)
+    if armee_gagnante == 1:
+        print('Armée utilisateur à gagné')
+        armeeUtilisateur.afficher_armee_simple()
+        return 1
+    elif armee_gagnante == 2:
+        print('Armée Ordi à gagné')
+        armeeOrdi.afficher_armee_simple()
+        return 2
+    else:
+        print("Error EGraphique")
+        return -1
+
+
+def combat_deux_deux():
+    armeeUtilisateur1 = Ca.creation_armee_utilisateur()
+    armeeUtilisateur2 = Ca.creation_armee_nb_troupes(armeeUtilisateur1.points)
+    armee_gagnante = Mc.moteur_de_combat(armeeUtilisateur1, armeeUtilisateur2)
+    if (armee_gagnante == 1):
+        print('Armée joueur1 à gagné')
+        return 1
+        armeeUtilisateur1.afficher_armee_simple()
+    elif (armee_gagnante == 2):
+        print('Armée joueur2 à gagné')
+        armeeUtilisateur2.afficher_armee_simple()
+        return 2
+    else:
+        print("Error EGraphique")
+        return -1

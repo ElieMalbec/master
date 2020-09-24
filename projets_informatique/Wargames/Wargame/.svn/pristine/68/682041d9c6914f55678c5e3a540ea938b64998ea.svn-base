@@ -1,0 +1,28 @@
+class Combattants(object):
+
+    """ Classe Combattants : permet la création d'un objet combattant avec des attributs génériques.
+    
+    Ils seront ensuite modifiés par les classes héritants de la classe Combattant"""
+
+    def __init__(self, nom, pv, pa, df, vit, cout):
+
+        """Constructeur de classe Combattants avec les attributs génériques communs à toutes les troupes.
+        
+        Les attributs sont le nom, les points de vie, les points d'attaque, les points de 
+        défense, la vitesse et le coût."""
+
+        self.nom = nom
+        self.pv = pv
+        self.pa = pa
+        self.df = df
+        self.vit = vit
+        self.cout = cout
+
+    def __str__(self):
+
+        """Affichage lors du print(objet) des caractéristiques de la troupe
+        Affiche successivement toutes les informations nécessaires pour la 
+        caractériser sous forme de chaine de caractères"""
+
+        return "Un {0} : pv : {1}, pa : {2}, df : {3}, vit : {4}, cout : {5}. \n".format(self.nom, self.pv, self.pa,
+                                                                                     self.df, self.vit, self.cout)

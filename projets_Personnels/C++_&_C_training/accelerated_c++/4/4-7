@@ -1,0 +1,3 @@
+register grades in a vect
+traverse the vector and add all grades
+divise by the size of the vector to get the average

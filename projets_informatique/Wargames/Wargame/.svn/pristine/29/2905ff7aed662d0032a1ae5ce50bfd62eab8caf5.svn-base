@@ -1,0 +1,16 @@
+But du jeu  :
+Le wargame est un jeu de plateau qui se joue avec différentes figurines. Le but est de détruire l'armée adverse. 
+La partie prend fin quand une armée ne dispose plus de combattants.
+
+Choix de l'armée :
+Premièrement, vous devez sélectionner votre armée. Vous avez à votre disposition vingt différentes unités 
+(paysans, lanciers, archers, éléphants de guerre, etc). Chacune d'elles disposent d'une caractéristique 
+de point de vie, d'attaque, de défense, de vitesse ainsi que son coût. A vous de choisir la meilleure 
+combinaison pour gagner la partie. 
+Il est possible de jouer contre l'IA ou avec un ami.
+
+Combat :
+La phase de combat se déroule au tour par tour. Une fois les armées choisi, celle qui est la plus rapide au tour 1 
+dispose d'un bonus d'attaque de 2.5%. Les totaux des deux armées sont calculés. Au fur et à mesure des tours, des 
+unités sont retirés du combat. Pour qu'une unité soit morte il faut que l'attaque de l'armée adverse soit supérieure 
+à la défense et aux points de vie de l'unité en question.

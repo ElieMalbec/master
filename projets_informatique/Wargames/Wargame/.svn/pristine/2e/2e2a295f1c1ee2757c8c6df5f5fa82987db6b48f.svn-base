@@ -1,0 +1,80 @@
+\documentclass{beamer} % Création d'un document beamer
+\usepackage[utf8]{inputenc} %utf = l'option de inputenc/le type d'encodage (Ecriture fr), inputenc permet de mettre les caractères spéciaux (par ex les accents)
+\usepackage[T1]{fontenc} % fontenc permet de prendre correctement ces caractères spéciaux dans le fichier de sortie, T1 est le type d'encodage
+\usetheme{Ilmenau} % Dîtes moi el thème que vous voulez : (http://mcclinews.free.fr/latex/beamergalerie/completsgalerie.html)
+\setbeamercolor{normal text}{fg=cyan} % Couleur du texte basique
+\setbeamercolor{frametitle}{fg=cyan} % Couleur des titres des frames
+\graphicspath{{Images/}} % Le chemin pour les images, cela nous évite de devoir écrire Image/nom image en écrivant seulement image
+%\usefontheme{} Choix de la police A CHOISIR
+
+
+%\includegraphics[Height= cm, width= cm, scale= cm]{fichier source} Pour les include graphics
+\title{Optimisateur de WarGame}
+\author{Emmanuel Garreau 2170000 \and Alex Lefevre 2180000 \and Elie Malbec 21805304}
+\institute{Université de Caen Normandie}
+\date{\includegraphics[scale= 0.1]{LogoUNICAENv.png}} %Belle image ici
+
+\begin{document}
+
+\begin{frame}
+	\includegraphics[scale= 0.2]{LogoUNICAENv.png}
+	\titlepage 
+\end{frame}
+
+\begin{frame}
+%\insertpagenumber Avoir un numéro de page
+	\tableofcontents 
+\end{frame}
+
+%J'ai mis à votre disposition une cheatsheet sur Beamer si vous souhaitez modifier le document
+
+%Les parties :
+%Choix du sujet
+%Arborescence des dossiers et fichiers / des classes /choix du
+%Le travail d'équipe / Organisation pour le projet / choix du programme que l'on a voulu (les décisions que l'on a prise avant de coder(du style : comment on choisit aléatoire, le moteur de combat comment on le fait, plateau ou pas, etc)
+%Choisir une armée de manière aléatoire
+%Le moteur de combat / détails techniques
+%L'algorithme génétique /créations (buts, etc), mise en place, modifications / détails techniques
+%La démonstration
+%Ce que l'on aurait voulu mettre en place, ce que l'on a raté, ce que l'on a réussi, ce que l'on a aimé 
+%Conclusion ou pas
+
+
+\section{Partie 1 - test}
+
+\begin{frame}
+%
+test
+\begin{block}{Un block}
+Toto
+\end{block}
+%
+\begin{alertblock}{Un alertblock}
+	\begin{itemize}
+		\item Item 1
+		\item Item 2
+		\item Item 3
+	\end{itemize}
+\end{alertblock}
+%
+\begin{exampleblock}{Un exampleblock}
+Toto
+\end{exampleblock}
+%
+\end{frame}
+
+\section{Partie 2 - }
+
+\subsection{Partie 2.1}
+
+\begin{frame}
+\frametitle{Go head punk, make my day}
+%
+\begin{figure}[ht!]
+ \centering
+ %\includegraphics[width=0.7\linewidth]{picture.jpg}
+\end{figure}
+%
+\end{frame}
+
+\end{document}

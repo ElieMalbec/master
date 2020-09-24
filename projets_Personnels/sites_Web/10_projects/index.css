@@ -1,0 +1,156 @@
+body {
+	background-color: white;
+	color: rgb(34, 34, 34);
+	font-family: arial , sans-serif;
+	padding: 2%;
+}
+
+header {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content: flex-end;
+	align-items: center;
+}
+header p {
+	margin :1%;
+}
+
+a {
+	text-decoration: none;
+}
+main {
+	display: flex;
+	flex-flow : column nowrap;
+	justify-content : center;
+	align-items: center;
+	/*margin: 7% 0 7% 0;*/
+}
+/*
+p{
+	margin: 1%;
+}
+*/
+footer {
+	background-color: #f2f2f2;;
+	color:rgba(0,0,0,.54);
+	border-top: 1px solid rgb(228, 228, 228);
+	display: flex;
+	flex-flow : column nowrap;
+	position: fixed;
+	top 0;
+	left: 0;
+	right: 0;
+	margin-top: 150px;
+}
+footer p {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+/***HEADER***/
+.connexion {
+	background-color: #4484f1;
+	vertical-align: middle;
+	border-radius: 5%;
+	border: 2px solid black;
+	font-weight: bold;
+	padding: 1%;
+	/*margin-bottom: 15px;*/
+}
+.connexion a {
+	color: white;
+	
+}
+.connexion a:hover {
+	text-decoration: underline;
+}
+
+/***MAIN***/
+.blue {
+	color:blue;
+}
+.orange {
+	color:orange;
+}
+.red {
+	color:red;
+}
+.green {
+	color:green;
+}
+
+.two_boxes {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content : space-around;
+	color: #5F6368;
+	box-sizing: content-box;
+}
+.two_boxes div {
+	margin : 3%;
+	border: 1px solid #bdbaba;
+	background-color: #bdbaba;
+	width: 75%;
+	text-align: center;
+	min-width: 200px;
+	min-height: 30px;
+	display: flex;
+	justify-content :center;
+	align-items: center;
+	box-sizing: border-box;
+}
+.two_boxes div:hover {
+	border:1px solid #f2f2f2;
+	color: black;	
+}
+
+.google {
+	font-size : 70px;
+	font-weight: bold;
+}
+input {
+	width: 50%;
+}
+
+/***FOOTER***/
+.infos {
+	display: grid;
+	grid-template-columns : 55% 45%;
+}
+.infos a {
+	color: rgba(0,0,0,.54);
+}
+.infos a:hover {
+	text-decoration: underline;
+}
+.first_four {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content: flex-start;
+}
+.last_four {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content: flex-end;
+}
+
+.country {
+	border-bottom: 1px solid rgb(228, 228, 228);
+}
+
+/***media quesries***/
+@media screen and (max-width:1264px) {
+	.infos {
+		display : flex;
+		flex-flow : column nowrap;
+	}
+	.last_four {
+		justify-content : flex-start;
+	}
+}
+@media screen and (max-width:558px){
+.last_four, .first_four{
+	display: grid;
+	grid-template-columns : 50% 50%;
+}
+
+}

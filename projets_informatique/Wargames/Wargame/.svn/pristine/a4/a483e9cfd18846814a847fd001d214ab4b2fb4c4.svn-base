@@ -1,0 +1,208 @@
+
+############################################################ Sujet : Optimisateur de WARGAME  #########################################################
+Qu'est-ce qu'un wargame :
+	Un wargame est un jeu de plateau qui se joue avec des petites figurines représentant des unités diverses et variés. Le but de ce projet est fournir un 
+outil permettant d'aider à construire une armée efficacepour un jeu de figures tel que Warhammer dans une limite de points d'armée donnée. Dans un premier temps, 
+il faudra développer un moteur de combat entre deux armées avec des règles fortement simplifiées (quelques unités de base, affrontement des armées en ligne sur 
+un échiquier,dégâts fixes, pas d'obstacles, etc.). Dans un second temps, il s'agira de proposer un générateur automatique d'armée respectant une limite de points. 
+Dans la dernière étape, il faudra proposer une méthode (construction aléatoire, système à base de règles ou encore algorithme génétique) permettant d'obtenir une 
+armée performante. 
+
+
+Règles de notre wargame : 
+	Premièrement, vous devez sélectionner votre armée. Vous avez à votre disposition vingt différentes unités 
+(paysans, lanciers, archers, éléphants de guerre, etc). Chacune d'elles disposent d'une caractéristique 
+de point de vie, d'attaque, de défense, de vitesse ainsi que son coût. A vous de choisir la meilleure 
+combinaison pour gagner la partie. 
+	Il est possible de jouer contre l'IA ou avec un ami.
+
+	Combat :
+La phase de combat se déroule au tour par tour. Une fois les armées choisi, celle qui est la plus rapide au tour 1 
+dispose d'un bonus d'attaque de 2.5%. Les totaux des deux armées sont calculés. Au fur et à mesure des tours, des 
+unités sont retirés du combat. Pour qu'une unité soit morte il faut que l'attaque de l'armée adverse soit supérieure 
+à la défense et aux points de vie de l'unité en question.
+
+########################################################## DETAILS TECHNIQUES ########################################################################
+Pour lancer la partie graphique du jeu, veuillez taper dans la console: "python3 main.py"
+
+Anciennement le programme pouvait être lancée en console sans partie grpahique mais cela n'ets plus possible à moins de changer le main.py.
+
+###################################################### METHODOLOGIE DE L'EQUIPE #######################################################################
+############################################################ NORME PYTHON #############################################################################
+Règles d'écriture PYTHON :
+Cf lien (ou l'écrire)
+
+############################################################ DOCSTRINGS ###############################################################################
+Méthode pour l'écriture des DOCSTRINGS :
+*Première ligne résumant brièvement l'objet(fonctions, méthode, classe, module).
+*Saut de ligne.
+*Description plus longue : 
+	Module : dresser la liste des classes, exceptions et fonctions, ainsi que d'autres objets exportés par ce module.
+	Classe : décrire son comportement, documenter ses méthodes publiques et ses attributs.
+	Fonction : description du comportement de la fonction, documenter ses arguments, sa valeur de retour, ses effets de bord, les exceptions qu'elle peut 
+lever et les restrictions concernant son appel).
+*Saut de ligne final.
+
+
+################################################### FAIT / EN TRAIN D'ETRE FAIT / A FAIRE #############################################################
+Ce que nous avons fait : 
+	-->Proposer à l'utilisateur de choisir le nombre de chacune des troupes FAIT
+	-->Ne pas rentrer des points négatifs dans le choix de l'armée FAIT
+	-->Afficher le max de troupes de l'unité en question (pour aller plus vite s'il veut que de cette unité pour finir son armée) FAIT
+	-->Fonction qui termine automatiquement si il n'y a plus de points FAIT
+	-->Passage des attributs de classe "limites" et "points" en attribut d'objet. FAIT
+	--> Changer les from module import * en import module as ... + rajouter le ... devant l'appel des fonctions des modules. Cela Evite les erreurs et 
+rapidité exécution FAIT
+	--> Utilisateur qui peut créer ses propres troupes pour les rajouter dans l'armée, ajouter un limite ? Fonctionne mais erreur quand IA vs Player
+	-->Factoriser la fonction "vérification troupe" FAIT
+	-->Choix d'une armée d'une manière aléatoire (cf comment faire de l'aléatoire) FAIT
+	-->Faire le moteur de combat (cf Le Moteur de Combat) FAIT 
+	-->Fonction qui permet de paramétrer le jeu (choix du nombre de points pour faire la bataille) FAIT
+	-->Permettre à l'utilisateur de choisir comment l'IA va sélectionner son armée (niveaux) FAIT
+	--> Commentaires dans les fonctions (voir méthodologie plus haut) FAIT
+
+En train d'être fait ou à revoir : 
+	-->Rapport et beamer :  A FAIRE
+
+
+Ce qu'il nous reste à faire :
+	
+	-->Fonction qui permet de revenir en arrière dans la sélection des unités (soit à la fin soit pendant la sélection : l'utilisateur choisit -1 par ex) ABANDONNE
+
+Possibilités : 
+	-->Moteur de combat > 2 armées
+	-->Permettre à l'utilisateur de choisir l'armée de l'IA (en fait comme si humain1 vs humain2)
+	-->L'utilisateur peut supprimer une troupe
+
+################################################################ GRAPHISMES ###########################################################################
+Cahier des charges sur la partie graphisme :
+	-Utilisation de tkinter
+	-Navigation dans une seule fenêtre.
+	-Pouvoir mettre une (ou plusieurs) image de fond dans toutes les frames 
+	-Les widgets(boutons, etc) ne doivent pas trop cacher l'image de fond
+
+	-Première page : Un joueur ; Multijoueur ; Algorithme génétique/optimisateur ; Enregistrer une armée ; Afficher les caractéristiques ; 
+Afficher les règles ; FAQ ; Reset; Quitter.
+		-Dans un joueur : Combattre ; Afficher une armée ; Récupérer une armée ; Combattre l'IA ; Combattre l'optimisateur ; Retour au menu
+		-Dans Multijoueur : Création des armées du joueur 1 et 2 ;  1 vs 1/ Combattre ; Retour en arrière
+		-Dans Algorithme génétique/Optimisateur : lance l'agorithme génétique, l'utilisateur peut choisir son niveau de difficulté (garder en mémoire 
+la meilleur armée par ex, etc, barre de chargement), il pourra par la suite combattre l'algo génétique avec sa propre armée
+			-Choix du niveau de l'algorithme : Niveau 1 ; Niveau 2 ; Niveau 3 ; Niveau 4 ; Retour en arrière
+		
+Pensées : 
+	-Penser les fenêtres (sauf si on peut naviguer dans une seule ?) avant ! (choix image de fond, des boutons, etc)
+	-Penser à où mène tel bouton etc
+	-Après quand tout fini (rajouter des choses du genre : faire un timer et suivant le temps change l'image de fond, etc)
+	-Penser factorisation du code
+
+################################################################ ALEATOIRE ###########################################################################
+Comment faire de l'aléatoire :
+	avec random :
+		-choisit un chiffre puis avance à l'unité suivante FAIT
+		-choisit 2 nombres au hasard (unité, nombre d'unités) et ainsi de suite jusqu'à max points
+		-Choix par pair : utilisateur choisit un nombre entre 0 et 20 et cela donne le nombre de type d'unités possibles. Puis nombre aléatoire de ces unités.
+		-Une troupe par une unité. FAIT ?
+random de (points restant / coût unité)
+
+
+############################################################# MOTEUR DE COMBAT ########################################################################
+#Comment le Moteur de combat a été pensé et réalisé
+
+Le Moteur de Combat :
+
+1)Soit choix d'une armée par l'utilisateur soit une armée aléatoire (plus tard algorithme génétique)(afficher le max de troupes de l'unité en question (pour aller plus vite s'il veut que de cette unité pour finir son armée)
+2)Pas dépassement de coût
+3)Confirmation que l'utilisateur veut se battre avec cette armée (la supprimer ou la mettre tjs vrai pour le computer) ; s'il ne souhaite pas cette armée il doit tout recréer
+4)LANCEMENT DU COMBAT (tour par tour)
+-Compter le nombre de tours et savoir à quel tour nous en sommes
+	Pendant / avant: 1
+		-afficher le "Tour : x"
+		-les totaux (PA, DF, PDV, VIT, COUT) (bonus compris, cf voir A) (inclure l'attaque restante)
+		-Afficher "La bataille commence" (+musique LOTR Helm's Deep)
+		-En phase de test : print les informations à chaque fois (total d'attaque restant, etc) (cf B)
+		-Retourne les armées (les pertes ont été prises en compte)
+	Après : 
+	-Récapituler le nombre de morts (Soit l'on dit le nombre total de morts soit l'on dit le nombre de chacune des unités mortes du style : 3 paysans sont morts, 4 lanciers sont morts ,etc)
+
+	Tour 2 : etc
+	-On ajoute 1 à la variable tour puis retourner au 4)
+
+
+A)Comparaison de la vitesse : Celui qui a le plus de vitesse "commence à jouer". Cela donne un bonus d'attaque de 10% (au premier tour ; 10% au 1er tour puis 5% à tous les autres ; 10% au premier puis 5% entre tour entre 2 et 5 puis 0%) sur archers, archers cavaliers, arbalétriers, frondeurs, catapultes, javeliniers, arquebusiers, chars de guerre.
+(Vitesse s'applique tous les tours ou au premier tour)
+
+B)Formule calcul :
+PDV - (atk A - DEF B ) = x pdv à tuer     ###Erreur, right ?
+Il faut conserver l'attaque restante pour le prochain tour 
+paysans      2Paysans soit 10PDV  75 - (2*5) = 65   (condition) (delete le nombre de troupes en question) (continuer les calculs)
+restants dégats - lanciers 65  et si 5 lanciers etc
+
+
+7)hiérarchie dans les morts( paysans puis lancier puis etc) ou mort aléatoire
+Elie : hiérarchie dans les troupes
+"Arbalétrier": [],
+   3        9  "Archer": [],    
+   7        14 "ArcherCavalier": [],
+   8        15 "Arquebusier": [],
+   13        16 "Cataphracte": [],
+   18        18 "Catapulte": [],
+   15        10 "Cavalier": [],
+   10        11 "Chariot": [],
+   17        12 "ChevalierAPied": [],
+   9        17 "ChienDeGuerre": [],
+   16        13 "ElephantDeCombat": [],
+   6        7  "Epeiste": [],
+   14        5  "Frondeur": [],
+  19         19 "Généraux": [],
+  5         6  "Hacheur": [],
+  12         8  "Hallebardier": [],
+  11         4  "Javelinier": [],
+  2         2  "Lancier": [],
+  1         1  "Paysan": [],
+  4         3  "Piquier": []
+
+8)Tour par tour(récapitule les différentes statistiques des armées) ou avec le temps 
+Tour par tour (plus intuitif)
+
+
+
+############################################################ LE RAPPORT EN LATEX ######################################################################
+
+VOIR PLAN DONNE SUR ECAMPUS
+
+############################################################ GRILLE D'EVALUATION ######################################################################
+Grille d’évaluation du travail (10 points) :
+	• Le projet est réalisé à minima (1 point)
+	• La plupart des fonctionnalités ont été implémentées (1 point)
+	• Toutes les fonctionnalités ont été implémentées (1 point)
+	• Les étudiants ont proposé et implémenté de nouvelles fonctionnalités (1 point)
+	• Le code rendu est propre et commenté (1 point)
+	• Le code rendu fait appel à des structures de données adaptées (1 point)
+	• Le code rendu implémente des algorithmes non triviaux (1 point)
+	• Le code rendu est paramétrable et/ou modulaire (1 point)
+	• L’aspect graphique de l’application a été soigné (1 point)
+	• Les étudiants ont travaillé en équipe (1 point)
+
+Grille d’évaluation du rapport (5 points) :
+	• Syntaxe et orthographe correcte (1 point)
+	• Explication claire des objectifs du projet et des fonctionnalités réalisées (1 point)
+	• Explication claire de l’architecture générale de l’application (1 point)
+	• Explications claires des détails algorithmiques (1 point)
+	• Illustration des explications par des diagrammes et des captures d’écran (1 point)
+	• Le rapport n’a pas été fait sous LaTeX (-1 point)
+
+Grille d’évaluation de l’oral (5 points) :
+	• Diaporama non surchargé mais présentant des informations pertinentes (1 point)
+	• La présentation orale et la démonstration se sont faites dans les temps (1 point)
+	• Explication claire du projet et des points principaux (1 point)
+	• Démonstration de l’application correctement préparée (1 point)
+	• Réponses correctes aux questions du jury (1 point)
+
+Pénalités individuelles (sur la note totale)
+	• Manque d’assiduité partielle de l’étudiant (-2 points)
+	• Manque d’assiduité importante de l’étudiant (-4 points)
+	• L’étudiant n’a développé que des fonctionnalités mineures (-2 points)
+	• Le code produit par l’étudiant est en-deçà du niveau du groupe (-2 points)
+	• L’étudiant n’a pas pris la parole à l’oral (-4 points)
+	• L’étudiant a moins participé à l’oral que ses camarades (-2 points)
+	• L’étudiant ne semble pas être capable d’expliquer le code de ses camarades (-1 point)

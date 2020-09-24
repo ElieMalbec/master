@@ -1,0 +1,614 @@
+# -*- coding: utf-8 -*-
+import copy
+import json
+import os.path
+from tkinter.filedialog import *
+from tkinter.messagebox import *
+
+import Armee as A
+import CreationTroupe as Ct
+import creationArmee as Ca
+import moteurCombat as Mc
+
+list_troupes = Ct.CreationTroupe.troupes.keys()
+troupes = {}
+for i in list_troupes:
+    troupes[i] = 0
+"""Création de la liste des clés des troupes disponibles dans la classe CreationTroupes dans l'attribut troupes"""
+
+
+class MonScale(Scale):
+    """Class MonScale héritant de l'object Scale, permet la création des échelles de choix du nombre d'unités pour
+    chaque troupe. Elle prend en paramètre le nom de la troupe, une variable si une valeur est déjà fixée et un
+    paramèter state pour l'état du curseurs, pour laisser l'utilisateur choisir c'est normal par défaut sinon c'est
+    disabled pour la récupération d'une armée"""
+
+    def __init__(self, fen, nom, var=0, state='normal'):
+        """On initialise notre scale, on lui passe en paramètre une variable var qui prend en soit la valeur par défaut
+        soit la nouvelle valeur pour le constructeur. Les scales sont horizontaux et portent le nom donné en param"""
+        self.fen = fen
+        self.var = IntVar()
+        self.var.set(var)
+        Scale.__init__(self, fen, command=lambda x=0: self.nouvellevaleur(nom), variable=self.var, from_=0, to=200,
+                       orient='horizontal', resolution=1, length=200, label=nom, state=state)
+
+    def nouvellevaleur(self, nom):
+        """A chaque changement de valeur de la variable correspondante à un curseur, on attribut cette valeur dans le
+        dictionnaire principal troupes. On appelle également une fonction pour recalculer le nombre de points"""
+        troupes[nom] = self.var.get()
+        self.changement_nombre_points()
+
+    def changement_nombre_points(self):
+        """Création d'une armée avec pour effectif celui contenu dans le dictionnaire troupes. On calcul les totaux et
+        on récupère la valeur du cout total de l'armée pour le mettre dans le label de sortie de la Toplevel"""
+        a = A.Armee()
+        a.creer_armee(troupes)
+        a.reset_totaux()
+        a.calcul_totaux()
+        a.points = a.COUT
+        string = str(a.COUT) + " points"
+        self.fen.labelSortie.set(string)
+
+
+class LabelAffichage(Label):
+    """Classe de création du label d'affichage héritant de l'object Label"""
+
+    def __init__(self, fen, **kw):
+        """Constructeur de la classe, le texte est passé en paramète dans **kw"""
+        self.fen = fen
+        Label.__init__(self, fen, width=50, padx=3, pady=3, **kw)
+
+
+class EnregistrerArmee(Toplevel):
+    """Classe Toplevel pour l'enregistrement d'une armée, cette classe permet de créer des curseurs pour ensuite choisir
+    l'effectif de son armée et l'enregistrer avec un nom dans un fichier json."""
+
+    def __init__(self, fen):
+        """Constructeur de la classe EnregistrerArmee, on créée une Toplevel par rapport à la fenêtre principale
+        Pour chaque troupe contenu dans le dicitonnaire troupes, on va appeller la classe MonScale pour créer un curseur
+        correspondant à une troupe.
+        Les curseurs sont en colonne de 5 dans la Toplevel
+        Un champ d'entrée utilisateur permet de donner un nom à l'armée pour ensuite l'eregistrer
+        Le champ labelSortie est celui modifié par les Scales lorsque l'on change la valeur d'un curseur, il donne le
+        cout total de l'armée."""
+
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.title("Enregistrement d'une armée")
+        self.fen = fen
+
+        for j, elem in enumerate(troupes):
+            j = j + 1
+            if j <= 5:
+                MonScale(self, elem).grid(column=0, row=j - 1, sticky='EW')
+            elif 5 < j <= 10:
+                MonScale(self, elem).grid(column=1, row=j - 6, sticky='EW')
+            elif 10 < j <= 15:
+                MonScale(self, elem).grid(column=2, row=j - 11, sticky='EW')
+            elif 15 < j <= 20:
+                MonScale(self, elem).grid(column=3, row=j - 16, sticky='EW')
+            else:
+                MonScale(self, elem).grid(column=4, row=j - 21, sticky='EW')
+
+        self.labelSortie = StringVar()
+        self.entreeUtilisateur = StringVar()
+
+        self.sortie = Label(self, textvariable=self.labelSortie, pady=10, relief='groove')
+        self.sortie.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.labelSortie.set(u"Coût de l'armée")
+
+        self.entree = Entry(self, textvariable=self.entreeUtilisateur)
+        self.entree.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.entreeUtilisateur.set(u"Nom Armée, Entrée pour valider")
+
+        Button(self, text="Valider mon armée", width=20, command=self.validate).grid(column=1, columnspan=2, pady=5)
+        Button(self, text='Quitter', width=20, command=self.quitter_top_level).grid(column=1, columnspan=2)
+
+    def validate(self):
+        """La méthode validate permet de sérialiser dans un fichier json l'ensemble du dictionnaire troupes.
+        Le fichier porte le nom de l'entrée de l'utilisateur, et par defaut : 'default'
+        Ouverture d'un fichier portant le nom de l'armée + .json : encodage du dictionnaire troupes avec indentation
+        Ensuite, création d'une armée sur ces troupes, elle est placée en mémoire dans l'attribut armeeSolo de la
+        fenetre principale. Le nom de l'armée est également mis en mémoire pour son affichage dans nomArmee
+        """
+
+        if self.entreeUtilisateur.get() == "Nom Armée, Entrée pour valider":
+            self.entreeUtilisateur.set("default")
+        with open(self.entreeUtilisateur.get() + '.json', 'w', encoding='utf-8') as f:
+            json.dump(troupes, f, indent=4)
+
+        # Enregistrement de l'armée créé via le menu dans l'armée solo courante ?
+        # a = A.Armee()
+        # a.creer_armee(troupes)
+        # a.reset_totaux()
+        # a.calcul_totaux()
+        # self.fen.armeeSolo = copy.deepcopy(a)
+        # self.fen.nomArmee.set(self.entreeUtilisateur.get())
+        self.quitter_top_level()
+
+    def quitter_top_level(self):
+        """Permet de quitter la Toplevel sans quitter la fenetre principale, pour quitter la fenetre principale en plus
+        ajouter self.quit()"""
+        self.destroy()
+
+
+class NouvelleArmee(Toplevel):
+    """Classe permettant la conception d'une nouvelle armée qui n'est pas à enregistrer, elle sert pour la conception
+    des armées solo et multijoueur en prenant en paramètre 'armee', la nouvelle instance d'armée est enregistrée dans
+    la variable correpondante à l'armée de la fenêtre principale. Il reste à implémenter le nombre maxi de points : 
+    ne pas pouvoir valider en dépasser les conditions ou changer les valeurs max des scales. A voir"""
+
+    def __init__(self, fen, armee):
+        """Initialisation de la classen la liste des troupes est réinitialisée pour permettre la création d'une
+        nouvelle armée"""
+
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.title("Enregistrement d'une armée")
+        self.fen = fen
+        self.armee = armee
+
+        # Réinitialisation des troupes :
+        for elem in troupes:
+            troupes[elem] = 0
+
+        for j, elem in enumerate(troupes):
+            j = j + 1
+            if j <= 5:
+                MonScale(self, elem).grid(column=0, row=j - 1, sticky='EW')
+            elif 5 < j <= 10:
+                MonScale(self, elem).grid(column=1, row=j - 6, sticky='EW')
+            elif 10 < j <= 15:
+                MonScale(self, elem).grid(column=2, row=j - 11, sticky='EW')
+            elif 15 < j <= 20:
+                MonScale(self, elem).grid(column=3, row=j - 16, sticky='EW')
+            else:
+                MonScale(self, elem).grid(column=4, row=j - 21, sticky='EW')
+
+        self.labelSortie = StringVar()
+
+        self.sortie = Label(self, textvariable=self.labelSortie, pady=10, relief='groove')
+        self.sortie.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.labelSortie.set(u"Coût de l'armée")
+
+        Button(self, text="Valider mon armée", width=20, command=self.validate).grid(column=1, columnspan=2, pady=5)
+        Button(self, text='Quitter', width=20, command=self.quitter_top_level).grid(column=1, columnspan=2)
+
+    def validate(self):
+        """Enregistrement de la nouvelle armée créée dans l'attribut correspondant. Une armée est générée pour pouvoir
+        directement l'utiliser pour des combats par la suite"""
+        a = A.Armee()
+        a.creer_armee(troupes)
+        a.reset_totaux()
+        a.calcul_totaux()
+        if self.armee == 0:
+            self.fen.armeeSolo = copy.deepcopy(a)
+        elif self.armee == 1:
+            self.fen.armeej1 = copy.deepcopy(a)
+        elif self.armee == 2:
+            self.fen.armeej2 = copy.deepcopy(a)
+        else:
+            print("Error validate NouvelleArmee")
+        self.fen.nomArmee.set("Armée utilisateur")
+        self.quitter_top_level()
+
+    def quitter_top_level(self):
+        self.destroy()
+
+
+class RecupererArmee(Toplevel):
+    """Classe de récupération d'une armée, c'est une Toplevel par rapport à la fenêtre principale
+    Permet de récupérer une armée enregistrée dans un fichier soit avec son nom ou alors directement par un exporateur
+    de fichier."""
+
+    def __init__(self, fen):
+        """Initialisation de la classe RecupererArmee
+        Un champ d'entrée utilisateur est ajouté pour saisir un nom d'armée enregistré, et un bouton choisir in fichier
+        json qui permet d'ouvrir un explorateur et sélectionner une armée enregistrée
+        Le focus est par défaut initialisé sur le champ de texte"""
+
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.title("Récupération d'une armée")
+        self.fen = fen
+
+        self.entreeUtilisateur = StringVar()
+        self.labelSortie = StringVar()
+        self.sortie = None
+
+        self.entree = Entry(self, textvariable=self.entreeUtilisateur)
+        self.entree.grid(column=1, columnspan=2, pady=5, sticky='EW')
+        self.entree.bind("<Return>", self.on_press_enter)
+        self.entreeUtilisateur.set(u"Nom de l'armée à chercher")
+        self.entree.focus_set()
+        self.entree.selection_range(0, END)
+
+        Button(self, text="Choisir un fichier json", width=20, command=self.askuser, bg='white smoke').grid(column=1,
+                                                                                                            columnspan=2,
+                                                                                                            pady=5)
+        Button(self, text='Valider', width=20, command=self.on_press_enter).grid(column=1, columnspan=2)
+        Button(self, text='Quitter', width=20, command=self.quitter_top_level).grid(column=1, columnspan=2)
+
+    def quitter_top_level(self):
+        """Permet de quitter la top level, cette fonction remet à zéro l'attribut armeeSolo en initilisant une armée
+        vide. Seulement la Toplevel est quittée et pas la fenetre principale"""
+        self.fen.armeeSolo = A.Armee()
+        self.destroy()
+
+    def on_press_enter(self, event=0):
+        """Méthode se déclanchant par le bouton valider ou la touche entrée, permet de valider la saisie du texte dans
+        le champ d'entrée.
+        On tranforme la chaine en chemin relatif avec l'extension json pour permettre de tester si le fichier existe.
+        Si il existe, alors on modifie le nom de l'armée courante avec cette chaine de caractère sinon on met un texte
+        par défaut. Puis dans tous les cas on essaye d'afficher les curseurs de l'armée"""
+        self.entreeUtilisateur.set("./" + self.entreeUtilisateur.get() + '.json')
+        if os.path.isfile(self.entreeUtilisateur.get()):
+            self.fen.nomArmee.set(self.entreeUtilisateur.get())
+        else:
+            self.fen.nomArmee.set('Pas d\'armée à afficher')
+        self.afficher_curseurs()
+
+    def afficher_curseurs(self):
+        """Méthode de représentation avec des curseurs de l'armée enregistrée. On teste si le fichier exite à l'aide de
+        l'entrée de l'utilisateur, si non on affiche une pop-up indiquant que l'armée n'existe pas. Si oui, le fichier
+        json est récupéré et converti en dictionnaire, le dictionnaire troupes prend cette valeur. Puis on énumère
+        toutes les troupes et on créée un curseur qui ne peut pas changer de valeur : state='disabled'
+        L'armée correspondante est créée et le nombre de points qu'elle coute est placée dans le label de sortie
+        Une copie de cette armée est mise en mémoire de la fenetre principale"""
+
+        name = self.entreeUtilisateur.get()
+        if os.path.isfile(name):
+            with open(name) as json_data:
+                troupes = json.load(json_data)
+            for i, elem in enumerate(troupes):
+                i = i + 1
+                if i <= 5:
+                    MonScale(self, elem, troupes[elem], state='disabled').grid(column=0, row=i - 1, sticky='EW')
+                elif 5 < i <= 10:
+                    MonScale(self, elem, troupes[elem], state='disabled').grid(column=1, row=i - 6, sticky='EW')
+                elif 10 < i <= 15:
+                    MonScale(self, elem, troupes[elem], state='disabled').grid(column=2, row=i - 11, sticky='EW')
+                elif 15 < i <= 20:
+                    MonScale(self, elem, troupes[elem], state='disabled').grid(column=3, row=i - 16, sticky='EW')
+                else:
+                    MonScale(self, elem, troupes[elem], state='disabled').grid(column=4, row=i - 21, sticky='EW')
+
+            a = A.Armee()
+            a.creer_armee(troupes)
+            a.reset_totaux()
+            a.calcul_totaux()
+            string = str(a.COUT) + " points"  # Récupération du cout de l'armée en formant l'armée de ce style
+
+            self.labelSortie.set(string)
+            self.fen.armeeSolo = copy.deepcopy(a)  # Sauvegarde de l'armée dans l'attribut principal
+
+            self.sortie = Label(self, textvariable=self.labelSortie, pady=10, relief='groove')
+            self.sortie.grid(column=1, columnspan=2, pady=5, sticky='EW')
+
+            Button(self, text="Valider mon choix", width=20, command=self.validate).grid(column=1, columnspan=2, pady=5)
+            Button(self, text='Quitter sans enregistrer', width=20, command=self.quitter_top_level).grid(column=1,
+                                                                                                         columnspan=2)
+        else:
+            showwarning("Entrée invalide", "Votre armée n'existe pas")
+            print("Le fichier", self.entreeUtilisateur.get(), "n'existe pas")
+            self.entreeUtilisateur.set("")
+
+    def validate(self):
+        """Quitter simplement la toplevel, l'armée est déjà enregistrée au préalable dans l'attribut
+        self.fen.armeeSolo."""
+
+        self.destroy()
+
+    def askuser(self):
+        """Interface de choix de fichier pour sélectionner une armée déjà enregistrée. Un explorateur de fichiers
+        s'ouvre et permet la sélection des fichiers uniquement de type json
+        Le chemin absolu est placé dans l'entrée utilisateur qui servira à ouvrir le fichier dans afficher_curseurs
+        On teste si l'utilisateur sélectionne bien un fichier, sinon une pop-up s'affiche et indique aucun fichier"""
+
+        value = askopenfilename(filetypes=[("JSON", "*.json")], defaultextension='.json', parent=self)
+        if not isinstance(value, tuple) and value != '':
+            self.entreeUtilisateur.set(value)
+            self.afficher_curseurs()
+            self.fen.nomArmee.set(os.path.basename(value))
+        else:
+            showwarning("Pas de fichier sélectionné", "Pas de fichier sélectionné")
+
+
+class AfficherArmee(Toplevel):
+    """Classe héritant de l'objet Toplevel, permet la représentation d'une armée
+    On donne le nom de la fenetre suivant le nom de l'armée mis en mémoire dans nomArmee. Tests pour le mettre en forme
+    correctement et éviter les .json et ./ sur le nom
+    Cette méthode à besoin que les armées soit instanciées, elle récupère la liste des
+    troupes et les enumère pour créer un LabelAffichage avec en paramètre le nom et le nombre d'unités correspondant à
+    l'armée passé en paramètre sous forme de numéro, un test permet de récupérer les troupes associées.
+    Un champ sur deux possède une couleur de fond différente pour faciliter la lecture"""
+
+    def __init__(self, fen, armee=3):
+        Toplevel.__init__(self, fen)
+        self.grid()
+        self.fen = fen
+        string = self.fen.nomArmee.get()
+        if string[0:2] == "./":
+            string = string[2:-5]
+        elif string[-5:] == ".json":
+            string = string[:-5]
+        self.title("Armée : " + string)
+
+        if armee == 0:
+            self.troupes_armee = self.fen.armeeSolo.troupes
+            self.title("Votre Armée")
+            nbPoints = "L'armée coûte " + str(self.fen.armeeSolo.COUT) + " points"
+        elif armee == 1:
+            self.troupes_armee = self.fen.armeej1.troupes
+            nbPoints = "L'armée coûte " + str(self.fen.armeej1.COUT) + " points"
+            self.title("Armée joueur 1")
+        elif armee == 2:
+            self.troupes_armee = self.fen.armeej2.troupes
+            nbPoints = "L'armée coûte " + str(self.fen.armeej2.COUT) + " points"
+            self.title("Armée joueur 2")
+
+        for i, troupe in enumerate(self.troupes_armee):
+            if len(self.troupes_armee[troupe]) > 0:
+                string = str(len(self.troupes_armee[troupe])) + " " + self.troupes_armee[troupe][0].nom + "s"
+                # La phrase passée en paramètre est composée du nombre d'unité + le nom + un 's'
+                # Une unité sur deux possède un fond de couleur différente
+                if i % 2 == 0:
+                    LabelAffichage(self, text=string, bg="#f7937f").grid()
+                else:
+                    LabelAffichage(self, text=string, bg="#e6b8af").grid()
+        Label(self, text=nbPoints, bg="red", pady=3).grid()
+        Button(self, text="Quitter l'affichage", width=30, command=self.quitter_top_level).grid()
+
+    def quitter_top_level(self):
+        """Permet de simplement quitter la Toplevel sans fermer la fenetre principale"""
+        self.destroy()
+
+
+class MaFen(Tk):
+    """Classe principale et fenetre principale, elle permet de lancer l'ensemble de Toplevel et de stocker les
+    informations qui servent entre elles. Une armée courante dans armeeSolo et son nom dans nomArmee
+    Chaque bouton lance sa Toplevel"""
+
+    def __init__(self):
+        Tk.__init__(self)
+        self.title("Wargame MGL")
+        self.currentFrame = None
+        self.armeeSolo = A.Armee()
+        self.armeej1 = A.Armee()
+        self.armeej2 = A.Armee()
+        self.top = None
+        self.nomArmee = StringVar()
+        self.nomArmee.set("Pas d'armée à afficher")
+        self.initialize()
+
+    def initialize(self):
+        """Fonction d'initialisation de la fenetre, on créée toutes les frames nécessaires et les canvas pour les photos
+        puis chaque bouton permet d'afficher un sous menu ou de lancer une script pour le combat / enregistrement /
+        affichage. La frame actuelle est pack_forget() à chaque fois qu'une nouvelle doit prendre sa place.
+        La frame par défaut est celle de l'accueil et elle est pack en premier lieu"""
+
+        # Ajouter un menu top global !!
+        # Frame de l'accueil
+        self.accueil = Frame(self)
+        Button(self.accueil, text="Menu 1 joueur", command=self.menu_solo, width=30).pack()
+        Button(self.accueil, text="Menu multijoueur", command=self.menu_multijoueur, width=30).pack()
+        Button(self.accueil, text="Menu optimisateur", command=self.menu_optimisateur, width=30).pack()
+        Button(self.accueil, text="Enregistrer une Armée", command=self.enregistrer, width=30).pack()
+        Button(self.accueil, text="Quitter", command=self.quitter, width=30).pack()
+
+        # Frame du sous-menu solo
+        self.solo = Frame(self)
+        Button(self.solo, text="Créer mon armée", command=lambda x=0: self.creationArmee(0), width=30).pack()
+        Button(self.solo, text="Afficher mon armée", command=lambda x=0: self.afficher(x), width=30).pack()
+        Button(self.solo, text="Récupérer une Armée", command=self.recuperer, width=30).pack()
+        Button(self.solo, text="Combattre contre IA", command=self.combatIa, width=30).pack()
+        Button(self.solo, text="Combattre contre aléatoire", command=self.combatAlea, width=30).pack()
+        Button(self.solo, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame du sous-menu multijoueur
+        self.multijoueur = Frame(self)
+        Button(self.multijoueur, text="Créer Armée joueur 1", command=lambda x=1: self.creationArmee(x),
+               width=30).pack()
+        Button(self.multijoueur, text="Créer Armée joueur 2", command=lambda x=2: self.creationArmee(x),
+               width=30).pack()
+        Button(self.multijoueur, text="Afficher Armée joueur 1", command=lambda x=1: self.afficher(x), width=30).pack()
+        Button(self.multijoueur, text="Afficher Armée joueur 2", command=lambda x=2: self.afficher(x), width=30).pack()
+        Button(self.multijoueur, text="Combattre", command=self.combat1v1, width=30).pack()
+        Button(self.multijoueur, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame du sous-menu optimisateur
+        self.optimisateur = Frame(self)
+        self.points = StringVar()
+        self.points.set("Choix nombre points")
+        Entry(self.optimisateur, textvariable=self.points).pack()
+        value = StringVar()
+        Radiobutton(self.optimisateur, text="Oui", variable=value, value=1).pack()
+        Button(self.optimisateur, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame correspondant à la page de victoire en solo
+        self.winningFrame = Frame(self)
+        self.photoWin = PhotoImage(file="Images/win.gif")
+        canvasWin = Canvas(self.winningFrame, width=640, height=360)
+        canvasWin.create_image(0, 0, anchor=NW, image=self.photoWin)
+        txt = canvasWin.create_text(300, 60, text="Bravo vous avez gagné", font="Arial 20 italic", fill="red",
+                                    justify='center')
+        canvasWin.pack()
+        Button(self.winningFrame, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame correspondant à la page de défaite en solo
+        self.losingFrame = Frame(self)
+        self.photoLose = PhotoImage(file="Images/lose.gif")
+        canvasLose = Canvas(self.losingFrame, width=1280, height=720)
+        canvasLose.create_image(0, 0, anchor=NW, image=self.photoLose)
+        txt = canvasLose.create_text(600, 100, text="Dommage vous avez perdu !!", font="Arial 20 italic", fill="red",
+                                     justify='center')
+        canvasLose.pack()
+        Button(self.losingFrame, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame correspondant à la victoire du joueur 1 en multijoueur
+        self.multi1 = Frame(self)
+        self.photoMulti1 = PhotoImage(file="Images/victory1.gif")
+        canvasMulti1 = Canvas(self.multi1, width=450, height=450)
+        canvasMulti1.create_image(0, 0, anchor=NW, image=self.photoMulti1)
+        canvasMulti1.pack()
+        Button(self.multi1, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # Frame correspondant à la victoire du joueur 2 en multijoueur
+        self.multi2 = Frame(self)
+        self.photoMulti2 = PhotoImage(file="Images/victory2.gif")
+        canvasMulti2 = Canvas(self.multi2, width=450, height=450)
+        canvasMulti2.create_image(0, 0, anchor=NW, image=self.photoMulti2)
+        canvasMulti2.pack()
+        Button(self.multi2, text="Retour à l'accueil", command=self.retourAccueil, width=30).pack()
+
+        # On ajoute par défaut la frame de l'acceuil et on la place dans currentFrame
+        self.accueil.pack()
+        self.currentFrame = self.accueil
+
+    def creationArmee(self, x):
+        """Permet la création d'une armée
+        Modifie directement l'armée contenu dans x
+        Si x = 0 : armee solo modifiée
+        Si x = 1 : armee joueur1 modifiée
+        Si x = 2 : armee joueur2 modifiée"""
+        NouvelleArmee(self, x)
+
+    def menu_solo(self):
+        """Permute les frames pour afficher le sous-menu solo"""
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.solo
+        self.title("Menu solo")
+        self.solo.pack()
+
+    def menu_multijoueur(self):
+        """Permute les frames pour afficher le sous-menu multijoueur"""
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.multijoueur
+        self.title("Menu multijoueur")
+        self.multijoueur.pack()
+
+    def menu_optimisateur(self):
+        """Permute les frames pour afficher le sous-menu optimisateur"""
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.optimisateur
+        self.title("Menu optimisateur")
+        self.optimisateur.pack()
+
+    def retourAccueil(self):
+        """Permute les frames pour afficher l'accueil"""
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.accueil
+        self.title("Wargame MGL")
+        self.accueil.pack()
+
+    def combatIa(self):
+        self.retourAccueil()
+
+    def combatAlea(self):
+        """Faire combattre l'armée contenu dans self.armeeSolo contre une armée générée troupe par troupe
+        dans le module Creation Armee. L'armée aléatoire possède le même nombre de points que celle de 
+        l'utilisateur. Si l'armée utilisateur n'est pas encore prête un message apparait
+        Des copies sont passées au moteur de combat pour éviter de modifier directement les armées.
+        La frame correspondant à la victoire ou la défaite est ensuite affichée et les armées sont print
+        dans le terminal sous forme simple"""
+        if self.armeeSolo.COUT == 0:
+            showwarning("Pas d'armée utilisateur", "Vous ne possédez pas encore d'une armée")
+        else:
+            armeeOrdi = Ca.creation_armee_alea_troupe_par_troupe(self.armeeSolo.COUT)
+            armee_gagnante = Mc.moteur_de_combat(copy.deepcopy(self.armeeSolo), copy.deepcopy(armeeOrdi))
+            # On met des copies des armées à combattre entres elles pour ensuite pouvoir la garder en mémoire
+            if armee_gagnante == 1:
+                print('Armée utilisateur à gagnée')
+                self.win()
+            elif armee_gagnante == 2:
+                print('Armée Ordi à gagnée')
+                self.lose()
+            else:
+                print("Error combat Alea")
+            print('<----------------->Armée utilisateur </----------------->')
+            self.armeeSolo.afficher_armee_simple()
+            print('<----------------->Armée aléatoire </----------------->')
+            armeeOrdi.afficher_armee_simple()
+
+    def combat1v1(self):
+        """Même principe que pour le combat Alea, les deux armée contenues dans self.armeej1 et self.armeej2
+        s'affrontent, une page de résultat donne le vainqueur. Test au début pour voir si le combat est possible
+        Affichage des armées en fin de combat"""
+        if self.armeej1.COUT == 0:
+            showwarning("Pas d'armée joueur 1 ", "Le joueur 1 ne possède pas encore d'armée ! Formez !")
+        elif self.armeej2.COUT == 0:
+            showwarning("Pas d'armée joueur 2", "Le joueur 2 ne possède pas encore d'armée ! Formez !")
+        else:
+            armee_gagnante = Mc.moteur_de_combat(copy.deepcopy(self.armeej1), copy.deepcopy(self.armeej2))
+            if armee_gagnante == 1:
+                print('Armée joueur 1 à gagnée')
+                self.multi1Frame()
+            elif armee_gagnante == 2:
+                print('Armée joueur 2 à gagnée')
+                self.multi2Frame()
+            else:
+                print("Error combat 1vs1")
+            print('<----------------->Armée joueur 1 </----------------->')
+            self.armeej1.afficher_armee_simple()
+            print('<----------------->Armée joueur 2 </----------------->')
+            self.armeej2.afficher_armee_simple()
+
+    def enregistrer(self):
+        """Initialise la Toplevel d'enregistrement d'une armée"""
+        self.top = EnregistrerArmee(self)
+
+    def recuperer(self):
+        """Initialise la Toplevel de récupération d'une armée"""
+        self.top = RecupererArmee(self)
+
+    def afficher(self, x):
+        """Initialise la Toplevel d'affichage d'une armée"""
+        self.top = AfficherArmee(self, x)
+
+    def win(self):
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.winningFrame
+        self.title("Bravo vous avez gagné !!")
+        self.winningFrame.pack()
+
+    def lose(self):
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.losingFrame
+        self.title("Dommage vous avez perdu !!")
+        self.losingFrame.pack()
+
+    def multi1Frame(self):
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.multi1
+        self.title("Bravo joueur 1 vous avez gagné !!")
+        self.multi1.pack()
+
+    def multi2Frame(self):
+        self.currentFrame.pack_forget()
+        self.currentFrame = self.multi2
+        self.title("Bravo joueur 2 vous avez gagné !!")
+        self.multi2.pack()
+
+    def quitter(self):
+        """Quitter l'application et détruit l'armée stockée en mémoire et la liste de troupes"""
+        self.quit()
+        self.destroy()
+
+
+if __name__ == "__main__":
+    """Boucle de lancement de l'application"""
+    app = MaFen()
+    app.mainloop()
+"""A rajouter  :
+
+- Gestion du nombre de points dans les armées à leur création : impossibilité de valider si trop de points par exemple
+- Lier l'alogrithme génétique et créer les boutons radio pour la sélection des paramètres + affichage en fin d'execution
+- Permettre aux utilisateurs multijoueurs de charger une armée ?
+- Ajouter une barre de menu principal sur la fenetre principale ? 
+- Revoir l'espacement et la couleur des boutons pour faciliter la navigation
+- Base de données pour combat contre IA ?
+- Revoir le nom de la Toplevel durant l'affichage des armées quand on charge une armée : 'vOTRE ARMÉE' prend le dessus
+- Remettre les noms de fonctions en camel_case
+- Déclarer les frames dans le __init__ de MaFen et les canvas
+- Mettre les noms de variable en minuscule
+ """

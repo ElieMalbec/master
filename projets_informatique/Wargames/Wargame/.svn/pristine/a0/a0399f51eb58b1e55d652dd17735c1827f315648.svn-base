@@ -1,0 +1,317 @@
+\documentclass[a4paper,12pt]{article} %style de document
+\usepackage[utf8]{inputenc} %encodage des caractères
+\usepackage[french]{babel} %paquet de langue français
+\usepackage[T1]{fontenc} %encodage de la police
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry} %marges
+\usepackage{graphicx} %'affichage des images
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{tikz}
+\definecolor{astral}{RGB}{46,116,181} 
+\sectionfont{\color{red}}
+\subsectionfont{\color{astral}}
+\subsubsectionfont{\color{green}}
+
+\begin{document} %début du document
+
+\title{Optimisateur de Wargame}
+\author{2018-2019 - Conceptions de logiciels}
+\maketitle{\includegraphics[scale= 0.3]{Images/Rapport_front_page.jpg}}
+%faut rogner l'image les contours sont bien trop grand ou en choisir une autre
+\date{Elie Malbec 21805304 - Alex Lefevre 21809848 Emmanuel Garreau 21700336 - étudiant en L1 Informatique}
+
+
+
+\vspace{25\baselineskip}
+
+
+\section{Introduction}
+%Plan-type d’un rapport (15 à 20 pages)
+%1. Objectifs du projetIDescription du concept derrière l’applicationICe qu’il fallait faireICe qui existe déjà
+%2. Fonctionnalités implémentéesIDescription des fonctionalitésIOrganisation du projet
+%3. Élements techniquesIAlgorithmesIStructures de donnéesIBibliothèques
+%4. Architecture du projetIDiagrammes des modules et des classesICas d’utilisationIChaînes de traitement
+%5. Expérimentations et usagesICapture d’écransIMesures de performance
+%6. ConclusionIRécapitulatif des fonctionnalités principalesIPropositions d’améliorations
+	\subsection{Table des matières}
+		\tableofcontents
+
+
+
+\section{Objectifs du projet}
+
+	\subsection{Description du concept derrière l’application}
+	Qu'est-ce qu'un wargame ? Un wargame est, à la base, un jeu de plateau se jouant avec des figurines. Depuis le VIIe siècle, il est utilisé par les militaires comme outil de simulation et d'aide à la décision. De nos jours, c'est aussi un jeu de stratégie informatique, le but étant de détruire l'armée adverse.
+	
+%Ici, l'utilisateur devra constituer son armée en ne dépassant pas un nombre de points préalablement défini. Une fois cela fait, le combat démarre. Dans notre cas un calcul au tour par tour permet de connaître le vainqueur, l'utilisateur n'a rien à faire. 
+%Chaque troupe dispose de caractéristiques (point de vie, d'attaque, de défense, de vitesse ainsi que son coût) qui nous permettent de calculer le nombre total de chacune d'elles dans une armée. Au premier tour, l'armée avec la plus grande vitesse gagne un bonus en attaque de 2.5%. 
+%Pour connaître le nombre d'unités à enlever nous faisons ce calcul : Points de vie Armée B - (Attaque armée A - Défense armée B). Ensuite nous parcourons chaque troupe crée et si le nombre de points de vie de la troupe est inférieure aux points de dégâts restants alors nous retirons cette unité. Une hiérarchie est mise en place pour nous permettre d'enlever les troupes les plus faibles en premier. 
+%Tout au long du jeu, dans le but d'éviter d'avoir un combat infini, un reste de points de dégâts est crée. Il contient le nombre de points d'attaque qui n'ont pas pu être utilisés pour tuer une unité car leur point de vie était trop important. Ce reste est ajouté au tour suivant. Ainsi deux unités qui ne pouvaient se tuer directement le peuvent grâce à ce reste (accumulation des points d'attaque au fur et à mesure). Enfin le vainqueur est déclaré.
+
+	\subsection{Ce qu’il fallait faire}
+Le projet a été réalisé par Alex Lefevre, Emmanuel Garreau et Elie Malbec. Nous avons décidé en commun de créer un optimisateur de wargame.
+Notre choix s'est naturellement porté vers ce sujet en raison de l'intérêt porté à sa thématique ainsi qu'à la mise en place d'un algorithme génétique.
+Les objectifs du projet étaient multiples :
+
+\begin{itemize}
+        \item Un moteur de combat entre plusieurs armées avec des règles simplifiées
+        \item Un générateur automatique d'armées respectant une limite de points
+        \item Un optimisateur d'armées issu d'un algorithme génétique
+\end{itemize}
+
+	\subsection{Ce qui existe déjà}
+	
+D'anciens jeux vidéos sur le thème du wargame existent : Panzer General (1994), Warlords(1989) ou encore Wahrammer... etc.
+
+
+\section{Fonctionnalités implémentées}
+
+Au cours du projet, de multiples fonctionnalités ont été implémentées : le Menu Solo, le Menu Multijoueur, le Menu Optimisateur, la possibilité d'enregistrer une armée, afficher les caractéristiques des différentes troupes, les règles d'utilisation, une FAQ ou encore une option reset.
+	
+
+	\subsection{Description des fonctionnalités}
+Au sein de l'interface graphique, on retrouve ainsi plusieurs méthodes de jeu :
+\begin{center}
+\includegraphics[scale= 1]{Images/interface.png}
+\end{center}
+\newpage
+\subsubsection{Menu Solo}
+
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menu1joueur.png}
+\end{center}
+Ici, le joueur a la possibilité de créer une armée soi-même, à l'aide d'une création aléatoire ou encore en utilisant l'algorithme génétique.
+Plusieurs options sont ensuite à sa disposition. Il peut afficher son armée et ses statistiques, en récupérer une autre à l'aide de son nom ou d'un fichier JSON afin de l'utiliser. Vient ensuite le choix de son adversaire qui peut être, à sa convenance, l'algorithme génétique ou bien l'algorithme aléatoire.
+
+\subsubsection{Menu Multijoueur}
+
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menuMultijoueur.png}
+\end{center}
+En dehors du nombre de joueurs qui diffère, le Menu Multijoueur comporte la plupart des fonctions du Menu Solo. Chaque joueur peut confectionner sa propre armée, à nouveau soi-même ou en utilisant la création aléatoire. Ils peuvent tout aussi bien récupérer une armée construite ultérieurement (par, pourquoi pas, l'algorithme génétique) et sauvegardée dans un fichier JSON afin de la stocker dans l'armée voulue.  Les deux adversaires ont également la possibilité d'afficher leurs armées avant de lancer le combat pour décider du vainqueur.
+
+
+\subsubsection{Menu Optimisateur}
+
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menuOptimisateur.png}
+\end{center}
+Le Menu Optimisateur permet la formation d'une armée par l'algorithme génétique, une armée évoluée et puissante.
+Le joueur commence par choisir le nombre de points de l'armée. Puis, il indique son choix d'affronter une IA Faible ou Forte. Il donne ensuite le niveau voulu pour son adversaire et si des mutations doivent avoir lieu afin de renforcer l'armée. Il peut également choisir de faire évaluer l'armée par un algorithme afin de savoir si elle est optimale ou non.
+Il lui reste, enfin, à décider de l'utilisation de l'armée conçue. Il peut s'en servir lui-même, l'affronter ou encore la sauvegarder dans un fichier JSON pour plus tard.
+
+
+\subsubsection{Enregistrer une Armée}
+\begin{center}
+\includegraphics[scale= 0.3]{Images/enregistrerArmee.png}
+\end{center}
+Depuis ce menu, on peut créer une armée soi-même ou par la création aléatoire, lui donner un nom puis l'enregistrer dans un fichier JSON. On peut également récupérer les armées contenues dans le Menu Solo, dans le Menu Multijoueur ou dans le Menu Optimisateur afin de pouvoir étudier son contenu, le modifier ou l'enregistrer, à notre guise.
+
+\subsubsection{Afficher caractéristiques}
+\begin{center}
+\includegraphics[scale= 0.4]{Images/afficherCaracteristiques.png}
+\end{center}
+
+\subsubsection{Autres options}
+On peut également afficher les règles du jeu, la FAQ ou encore reset toutes les armées actuelles pour reprendre à 0.
+
+\begin{comment} 	
+- Possibilité de jouer seul
+	- Créer une armée soi-même ou aléatoirement ou par algorithme génétique ;
+	- Afficher son armée et les stats ;
+	- Récupérer une armée via un fichier JSON ou par son nom ;
+	- Combattre contre l'algorithme génétique ou contre une armée aléatoire ;
+
+- Possibilité de jouer à deux :
+	- Création des armées de chaque joueur et leur affichage ;
+	- Récupération d'une armée ;
+	- Affrontement des deux armées ;
+	
+- Possibilité de créer une armée par l'optimisateur suivant un nombre de points et différentes options ;
+	- Possibilité de l'enregistrer, de l'affronter ou de l'utiliser ;
+
+- Affichage des caractéristiques des unités ;
+
+- Possibilité d'afficher les règles et la FAQ;
+
+- Possibilité de reset toutes les armées ; 
+
+A la base du wargame, on retrouve tout d'abord la création d'armées. Plusieurs possibilités ont été conçues : le joueur peut créer lui-même une armée en fonction de ses envies, utiliser une armée produite par un algorithme aléatoire ou encore s'approprier une armée élaborée par l'algorithme génétique.
+Le joueur a également la possibilité d'enregistrer une armée dans un fichier JSON afin de pouvoir s'en servir à nouveau.
+
+\end{comment}
+
+	\subsection{Fonctionnalités abandonnées}
+
+Au cours du projet, nous avons été amenés à revoir nos choix de départ afin d'améliorer le code produit.
+En voici plusieurs exemples illustrants notre évolution : \\
+- Nous avions débuté par la conception d'une classe par type de troupe, créant un objet spécifique pour chacune d'entre elles (un objet Archer, un objet Chevalier... etc). \\
+
+- Première fonction d'aléatoire : 
+%Conception d'une classe par type de troupe
+%Première fonction d'aléatoire
+%
+
+	\subsection{Organisation du projet}
+
+
+
+Sur l'organisation en général ou un détail de notre calendrier et de ce que l'on y faisait.
+cf Elie
+
+
+
+\section{Élements techniques}
+
+Quels éléments techniques choisir ? 
+
+	\subsection{Algorithmes}
+
+\subsubsection{Algorithme du moteur de combat}
+Algorithme pour le moteur de combat : 
+
+\subsubsection{Algorithme de la création aléatoire d'armées}
+Algorithme pour la création aléatoire d'armées :
+
+\subsubsection{Algorithme de l'algorithme génétique}
+Algorithme pour l'algorithme génétique :
+
+\subsubsection{Algorithme de la partie graphique} 
+Algorithme pour la partie graphique (?): 
+
+	\subsection{Structures de données}
+Les objets Armées (comme sont-ils créés, de quoi sont-ils faits)
+Les dictionnaires, les listes, les classes
+Parler de ça : les listes, tuples, dictionnaires, ensembles, classes, listes chainées, piles, files, arbres, arbres binaire de recherche, 
+
+	\subsection{Bibliothèques}
+Voici les bibliothèques utilisées : \\
+Pour le moteur de combat : random, time \\
+Pour l'algorithme génétique : copy, time \\
+Pour la partie graphique : tkinter, Pil, json, os.path, copy, time, threading, tkinter.filedialog, tkinter.messagebox
+
+
+
+\section{Architecture du projet}
+%cf tuto openclassroom : (https://openclassrooms.com/fr/courses/4192086-gerez-votre-projet-informatique-facilement/4192391-etape-2-concevez-larchitecture-du-programme)
+
+% source : https://tex.stackexchange.com/questions/23647/drawing-a-directory-listing-a-la-the-tree-command-in-tikz/34268#34268
+\makeatletter
+\newcount\dirtree@lvl
+\newcount\dirtree@plvl
+\newcount\dirtree@clvl
+\def\dirtree@growth{%
+  \ifnum\tikznumberofcurrentchild=1\relax
+  \global\advance\dirtree@plvl by 1
+  \expandafter\xdef\csname dirtree@p@\the\dirtree@plvl\endcsname{\the\dirtree@lvl}
+  \fi
+  \global\advance\dirtree@lvl by 1\relax
+  \dirtree@clvl=\dirtree@lvl
+  \advance\dirtree@clvl by -\csname dirtree@p@\the\dirtree@plvl\endcsname
+  \pgf@xa=0,5cm\relax
+  \pgf@ya=-0,4cm\relax
+  \pgf@ya=\dirtree@clvl\pgf@ya
+  \pgftransformshift{\pgfqpoint{\the\pgf@xa}{\the\pgf@ya}}%
+  \ifnum\tikznumberofcurrentchild=\tikznumberofchildren
+  \global\advance\dirtree@plvl by -1
+  \fi
+}
+
+\tikzset{
+  dirtree/.style={
+    growth function=\dirtree@growth,
+    every node/.style={anchor=north},
+    every child node/.style={anchor=west},
+    edge from parent path={(\tikzparentnode\tikzparentanchor) |- (\tikzchildnode\tikzchildanchor)}
+  }
+}
+
+
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}[dirtree]
+\node {src} 
+    child { node {Armee.py} }
+    child { node {choixUtilisateur.py} }
+    child { node {Combattant.py} }
+    child { node {creationArmee.py} }
+    child { node {creationTroupe.py} }
+    child { node {main.py} }
+    child { node {moteurCombat.py} }
+    child { node {Optimisateur.py} }
+    child { node {FAQ.txt} }
+    child { node {Règles.txt} }
+    child { node {images}
+    		child { node {icon.png} }
+    		child { node {loose.gif} }
+    		child { node {victory.gig} }
+    		child { node {victory1.gif} }
+    		child { node {victory2.gif} }
+   	    };
+\end{tikzpicture}
+\end{center}
+\caption{Arborescence des dossiers}
+\end{figure}
+
+\newpage
+
+	\subsection{Diagrammes des modules et des classes}
+Faire un diagramme UML des classes de chaque fichier/ en général ? Puis l'expliquer ?
+
+	\subsection{Cas d’utilisation}
+Cas d'utilisation pour chacune des classes ou seulement certaines, sur quelles critères la choisir alors ? 
+
+	\subsection{Chaînes de traitement}
+Ordre dans lequel les objets sont traités. Diagramme use case, uml.
+
+
+
+\section{Expérimentations et usages}
+
+Expérimentations sur la partie moteur de combat : 
+Expérimentations sur la partie algorithme génétique : 
+Expérimentations sur la partie graphique : EGraphique avec image de fond et boutons par dessus
+
+	\subsection{Capture d’écrans}
+capture d'écrans :
+
+	\subsection{Mesures de performance}
+Peu après avoir commencé à produire du code, la performance de notre code nous a paru important. C'est pour cela que nous avons mené des tests en calculant le temps d'exécution. Cela est devenu encore plus important après la création de l'algorithme génétique.
+Pour cela nous avons utilisé le module time.
+Performance utilisateur vs IA (armée aléatoire) : 
+
+performance algorithme génétique IA faible niveau 1 avec 100 points :
+performance algorithme génétique IA faible niveau 2 avec 100 points :
+performance algorithme génétique IA faible niveau 3 avec 100 points :
+performance algorithme génétique IA faible niveau 4 avec 100 points :
+
+performance algorithme génétique IA forte niveau 1 avec 100 points :
+performance algorithme génétique IA forte niveau 2 avec 100 points :
+performance algorithme génétique IA forte niveau 3 avec 100 points :
+performance algorithme génétique IA forte niveau 4 avec 100 points :
+
+
+
+
+\section{Conclusion}
+
+\subsection{Proposition d'amélioration}
+
+%A faire :
+%Moteur de combat supérieur à deux armées
+%Une interface avec animation
+%Musique de fond
+%Rajouter une unité dans l'interface
+
+\vspace{12\baselineskip} %voir précisément le nombre de lignes à sauter
+
+\bigbreak
+\smallbreak
+\begin{itemize}
+        \item 
+        \item 
+\end{itemize}
+\end{document} %fin du document

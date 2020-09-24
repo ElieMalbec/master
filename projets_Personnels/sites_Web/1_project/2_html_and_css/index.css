@@ -1,0 +1,109 @@
+body {
+	font-family: Arial, Helvetic, sans-serif;
+}
+
+/* navigation */
+a.active {
+	text-decoration: inherit;
+	text-align: center;
+	background-color: Chartreuse;
+	color: Azure;
+	padding: 5px 5px;
+}
+
+a.element {
+	text-decoration: inherit;
+	text-align: center;
+	color: Azure;
+	padding: 5px 5px;
+	margin-left: -10px;
+}
+
+a.element:hover {
+	background-color: Grey;
+}
+div.navDiv {
+	font-size: 35px;
+	text-decoration: none;
+	
+	border-bottom-width: 1px;
+	background-color: black;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+/* the two column  */
+div.twocolumn {
+	padding-top: 5px;
+	background-color: inherit; ;
+	display: grid;
+	grid-template-columns : 2fr 1fr;
+}
+	
+div.leftcontainer {
+	border: 5px;
+	background-color: Azure;
+	padding: 5px;
+}	
+	
+figcaption {
+	text-decoration: overline underline;
+	text-align: center;
+	color: Red;
+}
+figcaption:before {
+	content: "~";
+}
+figcaption:after {
+	content: "~";
+}
+
+
+div.articles {
+	/*background-color: Azure;*/
+	background-color: GhostWhite;
+	padding: 15px;
+}
+/*
+div.articles h2{
+	text-align: center;
+}*/
+h2 {
+
+text-align: center;}
+
+div.twocolumn br {
+	background-color: White;
+}
+
+div.socialinfo {
+	padding = 15px;
+}
+div.container {
+	padding-left: 15px;
+	background-color: GhostWhite;
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+}

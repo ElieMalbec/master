@@ -1,0 +1,439 @@
+from Paysans import*
+from Lanciers import*
+from Piquiers import*
+from Cavaliers import*
+from Chevaliersapied import*
+from Archers import*
+from Hallebardiers import*
+from Arbaletriers import*
+from Frondeurs import*
+from Catapultes import*
+from Cataphractes import*
+from ArchersCavaliers import*
+from Javeliniers import*
+from CharsDeGuerre import*
+from Hacheurs import*
+from ChiensDeGuerre import*
+from ElephantsDeGuerre import*
+from Epeistes import*
+from Arquebusiers import*
+from Generaux import*
+
+class Armee(object):
+
+    # Les attributs de classe notre classe armée : paysans, lanciers, piquiers,
+    #cavaliers, chevaliers à pied, archers, hallebardiers, frondeur, catapultes
+    #cataphractes, archers à cheval, javelinier, char de guerre, hacheur, 
+    #chiens de guerre, éléphants de guerre, épéistes, arquebusiers, généraux.
+    
+    Paysans = []
+    Lanciers = []
+    Piquiers = []
+    Cavaliers = []
+    ChevaliersAPied = []
+    Archers = []
+    Hallebardiers = []
+    Arbaletriers = []
+    Frondeurs = []
+    Catapultes = []
+    Cataphractes = []
+    ArchersCavaliers = []
+    Javeliniers = []
+    CharsDeGuerre = []
+    Hacheurs = []
+    ChiensDeGuerre = []
+    ElephantsDeGuerre = []
+    Epeistes = []
+    Arquebusiers = []
+    Generaux = []
+    
+    def __init__(self, Paysans, Lanciers, Piquiers, Cavaliers, ChevaliersAPied, Archers, Hallebardiers, Arbaletriers,
+                 Frondeurs, Catapultes, Cataphractes, ArchersCavaliers, Javeliniers, CharsDeGuerre, Hacheurs,
+                 ChiensDeGuerre, ElephantsDeGuerre, Epeistes, Arquebusiers, Generaux):
+        """ Constructeur de la classe Armée. Le constructeur prend en paramètre
+        tous les attributs de classes. Chaque attribut du constructeur(les 
+        différentes unités) utilisent les attributs de classe définis au début 
+        de la page. Ils deviennent un tableau vide. """
+        
+        self.Paysans = Paysans
+        self.Lanciers = Lanciers
+        self.Piquiers = Piquiers
+        self.Cavaliers = Cavaliers
+        self.ChevaliersAPied = ChevaliersAPied
+        self.Archers = Archers
+        self.Hallebardiers = Hallebardiers
+        self.Arbaletriers = Arbaletriers
+        self.Frondeurs = Frondeurs
+        self.Catapultes = Catapultes
+        self.Cataphractes = Cataphractes
+        self.ArchersCavaliers = ArchersCavaliers
+        self.Javeliniers = Javeliniers
+        self.CharsDeGuerre = CharsDeGuerre
+        self.Hacheurs = Hacheurs
+        self.ChiensDeGuerre = ChiensDeGuerre
+        self.ElephantsDeGuerre = ElephantsDeGuerre
+        self.Epeistes = Epeistes
+        self.Arquebusiers = Arquebusiers
+        self.Generaux = Generaux
+    
+    def creerArmee(self, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                   nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                   nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                   nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """ Méthode qui permet de créer une armée. Elle prend en paramètre un 
+        nombre de chacune des unités. La variable troupe[unité] utilise
+        la méthode [unité].creerTroupe[unité]. Celui-ci permet de remplir un 
+        tableau de l'unité en question."""
+        
+        troupePaysans = Paysans.creerTroupePaysans(None, nombrePaysans)
+        troupeLanciers = Lanciers.creerTroupeLanciers(None, nombreLanciers)
+        troupePiquiers = Piquiers.creerTroupePiquiers(None, nombrePiquiers)
+        troupeCavaliers = Cavaliers.creerTroupeCavaliers(None, nombreCavaliers)
+        troupeChevaliersAPied = ChevaliersAPied.creerTroupeChevalierAPied(None, nombreChevaliersAPied)
+        troupeArchers = Archers.creerTroupeArchers(None, nombreArchers)
+        troupeHallebardiers = Hallebardiers.creerTroupeHallebardiers(None, nombreHallebardiers)
+        troupeArbaletriers = Arbaletriers.creerTroupeArbaletriers(None, nombreArbaletriers)
+        troupeFrondeurs = Frondeurs.creerTroupeFrondeurs(None, nombreFrondeurs)
+        troupeCatapultes = Catapultes.creerTroupeCatapultes(None, nombreCatapultes)
+        troupeCataphractes = Cataphractes.creerTroupeCataphractes(None, nombreCataphractes)
+        troupeArcherscavaliers = ArchersCavaliers.creerTroupeArchersCavaliers(None, nombreArchersCavaliers)
+        troupeJaveliniers = Javeliniers.creerTroupeJaveliniers(None, nombreJaveliniers)
+        troupeCharsDeGuerre = CharsDeGuerre.creerTroupeCharsDeGuerre(None, nombreCharsDeGuerre)
+        troupeHacheurs = Hacheurs.creerTroupeHacheurs(None, nombreHacheurs)
+        troupeChiensDeGuerre = ChiensDeGuerre.creerTroupeChiensDeGuerre(None, nombreChiensDeGuerre)
+        troupeElephantsDeGuerre = ElephantsDeGuerre.creerTroupeElephantsDeGuerre(None, nombreElephantsDeGuerre)
+        troupeEpeistes = Epeistes.creerTroupeEpeistes(None, nombreEpeistes)
+        troupeArquebusiers = Arquebusiers.creerTroupeArquebusiers(None, nombreArquebusiers)
+        troupeGeneraux = Generaux.creerTroupeGeneraux(None, nombreGeneraux)
+        
+        '''Dans la variable uneArmee nous appelons le constructeur et nous créons une armée  
+        modifier plus explicite]'''
+    
+        uneArmee = Armee(troupePaysans, troupeLanciers, troupePiquiers, troupeCavaliers, troupeChevaliersAPied, troupeArchers, troupeHallebardiers, troupeArbaletriers, troupeFrondeurs, troupeCatapultes, troupeCataphractes, troupeArcherscavaliers, troupeJaveliniers, troupeCharsDeGuerre, troupeHacheurs, troupeChiensDeGuerre, troupeElephantsDeGuerre, troupeEpeistes, troupeArquebusiers, troupeGeneraux)
+        return uneArmee
+    
+    def afficherArmee(self, armee):
+        """Méthode qui permet d'afficher une armée. Il prend en paramètre une 
+        armée (un tableau contenant les différentes unités). La méthode utilise
+        la fonction afficherTroupe[unité] pour afficher chacune des unités."""
+        
+        Paysans.afficherTroupePaysans(None, armee.Paysans)
+        Lanciers.afficherTroupeLanciers(None, armee.Lanciers)
+        Piquiers.afficherTroupePiquiers(None, armee.Piquiers)
+        Cavaliers.afficherTroupeCavaliers(None, armee.Cavaliers)
+        ChevaliersAPied.afficherTroupeChevaliersAPied(None, armee.ChevaliersAPied)
+        Archers.afficherTroupeArchers(None, armee.Archers)
+        Hallebardiers.afficherTroupeHallebardiers(None, armee.Hallebardiers)
+        Arbaletriers.afficherTroupeArbaletriers(None, armee.Arbaletriers)
+        Frondeurs.afficherTroupeFrondeurs(None, armee.Frondeurs)
+        Catapultes.afficherTroupeCatapultes(None, armee.Catapultes)
+        Cataphractes.afficherTroupeCataphractes(None, armee.Cataphractes)
+        ArchersCavaliers.afficherTroupeArchersCavaliers(None, armee.ArchersCavaliers)
+        Javeliniers.afficherTroupeJaveliniers(None, armee.Javeliniers)
+        CharsDeGuerre.afficherTroupeCharsDeGuerre(None, armee.CharsDeGuerre)
+        Hacheurs.afficherTroupeHacheurs(None, armee.Hacheurs)
+        ChiensDeGuerre.afficherTroupeChiensDeGuerre(None, armee.ChiensDeGuerre)
+        ElephantsDeGuerre.afficherTroupeElephantsDeGuerre(None, armee.ElephantsDeGuerre)
+        Epeistes.afficherTroupeEpeistes(None, armee.Epeistes)
+        Arquebusiers.afficherTroupeArquebusiers(None, armee.Arquebusiers)
+        Generaux.afficherTroupeGeneraux(None, armee.Generaux)
+    
+    
+    def calculPVTotal(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                      nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                      nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                      nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode qui permet de calculer le nombre total de PV de toute l'armée. 
+        Elle prend en paramètre le nombre de chacune des unités. La variable 
+        résultat comptabilise les différents nombres de point de vie de chacune
+        des unités (en appelant la méthode [unité].calculPV. Le résultat final est renvoyé."""
+        
+        resultat = 0
+        resultat = resultat + Paysans.calculPV(None, nombrePaysans, armee.Paysans)
+        resultat = resultat + Lanciers.calculPV(None, nombreLanciers, armee.Lanciers)
+        resultat = resultat + Piquiers.calculPV(None, nombrePiquiers, armee.Piquiers)
+        resultat = resultat + Cavaliers.calculPV(None, nombreCavaliers, armee.Cavaliers)
+        resultat = resultat + ChevaliersAPied.calculPV(None, nombreChevaliersAPied, armee.ChevaliersAPied)
+        resultat = resultat + Archers.calculPV(None, nombreArchers, armee.Archers)
+        resultat = resultat + Hallebardiers.calculPV(None, nombreHallebardiers, armee.Hallebardiers)
+        resultat = resultat + Arbaletriers.calculPV(None, nombreArbaletriers, armee.Arbaletriers)
+        resultat = resultat + Frondeurs.calculPV(None, nombreFrondeurs, armee.Frondeurs)
+        resultat = resultat + Catapultes.calculPV(None, nombreCatapultes, armee.Catapultes)
+        resultat = resultat + Cataphractes.calculPV(None, nombreCataphractes, armee.Cataphractes)
+        resultat = resultat + ArchersCavaliers.calculPV(None, nombreArchersCavaliers, armee.ArchersCavaliers)
+        resultat = resultat + Javeliniers.calculPV(None, nombreJaveliniers, armee.Javeliniers)
+        resultat = resultat + CharsDeGuerre.calculPV(None, nombreCharsDeGuerre, armee.CharsDeGuerre)
+        resultat = resultat + Hacheurs.calculPV(None, nombreHacheurs, armee.Hacheurs)
+        resultat = resultat + ChiensDeGuerre.calculPV(None, nombreChiensDeGuerre, armee.ChiensDeGuerre)
+        resultat = resultat + ElephantsDeGuerre.calculPV(None, nombreElephantsDeGuerre, armee.ElephantsDeGuerre)
+        resultat = resultat + Epeistes.calculPV(None, nombreEpeistes, armee.Epeistes)
+        resultat = resultat + Arquebusiers.calculPV(None, nombreArquebusiers, armee.Arquebusiers)
+        resultat = resultat + Generaux.calculPV(None, nombreGeneraux, armee.Generaux)
+        return resultat
+    
+    def calculPATotal(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                      nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                      nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                      nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode qui permet de calculer le nombre total de PA de toute l'armée. 
+        Elle prend en paramètre le nombre de chacune des unités. La variable résultat 
+        comptabilise les différents nombres de point d'attaque de chacune des unités 
+        (en appelant la méthode [unité].calculPA. Le résultat final est renvoyé."""
+        
+        resultat = 0
+        resultat = resultat + Paysans.calculPA(None, nombrePaysans, armee.Paysans)
+        resultat = resultat + Lanciers.calculPA(None, nombreLanciers, armee.Lanciers)
+        resultat = resultat + Piquiers.calculPA(None, nombrePiquiers, armee.Piquiers)
+        resultat = resultat + Cavaliers.calculPA(None, nombreCavaliers, armee.Cavaliers)
+        resultat = resultat + ChevaliersAPied.calculPA(None, nombreChevaliersAPied, armee.ChevaliersAPied)
+        resultat = resultat + Archers.calculPA(None, nombreArchers, armee.Archers)
+        resultat = resultat + Hallebardiers.calculPA(None, nombreHallebardiers, armee.Hallebardiers)
+        resultat = resultat + Arbaletriers.calculPA(None, nombreArbaletriers, armee.Arbaletriers)
+        resultat = resultat + Frondeurs.calculPA(None, nombreFrondeurs, armee.Frondeurs)
+        resultat = resultat + Catapultes.calculPA(None, nombreCatapultes, armee.Catapultes)
+        resultat = resultat + Cataphractes.calculPA(None, nombreCataphractes, armee.Cataphractes)
+        resultat = resultat + ArchersCavaliers.calculPA(None, nombreArchersCavaliers, armee.ArchersCavaliers)
+        resultat = resultat + Javeliniers.calculPA(None, nombreJaveliniers, armee.Javeliniers)
+        resultat = resultat + CharsDeGuerre.calculPA(None, nombreCharsDeGuerre, armee.CharsDeGuerre)
+        resultat = resultat + Hacheurs.calculPA(None, nombreHacheurs, armee.Hacheurs)
+        resultat = resultat + ChiensDeGuerre.calculPA(None, nombreChiensDeGuerre, armee.ChiensDeGuerre)
+        resultat = resultat + ElephantsDeGuerre.calculPA(None, nombreElephantsDeGuerre, armee.ElephantsDeGuerre)
+        resultat = resultat + Epeistes.calculPA(None, nombreEpeistes, armee.Epeistes)
+        resultat = resultat + Arquebusiers.calculPA(None, nombreArquebusiers, armee.Arquebusiers)
+        resultat = resultat + Generaux.calculPA(None, nombreGeneraux, armee.Generaux)
+        return resultat
+    
+    def calculDFTotal(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                      nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                      nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                      nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode qui permet de calculer le nombre total de DF de toute l'armée. 
+        Elle prend en paramètre le nombre de chacune des unités. La variable 
+        résultat comptabilise les différents nombres de point de défense de chacune 
+        des unités (en appelant la méthode [unité].calculDF. Le résultat final est renvoyé."""
+        
+        resultat = 0
+        resultat = resultat + Paysans.calculDF(None, nombrePaysans, armee.Paysans)
+        resultat = resultat + Lanciers.calculDF(None, nombreLanciers, armee.Lanciers)
+        resultat = resultat + Piquiers.calculDF(None, nombrePiquiers, armee.Piquiers)
+        resultat = resultat + Cavaliers.calculDF(None, nombreCavaliers, armee.Cavaliers)
+        resultat = resultat + ChevaliersAPied.calculDF(None, nombreChevaliersAPied, armee.ChevaliersAPied)
+        resultat = resultat + Archers.calculDF(None, nombreArchers, armee.Archers)
+        resultat = resultat + Hallebardiers.calculDF(None, nombreHallebardiers, armee.Hallebardiers)
+        resultat = resultat + Arbaletriers.calculDF(None, nombreArbaletriers, armee.Arbaletriers)
+        resultat = resultat + Frondeurs.calculDF(None, nombreFrondeurs, armee.Frondeurs)
+        resultat = resultat + Catapultes.calculDF(None, nombreCatapultes, armee.Catapultes)
+        resultat = resultat + Cataphractes.calculDF(None, nombreCataphractes, armee.Cataphractes)
+        resultat = resultat + ArchersCavaliers.calculDF(None, nombreArchersCavaliers, armee.ArchersCavaliers)
+        resultat = resultat + Javeliniers.calculDF(None, nombreJaveliniers, armee.Javeliniers)
+        resultat = resultat + CharsDeGuerre.calculDF(None, nombreCharsDeGuerre, armee.CharsDeGuerre)
+        resultat = resultat + Hacheurs.calculDF(None, nombreHacheurs, armee.Hacheurs)
+        resultat = resultat + ChiensDeGuerre.calculDF(None, nombreChiensDeGuerre, armee.ChiensDeGuerre)
+        resultat = resultat + ElephantsDeGuerre.calculDF(None, nombreElephantsDeGuerre, armee.ElephantsDeGuerre)
+        resultat = resultat + Epeistes.calculDF(None, nombreEpeistes, armee.Epeistes)
+        resultat = resultat + Arquebusiers.calculDF(None, nombreArquebusiers, armee.Arquebusiers)
+        resultat = resultat + Generaux.calculDF(None, nombreGeneraux, armee.Generaux)
+        return resultat
+    
+    def calculVITTotal(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                       nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                       nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                       nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode qui permet de calculer le nombre total de VIT de toute l'armée. 
+        Elle prend en paramètre le nombre de chacune des unités. La variable résultat 
+        comptabilise les différents nombres de point de vitesse de chacune des unités 
+        (en appelant la méthode [unité].calculVIT. Le résultat final est renvoyé."""
+        
+        resultat = 0
+        resultat = resultat + Paysans.calculVIT(None, nombrePaysans, armee.Paysans)
+        resultat = resultat + Lanciers.calculVIT(None, nombreLanciers, armee.Lanciers)
+        resultat = resultat + Piquiers.calculVIT(None, nombrePiquiers, armee.Piquiers)
+        resultat = resultat + Cavaliers.calculVIT(None, nombreCavaliers, armee.Cavaliers)
+        resultat = resultat + ChevaliersAPied.calculVIT(None, nombreChevaliersAPied, armee.ChevaliersAPied)
+        resultat = resultat + Archers.calculVIT(None, nombreArchers, armee.Archers)
+        resultat = resultat + Hallebardiers.calculVIT(None, nombreHallebardiers, armee.Hallebardiers)
+        resultat = resultat + Arbaletriers.calculVIT(None, nombreArbaletriers, armee.Arbaletriers)
+        resultat = resultat + Frondeurs.calculVIT(None, nombreFrondeurs, armee.Frondeurs)
+        resultat = resultat + Catapultes.calculVIT(None, nombreCatapultes, armee.Catapultes)
+        resultat = resultat + Cataphractes.calculVIT(None, nombreCataphractes, armee.Cataphractes)
+        resultat = resultat + ArchersCavaliers.calculVIT(None, nombreArchersCavaliers, armee.ArchersCavaliers)
+        resultat = resultat + Javeliniers.calculVIT(None, nombreJaveliniers, armee.Javeliniers)
+        resultat = resultat + CharsDeGuerre.calculVIT(None, nombreCharsDeGuerre, armee.CharsDeGuerre)
+        resultat = resultat + Hacheurs.calculVIT(None, nombreHacheurs, armee.Hacheurs)
+        resultat = resultat + ChiensDeGuerre.calculVIT(None, nombreChiensDeGuerre, armee.ChiensDeGuerre)
+        resultat = resultat + ElephantsDeGuerre.calculVIT(None, nombreElephantsDeGuerre, armee.ElephantsDeGuerre)
+        resultat = resultat + Epeistes.calculVIT(None, nombreEpeistes, armee.Epeistes)
+        resultat = resultat + Arquebusiers.calculVIT(None, nombreArquebusiers, armee.Arquebusiers)
+        resultat = resultat + Generaux.calculVIT(None, nombreGeneraux, armee.Generaux)
+        return resultat
+    
+    def calculCOUTTotal(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                        nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                        nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                        nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode qui permet de calculer le nombre total du COUT de toute l'armée. 
+        Elle prend en paramètre le nombre de chacune des unités. La variable résultat 
+        comptabilise les différents nombres de coûts de chacune des unités (en appelant 
+        la méthode [unité].calculCOUT. Le résultat final est renvoyé."""
+        
+        resultat = 0
+        resultat = resultat + Paysans.calculCOUT(None, nombrePaysans, armee.Paysans)
+        resultat = resultat + Lanciers.calculCOUT(None, nombreLanciers, armee.Lanciers)
+        resultat = resultat + Piquiers.calculCOUT(None, nombrePiquiers, armee.Piquiers)
+        resultat = resultat + Cavaliers.calculCOUT(None, nombreCavaliers, armee.Cavaliers)
+        resultat = resultat + ChevaliersAPied.calculCOUT(None, nombreChevaliersAPied, armee.ChevaliersAPied)
+        resultat = resultat + Archers.calculCOUT(None, nombreArchers, armee.Archers)
+        resultat = resultat + Hallebardiers.calculCOUT(None, nombreHallebardiers, armee.Hallebardiers)
+        resultat = resultat + Arbaletriers.calculCOUT(None, nombreArbaletriers, armee.Arbaletriers)
+        resultat = resultat + Frondeurs.calculCOUT(None, nombreFrondeurs, armee.Frondeurs)
+        resultat = resultat + Catapultes.calculCOUT(None, nombreCatapultes, armee.Catapultes)
+        resultat = resultat + Cataphractes.calculCOUT(None, nombreCataphractes, armee.Cataphractes)
+        resultat = resultat + ArchersCavaliers.calculCOUT(None, nombreArchersCavaliers, armee.ArchersCavaliers)
+        resultat = resultat + Javeliniers.calculCOUT(None, nombreJaveliniers, armee.Javeliniers)
+        resultat = resultat + CharsDeGuerre.calculCOUT(None, nombreCharsDeGuerre, armee.CharsDeGuerre)
+        resultat = resultat + Hacheurs.calculCOUT(None, nombreHacheurs, armee.Hacheurs)
+        resultat = resultat + ChiensDeGuerre.calculCOUT(None, nombreChiensDeGuerre, armee.ChiensDeGuerre)
+        resultat = resultat + ElephantsDeGuerre.calculCOUT(None, nombreElephantsDeGuerre, armee.ElephantsDeGuerre)
+        resultat = resultat + Epeistes.calculCOUT(None, nombreEpeistes, armee.Epeistes)
+        resultat = resultat + Arquebusiers.calculCOUT(None, nombreArquebusiers, armee.Arquebusiers)
+        resultat = resultat + Generaux.calculCOUT(None, nombreGeneraux, armee.Generaux)
+        return resultat
+    
+    def caracteristiquesArmee(self, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                              nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                              nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                              nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux):
+        """Méthode retournant un tableau contenant les différentes caractéristiques (PV, PA, DF, VIT, COUT) 
+        d'une armée. Elle prend en paramètres une armée ainsi que le nombre de chacune 
+        des unités. Un tableau vide "caract" est créé. On lui ajoute le résultat
+        des différentes méthodes qui permettent de calculer le nombre de PV, PA, DF, VIT, COUT."""
+        
+        caract = []
+        pv = Armee.calculPVTotal(None, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers,
+                                 nombreChevaliersAPied, nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs,
+                                 nombreCatapultes, nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre,
+                                 nombreHacheurs, nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers,
+                                 nombreGeneraux)
+            
+        pa = Armee.calculPATotal(None, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                                 nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes, 
+                                 nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                                 nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux)
+                                 
+        df = Armee.calculDFTotal(None, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                                 nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes, 
+                                 nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                                 nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux)
+                                 
+        vit = Armee.calculVITTotal(None, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                                   nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                                   nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                                   nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux)
+                                 
+        cout = Armee.calculCOUTTotal(None, armee, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers, nombreChevaliersAPied,
+                                     nombreArchers, nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes,
+                                     nombreCataphractes, nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs,
+                                     nombreChiensDeGuerre, nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux)
+                                 
+        caract.append(pv)
+        caract.append(pa)
+        caract.append(df)
+        caract.append(vit)
+        caract.append(cout)
+        return caract
+
+    def afficherCaracteristiquesArmee(self, caract):
+        """Méthode qui permet d'afficher chacune des caractéristiques de son armée. 
+        Elle prend en paramètre le total des différentes caractéristiques 
+        (qui est un tableau). Un print permet d'afficher chacune des valeurs."""
+        
+        print("L'armée a ", caract[0], " points de vie. \n")
+        print("L'armée a ", caract[1], " points d'attaque. \n")
+        print("L'armée a ", caract[2], " points de defense. \n")
+        print("L'armée a ", caract[3], " points de vitesse. \n")
+        print("L'armée coute ", caract[4], " points. \n")
+        
+    def nombreTroupe(self, nomTroupe, nombrePoint, nombrePointActuel):
+        """Méthode qui permet à l'utilisateur de choisir le nombre de troupes
+        qu'il souhaite. Elle prend en paramètre un nom de troupe, un nombre de 
+        points de départ maximal à ne pas dépasser(que l'utilisateur aura choisi) 
+        ainsi qu'un nombre de points actuel pour qu'il sache où il en est. 
+        L'utilisateur est invité à saisir le nombre de soldats pour l'unité qu'il souhaite. 
+        Une vérification est faîte si l'utilisateur ne choisit pas un entier positif."""
+        
+        print("Choisissez le nombre de ", nomTroupe)
+        saisie = input()
+        if (type(saisie) == str or int(saisie) < 0 or int(saisie) > nombrePoint or nombrePointActuel > nombrePoint):
+            erreur = True
+            while (erreur == True):
+                print("Votre saisie est mauvaise. Choisissez à nouveau le nombre de ", nomTroupe," que vous souhaitez intégrer à votre armée : \n")
+                saisie = input()
+                if (type(saisie) == str or int(saisie) < 0 or int(saisie) > nombrePoint or nombrePointActuel > nombrePoint):
+                    erreur = True
+                else:
+                    erreur = False
+        nombrePointActuel = nombrePointActuel + nombrePoint
+        return saisie, nombrePointActuel
+    
+    def choixUtilisateur(self):
+        ''' Règles de construction d'une armée :
+            Le joueur peut choisir le nombre de points de départ pour la construction d'une armée.
+            Il ne doit pas dépasser le coût total fixé.
+            Gérer si l'utilisateur donne autre chose qu'un entier positif.
+            Le joueur va choisir le nombre de soldats pour chaque troupe.
+            Il ne doit pas dépasser le nombre maximal pour chacune d'entre elles.
+            Fixer ces nombres maximaux.
+    
+            Cette fonction va retourner un tableau contenant les nombres pour chaque troupe choisis par le joueur en fonction des règles
+            tab[0] = nombre de points de départ à dépenser, choisi par le joueur.
+            tab[1] = nombre de Paysans
+            tab[2] = nombre de Lanciers
+            ...
+            ...
+            tab[20] = nombre de Généraux
+    
+                        
+            Gestion du nombre de points'''
+        erreur = False
+        nombrePointActuel = 0
+        nombrePoint = input("Choisissez le nombre de points de départ que vous pourrez dépenser dans une armée : \n")
+        if (type(nombrePoint) == str or int(nombrePoint) < 0):
+            erreur = True
+                        
+            while (erreur == True):
+                nombrePoint = input("Votre saisie est mauvaise. Choisissez à nouveau le nombre de points de départ : \n")
+                if (type(nombrePoint) == str or int(nombrePoint) < 0):
+                    erreur = True
+                else:
+                    erreur = False
+                                            
+        nombrePaysans, nombrePointActuel = Armee.nombreTroupe(self, "Paysans", nombrePoint, nombrePointActuel)
+        nombreLanciers, nombrePointActuel = Armee.nombreTroupe(self, "Lanciers", nombrePoint, nombrePointActuel)
+        nombrePiquiers, nombrePointActuel = Armee.nombreTroupe(self, "Lanciers", nombrePoint, nombrePointActuel)
+        nombreCavaliers, nombrePointActuel = Armee.nombreTroupe(self, "Cavaliers", nombrePoint, nombrePointActuel)
+        nombreChevaliersAPied, nombrePointActuel = Armee.nombreTroupe(self, "Chevaliers A Pied", nombrePoint, nombrePointActuel)
+        nombreArchers, nombrePointActuel = Armee.nombreTroupe(self, "Archers", nombrePoint, nombrePointActuel)
+        nombreHallebardiers, nombrePointActuel = Armee.nombreTroupe(self, "Hallebardiers", nombrePoint, nombrePointActuel)
+        nombreArbaletriers, nombrePointActuel = Armee.nombreTroupe(self, "Arbalétriers", nombrePoint, nombrePointActuel)
+        nombreFrondeurs, nombrePointActuel = Armee.nombreTroupe(self, "Frondeurs", nombrePoint, nombrePointActuel)
+        nombreCatapultes, nombrePointActuel = Armee.nombreTroupe(self, "Catapultes", nombrePoint, nombrePointActuel)
+        nombreCataphractes, nombrePointActuel = Armee.nombreTroupe(self, "Cataphractes", nombrePoint, nombrePointActuel)
+        nombreArchersCavaliers, nombrePointActuel = Armee.nombreTroupe(self, "Archers Cavaliers", nombrePoint, nombrePointActuel)
+        nombreJaveliniers, nombrePointActuel = Armee.nombreTroupe(self, "Javeliniers", nombrePoint, nombrePointActuel)
+        nombreCharsDeGuerre, nombrePointActuel = Armee.nombreTroupe(self, "Chars de guerre", nombrePoint, nombrePointActuel)
+        nombreHacheurs, nombrePointActuel = Armee.nombreTroupe(self, "Hacheurs", nombrePoint, nombrePointActuel)
+        nombreChiensDeGuerre, nombrePointActuel = Armee.nombreTroupe(self, "Chiens de guerre", nombrePoint, nombrePointActuel)
+        nombreElephantsDeGuerre, nombrePointActuel = Armee.nombreTroupe(self, "Eléphants de guerre", nombrePoint, nombrePointActuel)
+        nombreEpeistes, nombrePointActuel = Armee.nombreTroupe(self, "Epéistes", nombrePoint, nombrePointActuel)
+        nombreArquebusiers, nombrePointActuel = Armee.nombreTroupe(self, "Arquebusiers", nombrePoint, nombrePointActuel)
+        nombreGeneraux, nombrePointActuel = Armee.nombreTroupe(self, "Généraux", nombrePoint, nombrePointActuel)
+    
+        return [nombrePoint, nombrePaysans, nombreLanciers, nombrePiquiers, nombreCavaliers,nombreChevaliersAPied, nombreArchers,
+                nombreHallebardiers, nombreArbaletriers, nombreFrondeurs, nombreCatapultes, nombreCataphractes,
+                nombreArchersCavaliers, nombreJaveliniers, nombreCharsDeGuerre, nombreHacheurs, nombreChiensDeGuerre,
+                nombreElephantsDeGuerre, nombreEpeistes, nombreArquebusiers, nombreGeneraux]
+    
+    def armeeGenerique(self):
+        """TEST"""
+        uneArmee = Armee.creerArmee(self, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,1)
+        Armee.afficherArmee(self, uneArmee)

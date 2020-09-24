@@ -1,0 +1,330 @@
+# -*- coding: utf-8 -*-
+import creationArmee as CA
+import moteurCombat as MC
+from Armee import *
+import copy
+import time  # Pour execution time
+import shelve  # Pour sauvegarder des variables
+
+start_time = time.time()
+
+'''Cette fonction a pour objectif de tester la performance d'une armée en lui faisant affronter un certain nombre
+d'adversaires. On la renvoie avec son nombre de victoires.'''
+
+
+def une_armee_et_ses_victoires(nombre_troupes, nombre_tests):
+    compteur = 0
+    nbr_victoires = 0
+    armee1 = CA.creation_armee_alea_troupe_par_troupe(nombre_troupes)
+    while compteur < nombre_tests:
+        carmee1 = copy.deepcopy(armee1)
+        armee2 = CA.creation_armee_alea_troupe_par_troupe(nombre_troupes)
+        combat = MC.moteur_de_combat(carmee1, armee2)
+        if combat == 1:
+            nbr_victoires = nbr_victoires + 1
+        compteur = compteur + 1
+    return [armee1, nbr_victoires]
+
+
+'''Cette fonction va créer une population composée d'individus (des armées) créé(e)s aléatoirement, et la renvoyer. 
+Nous allons ensuite pouvoir traiter cette population qui est la première partie de la composition 
+d'un algorithme génétique.'''
+
+
+def population_simple(taille_pop, nombre_troupes):
+    pop = []
+    i = 0
+    while i < taille_pop:
+        armee = CA.creation_armee_alea_troupe_par_troupe(nombre_troupes)
+        pop.append(armee)
+        i += 1
+    return pop
+
+
+'''Création d'une population évoluée, composée d'armées ayant remporté déjà un certain nombre de combats.'''
+
+
+def population_evoluee(taille_pop, nombre_troupes, nombre_tests):
+    pop = []
+    i = 0
+    while i < taille_pop:
+        a = une_armee_et_ses_victoires(nombre_troupes, nombre_tests)
+        """Si l'armée est parvenue à remporter la moitié ou plus de ses combats, alors elle est considérée comme 
+        semi-performante."""
+        if a[1] >= (nombre_tests // 2):
+            pop.append(a[0])
+            i += 1
+    return pop
+
+
+def afficher_pop(pop):
+    for i in range(len(pop)):
+        Armee.afficher_armee(pop[i])
+
+
+'''On débute le processus avec une sélection par tournoi. Le principe est de créer un tournoi qui verra s'affronter un 
+certain nombre N d'individus d'une population (ici, les individus sont des armées). On récupère ensuite un tableau 
+d'armées performantes, ayant passé le premier processus de sélection, la sélection par tournoi.  '''
+
+'''Cette fonction va gérer l'affrontement des armées côtes à côtes dans une population. Ainsi, la population que l'on 
+obtiendra à la suite de l'application de cette fonction aura la longueur de la population de départ divisée par 2. 
+Il ne restera que les meilleures. Cette fonction retourne donc un tableau contenant des objets de type armée.'''
+
+
+def tournoi_pop_simple(pop):
+    plus_fortes = []
+    i = 0
+    if len(pop) > 2:
+        while i + 1 < len(pop):
+            carmee1 = copy.deepcopy(pop[i])
+            carmee2 = copy.deepcopy(pop[i + 1])
+            combat = MC.moteur_de_combat(carmee1, carmee2)
+            if combat == 1:
+                plus_fortes.append(pop[i])
+                i = i + 2
+            elif combat == 2:
+                plus_fortes.append(pop[i + 1])
+                i = i + 2
+            elif combat == -1:
+                plus_fortes.append(pop[i])
+                i = i + 2
+
+    elif len(pop) == 2:
+        carmee1 = copy.deepcopy(pop[0])
+        carmee2 = copy.deepcopy(pop[1])
+        combat = MC.moteur_de_combat(carmee1, carmee2)
+        if combat == 1:
+            plus_fortes.append(pop[0])
+        elif combat == 2:
+            plus_fortes.append(pop[1])
+        elif combat == -1:
+            plus_fortes.append(pop[0])
+
+    """On ne gère pas le cas où len(pop)<2 car il n'arrivera jamais en raison du choix de la forme 
+    d'utilisation de l'algorithme."""
+    return plus_fortes
+
+
+'''Cette fonction organise un tournoi au sein d'une population en se basant sur la fonction précédente. On suppose que 
+la taille de la population de départ sera supérieure à 8 et égale à une puissance de 2 pour faciliter le calcul du
+vainqueur. Le tournoi est organisé de la même manière qu'un tournoi de sport ou de jeu : des éliminatoires à l'issue
+desquelles il ne restera que huit armées, un quart de finale avec pour résultat les quatre armées gagnantes, 
+les demies finales d'où ressortiront les deux meilleures, et enfin la finale pour départager les deux armées.
+Cette fonction retourne un objet de type armée.'''
+
+
+def organisation_tournoi_simple(pop):
+    # print("Voici les inscris pour ce tournoi : \n")
+    # print("Débutons le tournoi : \n")
+    # print("Phases éliminatoires : \n")
+    eliminatoires = tournoi_pop_simple(pop)
+    while len(eliminatoires) > 8:
+        eliminatoires = tournoi_pop_simple(eliminatoires)
+    # print("Quart finale : \n")
+    quart = tournoi_pop_simple(eliminatoires)
+    # print("Demi finale \n")
+    demi = tournoi_pop_simple(quart)
+    # print("DEMI")
+    # print("Finale \n")
+    # print("Voici notre vainqueur :\n")
+    finale = tournoi_pop_simple(demi)
+    # print("FINALE")
+    return finale[0]
+
+
+'''Cette fonction renvoie un tableau d'armées (dont le nombre est paramétré) ayant remporté un tournoi au sein 
+d'une population dont le nombre est lui aussi paramétré, que l'on choisit en fonction du besoin.'''
+
+
+def des_armees_victorieuses(taille_pop, nombre_troupes, armees_obtenues):
+    armees = []
+    i = 0
+    while i < armees_obtenues:
+        pop = population_simple(taille_pop, nombre_troupes)
+        tournoi = organisation_tournoi_simple(pop)
+        armees.append(tournoi)
+        i = i + 1
+    return armees
+
+
+# a = desArmeesVictorieuses(32, 400, 16)
+# print("Des armées victorieuses de tournois : \n")
+# afficherPopSimple(a)
+
+
+'''On créé une fonction qui donne un rang à chaque membre d'une population afin d'en évaluer le potentiel.
+Plus il y a de membres de rang 0 dans une population, plus elle est puissante. Le but de l'algorithme génétique est 
+d'obtenir une armée si performante qu'elle sera sortie vainqueure d'un tournoi l'opposant aux autres membres
+d'une population, tous ayant un rang de 0.'''
+
+
+def evaluation_individus_pop(pop):
+    new_pop = []
+    j = 1
+    boolean = False
+    for i in range(len(pop)):
+        tt_i = Armee.retour_totaux(pop[i])
+        tt_j = Armee.retour_totaux(pop[j])
+        while j < len(pop):
+            meilleur = []
+            for x in range(len(tt_i)):
+                if tt_i[x] == tt_j[x]:
+                    meilleur.append(0)
+                elif tt_i[x] > tt_j[x]:
+                    meilleur.append(1)
+                else:
+                    meilleur.append(2)
+            nbr0 = 0
+            nbr1 = 0
+            nbr2 = 0
+            for i in range(len(meilleur)):
+                if meilleur[i] == 0:
+                    nbr0 = nbr0 + 1
+                elif meilleur[i] == 1:
+                    nbr1 = nbr1 + 1
+                else:
+                    nbr2 = nbr2 + 1
+            if nbr0 > nbr1 > nbr2:
+                new_pop.append()
+
+            j = j + 1
+
+
+'''Nous allons organiser notre sélection par tournoi comme nous le ferions dans la réalité : des championnats 
+départementaux, des championnats régionaux qui verront s'affronter les meilleurs de chaque département, 
+des championnats nationaux qui verront s'affronter les meilleurs de chaque région et enfin les championnats mondiaux 
+qui verront s'affronter les meilleurs de chaque nation.'''
+
+
+def championnats_departementaux(nombre_participants, nombre_troupes, classee):
+    # print("Les championnats départementaux : \n")
+    if classee == 0:
+        participants = population_simple(nombre_participants, nombre_troupes)
+    else:
+        participants = population_evoluee(nombre_participants, nombre_troupes, classee)
+    resultat = organisation_tournoi_simple(participants)
+    return resultat
+
+
+def championnats_regionaux(taille_pop, nombre_troupes, nombre_departements, classee):
+    # print("Les championnats régionaux : \n")
+    vainqueurs_departementaux = []
+    i = 0
+    while i < nombre_departements:
+        departementaux = championnats_departementaux(taille_pop, nombre_troupes, classee)
+        vainqueurs_departementaux.append(departementaux)
+        i = i + 1
+    if nombre_departements >= 8:
+        resultat = organisation_tournoi_simple(vainqueurs_departementaux)
+        # print("Le vainqueur et représentant régional est : \n")
+        return resultat
+    else:
+        resultat = tournoi_pop_simple(vainqueurs_departementaux)
+        # print("Le vainqueur et représentant régional est : \n")
+        return resultat[0]
+
+
+def championnats_nationaux(taille_pop, nombre_troupes, nombre_regions, nombre_departements, classee):
+    # print("Les championnats nationaux : \n")
+    i = 0
+    vainqueurs_regionaux = []
+    while i < nombre_regions:
+        regionaux = championnats_regionaux(taille_pop, nombre_troupes, nombre_departements, classee)
+        vainqueurs_regionaux.append(regionaux)
+        i = i + 1
+    if nombre_regions >= 8:
+        resultat = organisation_tournoi_simple(vainqueurs_regionaux)
+        # print("Le vainqueur et représentant national est : \n")
+        return resultat
+    else:
+        resultat = tournoi_pop_simple(vainqueurs_regionaux)
+        # print("Le vainqueur et représentant national est : \n")
+        return resultat[0]
+
+
+def championnats_mondiaux(taille_pop, nombre_troupes, nombre_pays, nombre_regions, nombre_departements, classee):
+    # print("Les championnats mondiaux :\n")
+    i = 0
+    vainqueurs_nationaux = []
+    while i < nombre_pays:
+        champion_national = championnats_nationaux(taille_pop, nombre_troupes, nombre_regions, nombre_departements,
+                                                   classee)
+        vainqueurs_nationaux.append(champion_national)
+        i = i + 1
+    if nombre_pays >= 8:
+        resultat = organisation_tournoi_simple(vainqueurs_nationaux)
+        # print("Le vainqueur et champion du monde est : \n")
+        # Armee.afficher_armee(resultat)
+        return resultat
+    else:
+        resultat = tournoi_pop_simple(vainqueurs_nationaux)
+        # print("Le vainqueur et champion du monde est : \n")
+        # afficher_pop(resultat)
+        return resultat[0]
+
+
+def des_champions_du_monde(nombre_champions, taille_armee, classee):
+    i = 0
+    des_champions = []
+    while i < nombre_champions:
+        champ = championnats_mondiaux(16, taille_armee, 16, 16, 16, classee)
+        des_champions.append(champ)
+        i += 1
+    return des_champions
+
+
+def algorithme_genetique():
+    nombre_troupes = input("Donnez le nombre de troupes qui vont constituer votre armée et "
+                           "celle de votre adversaire : \n")
+
+    while not str.isnumeric(nombre_troupes):
+        nombre_troupes = input("Erreur de saisie, saisir à nouveau le nombre de troupes")
+    nombre_troupes = int(nombre_troupes)
+
+    s_ou_f = input("Voulez-vous affronter une IA faible ou IA forte ? Le temps d'attente sera un peu plus grand."
+                   " Entrez 0 pour IA faible ou 1 pour IA forte :\n")
+
+    while not str.isnumeric(s_ou_f) and int(s_ou_f) != 0 and int(s_ou_f) != 1:
+        print(int(s_ou_f) != 0)
+        print("Erreur ! Recommencez ! \n")
+        s_ou_f = input("Voulez-vous affronter une IA faible ou IA forte ? Le temps d'attente sera un peu plus grand."
+                       " Entrez 0 pour IA faible ou 1 pour IA forte :\n")
+    s_ou_f = int(s_ou_f)
+
+    if s_ou_f == 0:
+        classee = 0
+    else:
+        '''On fixe les combats de base pour les armées formant les premières populations à 10.'''
+        print("Vous avez choisi une IA forte. \n")
+        classee = 10
+
+    niveau_ia = input("Choisissez le niveau de votre adversaire : 1, 2, 3 ou 4 : \n")
+
+    while not str.isnumeric(niveau_ia) and int(niveau_ia) != 1 \
+            and int(niveau_ia) != 2 and int(niveau_ia) != 3 and int(niveau_ia) != 4:
+        print("Erreur ! Saisir à nouveau le niveau de l'IA ! \n")
+        niveau_ia = input("Choisissez le niveau de votre adversaire : 1, 2, 3 ou 4 : \n")
+
+    niveau_ia = int(niveau_ia)
+
+    '''On choisit d'effectuer des championnats avec une population de départ de 16 armées à chaque fois pour simplifier
+    la gestion du tournoi et éviter un temps de calcul trop long.'''
+    if niveau_ia == 1:
+        un_champion_departemental = championnats_departementaux(16, nombre_troupes, classee)
+        return un_champion_departemental
+    elif niveau_ia == 2:
+        un_champion_regional = championnats_regionaux(16, nombre_troupes, 16, classee)
+        return un_champion_regional
+    elif niveau_ia == 3:
+        un_champion_national = championnats_nationaux(16, nombre_troupes, 16, 16, classee)
+        return un_champion_national
+    elif niveau_ia == 4:
+        un_champion_du_monde = championnats_mondiaux(16, nombre_troupes, 16, 16, 16, classee)
+        return un_champion_du_monde
+
+# alg = algorithme_genetique()
+# Armee.afficher_armee(alg)
+
+# print("\nExecution time : ")
+# print("--- %s seconds ---" % (time.time() - start_time))
+# del start_time

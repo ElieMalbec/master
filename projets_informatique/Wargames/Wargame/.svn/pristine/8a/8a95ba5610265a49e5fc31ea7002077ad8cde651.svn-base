@@ -1,0 +1,115 @@
+# -*- coding: utf-8 -*-
+import Armee as A
+
+"""Module regroupant des fonctions pour la création d'une armée, 
+    - creation_armee_utilisateur permet de créer une armée selon les choix de l'utilisateur pour le nombre de troupes et 
+        le choix de chacune d'elles
+    - creationArmeeNbTroupes(nombreDeTroupesMax) crée une armée avec comme limite de nombre de troupes l'argument passé 
+        en paramètre, l'utilisateur choisi le nombre de chaque troupes
+        
+    Mode opératoire pour la création d'une armée :
+        - instancier l'objet Armee()
+        - donner le nombre de points dans monarmee.point soit avec ChoixNombrePoints() soit directement
+        - Créer les limites à ne pas dépasser pour l'utilisateur : monarmee.creation_limites()
+        - Création d'un effectif = monarmee.ChoixUtilisateur pour manuel ou les armées aléa avec 
+            creation_effectif_aleatoire et creation_effectif_aleatoire_troupe_par_troupe
+        - Création des troupes et de l'armée dans le monarmee.troupes avec monarmee.creer_armee(effectif)
+        - Retour de l'armée et ou des totaux avec monarmee.calcul_totaux puis monarmee.retour_totaux()"""
+
+
+def creation_armee_utilisateur():
+    """Formation d'une armée choisie entièrement par l'utilisateur
+    Choix du nombre de points possible et du nombre de chaque troupe
+    Retourne une armée et un tableau contenant les valeurs importants de l'armée"""
+    a = A.Armee()
+    a.ajout_unite()
+    a.informations_combattants()
+    print("---------------------------")
+    a.choix_nombre_points()
+    a.creation_limites()  # Définition des limites en fonction du nombre de points choisis par l'utilisateur
+    effectif = a.choix_utilisateur()
+    a.creer_armee(effectif)
+    a.calcul_totaux()
+    a.afficher_armee()
+    return a
+
+
+def creation_armee_nb_troupes(nombre_de_troupes_max):
+    """Formation d'une armée choisie entièrement par l'utilisateur
+    Choix du nombre de points possible et du nombre de chaque troupe
+    Retourne une armée et un tableau contenant les valeurs importants de l'armée
+    Paramètre nombre de troupe maxi en paramètre"""
+    a = A.Armee()
+    a.ajout_unite()
+    a.points = nombre_de_troupes_max
+    a.creation_limites()  # Création des limites en fonction du nombre de points
+    a.informations_combattants()
+    print("---------------------------")
+    effectif = a.choix_utilisateur()
+    a.creer_armee(effectif)
+    a.calcul_totaux()
+    a.afficher_armee()
+    return a
+
+
+def creation_armee_aleatoire(unite_max):
+    """Créé une armée aléatoire en fonction d'un nombre maximum d'unités"""
+    a = A.Armee()
+    a.points = unite_max
+    print("---------------------------")
+    a.creation_limites()  # Nombre d'unites maximum calculé en fonction du nombre de points en paramètre
+    effectif = a.creation_effectif_aleatoire(unite_max)
+    a.creer_armee(effectif)
+    a.calcul_totaux()
+    return a
+
+
+def creation_armee_effectif(dictionnaire_effectif):
+    """Retourne une armée avec pour effectif celui passé en paramètre dans un dictionnaire
+    Test pour vérifier que c'est bien un dictionnaire passé en paramètres,
+    si les clés sont incorrectes, les combattants créer seront ceux par défaut de la classe
+    Combattant()"""
+
+    if type(dictionnaire_effectif) != dict:
+        print("Format argument incorrect, dictionnaire requis")
+        return False, False
+    else:
+        a = A.Armee()
+        print("---------------------------")
+        a.creer_armee(dictionnaire_effectif)
+        a.afficher_totaux()
+        a.calcul_totaux()
+        return a
+
+
+def cree_n_armee_alea(nombre_armee_a_generer, nombre_de_points_armee):
+    """Fonction permettant de créer un nombre d'armée aléatoires défini avec un nombre de
+    points passé en paramètre. Ces armées sont renvoyées dans un tableau et les totaux également"""
+
+    mesarmees = []
+    for i in range(0, nombre_armee_a_generer):
+        monarmeealea = creation_armee_aleatoire(nombre_de_points_armee)
+        mesarmees.append(monarmeealea)
+    return mesarmees
+
+
+def creation_armee_alea_troupe_par_troupe(unite_max):
+    a = A.Armee()
+    a.points = unite_max
+    #    print("---------------------------")
+    a.creation_limites()
+    effectif = a.creation_effectif_aleatoire_troupe_par_troupe(unite_max)
+    a.creer_armee(effectif)
+    a.calcul_totaux()
+    return a
+
+
+def cree_n_armee_alea_troupe_par_troupe(nombre_armee_a_generer, nombre_de_points_armee):
+    """Fonction permettant de créer un nombre d'armée aléatoires défini avec un nombre de
+    points passé en paramètre. Ces armées sont renvoyées dans un tableau et les totaux également"""
+
+    mesarmees = []
+    for i in range(0, nombre_armee_a_generer):
+        monarmeealea = creation_armee_alea_troupe_par_troupe(nombre_de_points_armee)
+        mesarmees.append(monarmeealea)
+    return mesarmees

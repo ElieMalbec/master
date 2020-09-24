@@ -1,0 +1,504 @@
+\documentclass[a4paper]{article} %style de document
+% La taille par défaut est à laisser
+\usepackage[utf8]{inputenc} %encodage des caractères
+\usepackage[french]{babel} %paquet de langue français
+\usepackage[T1]{fontenc} %encodage de la police
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry} %marges
+\usepackage{graphicx} %'affichage des images
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\usepackage{tikz}%pour faire des figures
+\definecolor{astral}{RGB}{46,116,181} 
+\sectionfont{\color{red}}
+\subsectionfont{\color{astral}}
+\subsubsectionfont{\color{green}}
+
+
+\title{
+\LARGE{\em{Rapport Conception de Logiciels}}\\\vspace*{0.5cm}
+UE Conception de Logiciels\\
+Licence Informatique
+}
+\author{
+Elie MALBEC - Alex LEFEVRE - Emmanuel GARREAU\\
+\small{{21805304 - 21809848 - 21700336}}\\\vspace*{1cm}
+Groupe 1B\\
+Sujet : Optimisateur de Wargame
+}
+
+\date{2018 - 2019}
+
+\begin{document} %début du document
+\maketitle{\begin{center}\includegraphics[width=12cm]{Images/Rapport_front_page.jpg}\end{center}}
+\newpage
+
+\section{Introduction}
+		\tableofcontents
+
+
+
+\section{Objectifs du projet}
+
+	\subsection{Description du concept derrière l’application}
+	Qu'est-ce qu'un wargame ? Un wargame est à la base un jeu de plateau se jouant avec des figurines. Depuis le VIIe siècle, il est utilisé par les militaires comme outil de simulation et d'aide à la décision. De nos jours, c'est aussi un jeu de stratégie informatique. Le but étant de détruire l'armée adverse.
+
+	\subsection{Ce qu’il fallait faire}
+Le projet a été réalisé par Alex Lefevre, Emmanuel Garreau et Elie Malbec. Nous avons décidé en commun de créer un optimisateur de wargame.
+Notre choix s'est naturellement porté vers ce sujet en raison de l'intérêt porté à sa thématique ainsi qu'à la mise en place d'un algorithme génétique.
+Les objectifs du projet étaient multiples :
+
+\begin{itemize}
+        \item Un moteur de combat entre plusieurs armées avec des règles simplifiées
+        \item Un générateur automatique d'armées respectant une limite de points
+        \item Un optimisateur d'armées issu d'un algorithme génétique
+\end{itemize}
+
+	\subsection{Ce qui existe déjà}
+Le jeu de plateau Warhammer et Warhammer 40000 ont grandement popularisé le thème du wargame.
+D'anciens jeux vidéos sur le thème du wargame existent : Panzer General (1994), Warlords(1989) ou encore Warhammer... etc.
+
+
+\section{Fonctionnalités implémentées}
+Au cours du projet, de multiples fonctionnalités ont été implémentées. En effet, il est possible de jouer seul via le Menu Solo de l'interface et ainsi de pouvoir choisir son armée pour la faire combattre contre une armée aléatoire ou générée depuis l'optimisateur. De plus, l'utilisateur peut récupérer l'armée construite par l'algorithme génétique via le Menu Optimisateur que nous détaillerons plus tard.
+
+Il est également possible de jouer à deux joueurs, chacun choisissant son armée pour se défier. Tous les joueurs peuvent, s'ils le souhaitent, générer une armée aléatoire par rapport à un nombre de points donné et en suivant les limites imposées par le Wargame.
+
+D'autres options sont également possibles, comme l'enregistrement d'une armée dans un fichier. Il est possible de la récupérer plus tard. Différents affichages donnent diverses informations sur les combattants ou sur le fonctionnement du jeu avec les règles et la FAQ. Pour finir, un bouton reset permet de réinitialiser les armées de tous les joueurs et de remettre les limites de points à zéro. Ces fonctionnalités sont détaillées dans la partie suivante.
+
+	\subsection{Description des fonctionnalités}
+Au sein de l'interface graphique, on retrouve ainsi plusieurs méthodes de jeu :
+\begin{center}
+\includegraphics[scale= 1]{Images/interface.png}
+\end{center}
+%\newpage
+\bigbreak
+Voyons en détails chacune des fonctionnalités.
+
+		\subsubsection{Menu Solo}
+Le menu Solo permet de jouer contre l'ordinateur.
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menu1joueur.png}
+\end{center}
+
+Au début, le joueur a la possibilité de créer une armée soi-même, à l'aide d'une création aléatoire ou encore en utilisant l'algorithme génétique.
+\smallbreak
+Ensuite, plusieurs options s'offrent à lui : il peut afficher les caractéristiques de son armée, en récupérer une autre à l'aide d'un fichier JSON préalablement enregistrée. 
+Enfin, il lance le combat contre l'IA. Il peut décider si l'armée de l'IA a été créé de manière aléatoire ou bien grâce à un algorithme génétique. 
+Le vainqueur est déclaré.
+
+		\subsubsection{Menu Multijoueur}
+Le menu Multijoueur permet de jouer avec un ami.
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menuMultijoueur.png}
+\end{center}
+
+Il comporte la plupart des méthodes du Menu Solo : création de son armée (de manière aléatoire ou grâce à un algorithme génétique), affichage de son armée, récupération d'une une armée contenu dans un fichier JSON et du lancement du combat.
+Le vainqueur est affiché à l'écran.
+
+
+		\subsubsection{Menu Optimisateur}
+Le menu Optimisateur permet de créer une armée plus puissante que celle qui est crée aléatoirement.
+\begin{center}
+\includegraphics[scale= 0.5]{Images/menuOptimisateur.png}
+\end{center}
+
+Au début, le joueur choisit son nombre de points. 
+% y'a bcp de "choisit" après... 
+%Mettre un label à chacune des options qui renvoient vers la partie algo génétique en question
+Ensuite, plusieurs options s'offrent à lui : il peut choisir la compétence de l'IA (faible ou forte), il choisit entre quatre niveaux d'IA(la quatrième étant la plus puissante/difficile), il choisit si des mutations doivent avoir lieu et si un algorithme d'évaluation analyse son armée ou pas.
+Enfin, il peut sauvegarder cette armée dans un fichier JSON, l'utiliser sur le champ de bataille ou se battre contre elle.
+
+%Le joueur commence par choisir le nombre de points de l'armée. Puis, il indique son choix d'affronter une IA Faible ou Forte. Il donne ensuite le niveau voulu pour son adversaire et si des mutations doivent avoir lieu afin de renforcer l'armée. Il peut également choisir de faire évaluer l'armée par un algorithme afin de savoir si elle est optimale ou non.
+%Il lui reste, enfin, à décider de l'utilisation de l'armée conçue. Il peut s'en servir lui-même, l'affronter ou encore la sauvegarder dans un fichier JSON pour plus tard.
+
+
+		\subsubsection{Enregistrer une Armée}
+Le menu Enregistrer une armée permet de sauvegarder une armée dans un fichier JSON.
+\begin{center}
+\includegraphics[scale= 0.3]{Images/enregistrerArmee.png}
+\end{center}
+
+Au début, l'utilisateur donne un nom à son armée.
+Ensuite, il la créé. Plusieurs manières s'offrent à lui : en cliquant directement sur les barres de déplacement (mal dit), en activant la création aléatoire ou en en récupérant une depuis le Menu Solo, Multijoueur ou Optimisateur.
+Enfin, l'armée est enregistrée dans un fichier JSON.
+
+%Depuis ce menu, on peut créer une armée soi-même ou par la création aléatoire, lui donner un nom puis l'enregistrer dans un fichier JSON. On peut également récupérer les armées contenues dans le Menu Solo, dans le Menu Multijoueur ou dans le Menu Optimisateur afin de pouvoir étudier son contenu, le modifier ou l'enregistrer, à notre guise.
+
+		\subsubsection{Afficher caractéristiques}
+	Le menu Afficher caractéristiques permet d'afficher toutes les caractéristiques de toutes les unités possibles. Points de vie, de défense, d'attaque, de vitesse ainsi que leur coût. Leur placement dans la hiérarchie de combat est également affiché, cette hiérarchie indique l'ordre dans lequel les troupes succomberont en premier lors d'un combat. Des informations supplémentaires sont également affichées, ce sont les limites imposées lors de la création d'une armée.
+	
+L'affichage est réalisé dans une Toplevel de TKinter, et composée de labels rangées dans une grille. Les informations sont tirées de la classe Troupe, dans le dictionnaire carac.
+	
+\begin{center}
+\includegraphics[scale= 0.4]{Images/afficherCaracteristiques.png}
+\end{center}
+
+		\subsubsection{Affichage des règles, de la FAQ et reset des armées}
+
+Il est possible d'afficher les règles du jeu. Celles-ci permettent de comprendre le fonctionnement du jeu.
+Quant à elle, la FAQ donne des indications aux joueurs sur la manière d'utiliser le programme.
+
+Le bouton reset permet de réinitialiser toutes les armées afin de reprendre depuis le début.
+
+%On peut également afficher les règles du jeu, la FAQ ou encore reset toutes les armées actuelles pour reprendre à 0.
+\begin{comment} 	
+- Possibilité de jouer seul
+	- Créer une armée soi-même ou aléatoirement ou par algorithme génétique ;
+	- Afficher son armée et les stats ;
+	- Récupérer une armée via un fichier JSON ou par son nom ;
+	- Combattre contre l'algorithme génétique ou contre une armée aléatoire ;
+
+- Possibilité de jouer à deux :
+	- Création des armées de chaque joueur et leur affichage ;
+	- Récupération d'une armée ;
+	- Affrontement des deux armées ;
+	
+- Possibilité de créer une armée par l'optimisateur suivant un nombre de points et différentes options ;
+	- Possibilité de l'enregistrer, de l'affronter ou de l'utiliser ;
+
+- Affichage des caractéristiques des unités ;
+
+- Possibilité d'afficher les règles et la FAQ;
+
+- Possibilité de reset toutes les armées ; 
+
+A la base du wargame, on retrouve tout d'abord la création d'armées. Plusieurs possibilités ont été conçues : le joueur peut créer lui-même une armée en fonction de ses envies, utiliser une armée produite par un algorithme aléatoire ou encore s'approprier une armée élaborée par l'algorithme génétique.
+Le joueur a également la possibilité d'enregistrer une armée dans un fichier JSON afin de pouvoir s'en servir à nouveau.
+
+\end{comment}
+
+	\subsection{Fonctionnalités abandonnées}
+
+Au cours du projet, nous avons été amenés à revoir nos choix de départ afin d'améliorer le code produit.
+Voici plusieurs exemples qui illustrent notre évolution : \\
+
+- Nous avions débuté par la conception des troupes avec une classe par troupe, créant un objet spécifique pour chacune d'entre elles (un objet Archer, un objet Chevalier...), ce système n'était pas pratique car l'ensemble des unités disposaient des mêmes propriétés à l’exception de ses compétences.\\
+
+- Notre première fonction aléatoire n'était pas optimisée car elle calculait le nombre maximum d'unités d'une troupe prise au hasard dans les troupes possibles. Puis génère aléatoirement un nombre entre 0 et ce maximum pour déterminer le nombre d'unités à former. Il pouvait ainsi y avoir les trois quarts d'une armée composée d'une seule troupe. Cette génération aléatoire à été abandonnée.\\
+
+- Il est possible d'ajouter une unité en exécutant des fonctions qui demandent en ligne de commande à l'utilisateur ses caractéristiques. Cependant, cette option est compliquée à mettre en place dans l'interface.
+
+% si vous avez d'autres trucs à ajouter, c'est le moment.
+
+	\subsection{Organisation du projet}
+L'organisation du projet s'est déroulée en plusieurs étapes importantes, la première concerne la structure du projet. Plusieurs séances ont été consacrées au choix de unités, de la méthode de combat et notamment la forme des batailles. En effet, deux choix possibles. Soit les troupes seraient disposées sur un plateau de jeu selon le choix de l'utilisateur, soit le combat serait purement calculatoire. Nous avons choisi le calcul et la partie graphique en bonus sans plateau de jeu.
+
+Ensuite, en seconde phase du projet, Emmanuel a pris les devants en commençant à coder. En effet, Alex et Elie n'avaient pas d'expérience en programmation objet contrairement aux notions que possédait déjà Emmanuel. Les premiers tests se sont révélés concluants mais la maintenabilité du code était à revoir.
+
+Après quelques séances, Alex a effectué la factorisation du code  qu'avait écrit Emmanuel, l'utilisation de dictionnaires était plus judicieuse et les combattants ne seraient plus des objets issus de diverses classes mais d'une seule (Troupe). Un héritage de classe s'était mis en place mais fut finalement abandonné en fin de projet car inutile.
+
+À partir de ce moment, le projet s'est scindée en deux parties: Alex et Élie travaillaient sur la création d'une armée aléatoire et sur l'implémentation du moteur de combat pendant que Emmanuel travaillait sur la réalisation de l'algorithme génétique.
+
+Une première version du projet était fonctionnelle en console et permettait de choisir son armée, d'ajouter des unités et de s'affronter. Cependant, des modules de fonctions permettait de faire ces combats. On avait donc un mélange de programmation impérative et objet car les fonctions travaillaient sur les objets et n'appelaient pas de méthodes propres aux armées.
+
+Après cela, deux parties graphiques ont été codées par Élie et Alex. L'envie de saisir le fonctionnement de tkinter était primordial pour faire une interface graphique. Après concertation, nous avons décidés de garder et de travailler uniquement sur la partie graphique d'Alex. Cette dernière ajoute de nouvelles fonctionnalités aux utilisateurs et permet par exemple d'enregistrer des armées ou de lancer une optimisation d'armée. Cependant nous avons abandonné l'ajout de boutons sur des images de Élie, car trop difficile à mettre en place.
+
+Vers début mars, l'algorithme génétique a été ajouté à l'interface graphique. De légères corrections ont été apportées par toute l'équipe pour être le plus performant possible.
+
+En dernière phase, le module creationArmee qui permettait jusque-ici de créer les armées à été supprimé en ajoutant des méthodes aux Armées, c'est une programmation plus orientée objet. Les troupes héritaient également d'un objet Combattant, mais ce dernier n'avait pas d'utilité car l'héritage était inutile et confus.
+
+Les dernières modifications du code partaient notamment sur les DocStrings des fonctions et la mise aux normes PEP8. Alex à également ajouté les photos de résultat et un écran de combat pour simuler sa durée.
+
+En ce qui concerne l'écriture du rapport et la présentation beamer pour la soutenance, Élie en a rédigé une grande partie, soutenu par les interventions de Alex et Emmanuel.
+
+\section{Élements techniques}
+
+
+
+	\subsection{Algorithmes}
+
+		\subsubsection{Algorithme du moteur de combat}
+Le moteur de combat permet de gérer l'affrontement du combat. A la fin, il décide du vainqueur. Il est possible d'avoir une égalité.
+Le moteur de combat fonctionne avec deux armées. La fonction moteur\_de\_combat comprend donc deux paramètres : armée\_1 et armée\_2. Celles-ci sont des copies d'armées dans le but d'éviter de modifier les armées originales. En effet, le moteur de combat renvoie une valeur correspondante à l'index de l'armée passé en paramètre. Si l'on avait travaillé sur l'armée originale, le programme n'aurait affiché que le reste de l'armée gagnante et non son entièreté.
+De plus, le moteur de combat fonctionne au tour par tour. 
+
+Au début, nous construisons une hiérarchie qui va nous permettre de pouvoir retirer proprement le nombre de troupes mortes. Puis nous effectuons une comparaison de la vitesse totale de l'armée 1 et de l'armée 2. Celle qui a le plus grand nombre gagne un bonus d'attaque de 2.5\%. Si les deux armées ont la même vitesse, une armée est choisi aléatoirement pour bénéficier du bonus d'attaque.
+
+Tant qu'une armée n'est pas vaincue nous continuons le combat. Cette condition est "utilisé" par un while not. A partir de là nous regardons le total de dégâts infligés par les deux armées. Celui-ci est calculé par le total de point d'attaque de l'armée adverse moins le total de sa défense. Ainsi, il faut toujours que le nombre de points d'attaque d'une unité soit supérieure à sa défense.
+A partir de là, nous retirons les morts de chacune des deux armées. (expliciter comment une armée est tué?)Après avoir retiré les unités des armées, il est possible qu'un reste d'attaque existe. Celui-ci est sauvegardé temporairement et ajouté au total de l'armée lors du tour prochain. Cela permet d'éviter d'avoir des combats où des unités n'arrivent pas à se tuer mutuellement car elles ont de trop de points de vie et de défense.
+
+Le calcul des totaux est effectué et la variable tour s'incrémente.
+Si un combat dure trop longtemps, alors nous arrêtons le programme et nous disons que c'est une égalité.
+
+Voici un diagramme qui illustre son fonctionnement global :
+\begin{figure}[!h]
+	\begin{center}
+	\includegraphics[width=10cm]{Images/Diagramme_moteur_combat.png}
+	\caption{Fonctionnement du moteur de combat}
+	\end{center}
+\end{figure}
+
+		\subsubsection{Algorithme de la création aléatoire d'armées}
+Algorithme pour la création aléatoire d'armées :
+%Image à faire
+La possibilité de gérer des armées a été au cœur de notre discussion au début du projet. En effet, il nous fallait trouver une ou plusieurs méthodes qui permettait d'avoir des armées variées. Ces armées allaient ensuite être utilisés dans le cadre de l'algorithme génétique.
+
+Deux fonctions issues de \texttt{Armee.py} nous permettent de créer des armées aléatoires. La première à été abandonnée. Le problème majeur sur cette dernière était qu'il y avait peu de diversité au sein de l'armée. De plus, le nombre de points totaux n'était souvent pas atteint. Cela est du au fait que la fonction choisissait un nombre au hasard entre le minimum et le maximum d'une unité qu'il était possible de recruter. Une armée pouvait donc être composée au trois quart d'une seule unité.
+
+La deuxième méthode est bien plus intéressante à ce niveau là. Ici, nous prenons une unité au hasard et nous ajoutons à l'armée une seule de cette troupe là si c'est possible en fonction des limites imposées. Si une troupe dispose d'une limite, comme les généraux (trois au maximum), cela est pris en compte et il n'est pas possible d'en avoir plus. L'armée se construit donc plus lentement mais peut disposer d'une large variété d'unités ainsi qu'un nombre de points toujours égal au nombre de points demandé. La fonction renvoie un dictionnaire, préalablement vide, contenant tous les types d'unités (clé) ainsi que leur nombre (valeur).
+
+		\subsubsection{Algorithme de l'algorithme génétique}
+Le schéma ci-dessous vous présente le fonctionnement général d'un algorithme génétique au sein duquel on retrouve un certain nombre de possibilités dans le choix des fonctions.
+
+\begin{figure}[!h]
+	\begin{center}
+	\includegraphics[scale= 0.4]{Images/algoGenet.png}
+	\caption{source : https://khayyam.developpez.com/articles/algo/genetic/\#L3.3}
+	\end{center}
+\end{figure}
+
+Bien entendu, ce schéma peut, et souvent doit, être modifié en fonction du contexte, ce qui est le cas ici. En effet, on ne cherche pas à obtenir une population d'armées performantes mais une seule et unique armée.\\
+C'est ainsi que nous avons décidé d'utiliser la sélection par tournoi, le croisement multi-points ainsi qu'un algorithme d'évaluation. On aurait pu ajouter d'autres méthodes de sélection comme la roulette, la sélection par rang ou encore la mutation post-sélection. Elles pourraient compléter l'algorithme dans une autre version du jeu où le temps d'exécution, déjà bien long dans certains cas, aurait été encore plus maximisé.\\
+\\
+
+%problème ici, changer la phrase voire le grah aussi, ajouter un grah des chamionnats départementaux, nationaux, régional, mondial
+
+On débute donc le processus avec la création d'une population initiale (une population composée d'armées). Deux choix sont possibles pour l'utilisateur : une population de départ normale ou une population de départ évoluée (c'est-à-dire que chaque armée la composant a déjà passé un certain nombre de tests et est donc considérée comme semi-performante). Ce choix correspond à la partie "IA Faible ou Forte" de l'interface graphique.\\
+\\
+On enchaîne ensuite avec la sélection par tournoi, conçue de la même manière que nous le ferions dans la réalité : des championnats départementaux, des championnats régionaux qui verront s'affronter les meilleures de chaque département, des championnats nationaux qui verront s'affronter les meilleures de chaque région et enfin les championnats mondiaux qui verront s'affronter les meilleures de chaque nation.
+Le champion départemental sera sorti vainqueur d'un tournoi opposant seize armées d'une population initiale. Le championnat régional sera le terrain d'affrontement de seize armées multiplié par le nombre de départements voulus par le joueur et ainsi de suite jusqu'au championnat mondial (16 départementaux x 16 régionaux x 16 nationaux).\\
+\\
+
+On choisit le nombre 16, non paramétrable par le joueur, bien que cela pourrait être un ajout supplémentaire. En effet, il s'agit du nombre le plus simple à utiliser pour l'algorithme de gestion des tournois (étant un multiple de 2 supérieur à 8) et également pour la vitesse d'exécution déjà très lente dans le cas où l'utilisateur choisirait tous les paramètres optimaux pour l'IA.\\
+\\
+
+Ainsi, quatre niveaux sont mis à la disposition du joueur pour l'optimisateur. Le niveau 1 correspond à un champion départemental. Le niveau 2, un champion régional. Le niveau 3, un champion national et enfin le niveau 4, un champion mondial.
+A cet instant, on sait donc quel niveau nous devons utiliser et si les populations de départ doivent être évoluées ou non.\\
+\\
+
+Vient après cela la fonction gérant le croisement multi-points. On commence par créer deux armées selon les paramètres fixés par le joueur (Faible ou Forte, Niveau). Nous prenons ensuite les deux premières parties des armées, les 10 premières troupes, puis on les interchange afin d'obtenir deux nouvelles armées ayant été croisées. On retourne la meilleure des deux, récupérée après un combat. Néanmoins, il fallait également prendre en compte le fait qu'un croisement de ce type risquait de modifier les points totaux des armées et de s'éloigner de la demande de l'utilisateur. C'est la raison pour laquelle nous avons fixé un plafond de 10\% à respecter. Si ce n'est pas le cas, l'algorithme recommencera alors le même schéma depuis la création des deux armées.\\
+\\
+
+Par la suite, on s'intéresse aux performances de l'armée obtenue. Pour cela, un algorithme d'évaluation a été conçu. Ainsi, il va soumettre l'armée optimisée à une série de combats contre d'autres armées. Si elle parvient à remporter un tiers d'entre eux, alors elle est considérée comme performante. Le nombre de combat qu'elle aura à mener va dépendre du niveau de l'IA choisit par le joueur. Au niveau 1, elle devra livrer 10 combats. Le niveau 2, 20 combats... etc.\\
+\\
+
+Ainsi, notre algorithme génétique possède les fonctionnalités suivantes : création de populations initiales évoluées ou non (Faible ou Forte), sélection par tournoi (en fonction du niveau), croisement multi-points, algorithme d'évaluation, tous pouvant être choisis ou non par le joueur ce qui offre un bon niveau de paramétrabilité pour l'optimisateur.\\
+\\
+L'ensemble de l'algorithme génétique a été conçu à la main, sans utilisation de bibliothèques spécialisées. Cela pourrait être un autre ajout permettant le raccourcissement du temps d'exécution.
+%ca pourrait ou ça l'est, faut trancher
+
+		\subsubsection{Algorithme de la partie graphique} 
+Algorithme pour la partie graphique : 
+C'est plus fonctionnement de la partie graphique
+
+La partie graphique est le fichier le plus volumineux. En effet, il dépasse les milles lignes de code.
+
+La partie graphique utilise la programmation objet. Ainsi, dix-sept classes ont été déclarées. Les principales classes sont la fenêtre principale et celles qui permettent d'afficher les différents menus (Solo, Multijoueur, Optimisateur, Règles, FAQ, etc). D'autres classes comme EnregistrerArmee servent à la fenêtre principale pour les différentes fonctions proposées.
+
+La fenêtre principale est la classe MaFen, elle hérite de l'objet Tk, qui est une fenêtre graphique Tkinter.
+Elle permet de gérer les actions de l'utilisateur en manipulant les classes. Elle comporte plusieurs attributs de classe, un dictionnaire troupes qui sert à stocker les effectifs temporaires des armées. Elle comporte également quatre objets Armee qui correspondent aux armées des joueurs solo, duo(joueur 1 et joueur 2) et celle de l'optimisateur. Ces attributs sont accessibles facilement via \texttt{MaFen.armeeSolo} par exemple.
+
+Ensuite, cette classe comporte des attributs d'instance, dont notamment un dictionnaire \texttt{frames} qui correspond aux différentes frames possibles pour l'affichage. Ce sont des objets issus des classes correspondantes aux menus et frames de résultat, récupération. Ces objets ont hérité de la classe Frame. Ce système permet d'afficher dans la fenêtre principale les frames selon le choix de l'utilisateur. Ainsi au lancement de l'application, se créer l'ensemble des frames, elles sont stockées dans un dictionnaire, ce qui permet de rapidement les utiliser par la suite. 
+Au démarrage, la page d'accueil est affichée. C'est ce que l'utilisateur verra quand il ouvrira le programme. 
+
+Dans cette page d'accueil, plusieurs boutons permettent d'aller dans les différents sous-menus.
+Pour changer de frame, la méthode changer\_frame de la classe MaFen va oublier la frame actuelle contenue dans \texttt{currentFrame} et ajouter la nouvelle via la méthode \texttt{pack}. Pour finir, la nouvelle frame est placée en référence dans l'attribut \texttt{currentFrame}.
+
+Chaque menu peut contenir widgets : des boutons, boutons-radio, labels ou encore des canvas pour afficher les images. Chacun de ses widgets, objets de Tkinter, doit être ajouté via la méthode \texttt{pack()} ou \texttt{grid()} selon l'arrangement de la frame. Ils sont donc visibles sur la frame quand elle est ajoutée à la fenêtre principale. Par exemple, pour ajouter un bouton dans une frame on écrira : \texttt{Button(self, ses options).pack()}.
+
+À ce titre, le bouton reset de la page d'accueil est particulier. En effet, celui-ci ne renvoie pas vers une autre page mais réinitialise les armées (on instancie de nouveaux objets). En appuyant sur le bouton, celui-ci exécute la méthode de classe reset. Les armées des joueurs Solo, Multijoueur et Optimisateur sont remises à zéro. Cette méthode est déclarée comme \texttt{@classmethod} car elle n'effectue pas de changement sur l'objet mais sur les attributs de classe.
+
+De plus, des événements claviers sont ajoutés, comme la touche "échap" pour quitter le jeu. Cependant, comme cette attribution de touche renvoie un paramètre supplémentaire, il faut ajouter \texttt{*args} dans les paramètres des méthodes concernées. Puis utiliser ce paramètre avec la méthode statique \texttt{unused} pour éviter les erreurs de norme. Une autre méthode est probablement possible. 
+
+Les boutons règles et FAQ renvoient vers une page (une classe) qui ouvre un fichier grâce aux fonctions \texttt{open et read}. Si le fichier est introuvable, il est indiqué à l'utilisateur que le fichier n'a pas été trouvé. Pour vérifier si le fichier est là, nous utilisons "os.path.isfile" qui teste si le chemin existe dans l'ordinateur.
+
+Avant de passer à l'algorithmie des pages issues du menu solo, multijoueur et optimisateur voyons un autre bouton important : celui d'Enregistrer une armée. Grâce à ce bouton, l'utilisateur va pouvoir créer une infinité d'armées et les enregistrer.
+
+Il va ensuite avoir la possibilité de les utiliser sur le champ de bataille via l'option récupération d'armée. 
+
+La sélection d'une armée est commune aux frames EnregistrerArmee et NouvelleArmee. Chacune d'entre elles utilisent la classe SelectionTroupe(Frame) avec différents paramètres lors de son instanciation. En effet, selon les paramètres passées, de nouveaux boutons apparaissent pour la sélection. Par exemple, \texttt{SelectionTroupes(self, armee, alea=True)} fait construire une frame avec un bouton créer une armée aléatoire. Alors que \texttt{SelectionTroupes(self, A.Armee(), recup=True)} affiche un menu pour récupérer une armée courante mais sans l'aléatoire.
+
+Ensuite, pour que l'utilisateur choisisse ses troupes il faut glisser une barre (Scale) pour décider du nombre d'unités que nous voulons. Il existe cependant une limite de 200 unités par troupe ( ex: 200 cavaliers).
+A chaque changement de valeur, cette dernière est modifiée dans le dictionnaire troupes de MaFen et une armée est instanciée avec cet effectif. Certaines informations comme ses statistiques apparaissent dans des Labels. On voit également si une limite est en cours pour le joueur adverse, pour ne pas déséquilibrer les armées. Des curseurs se trouvent bloqués à une limite inférieure à 200, les troupes correspondantes disposent d'une limite d'unités par rapport à un nombre de points.
+
+Pour finir sur ce point, lors de l'enregistrement d'une armée, un champ de texte permet à l'utilisateur d'écrire. Il peut ainsi choisir le nom de son armée.
+Il lui suffit alors de valider son armée et elle est sauvegardée dans un fichier JSON au niveau local. Une sérialisation du dictionnaire troupes est fait et il est enregistré dans un nouveau fichier portant le nom que l'utilisateur à choisi.
+
+La génération d'une armée aléatoire fait appel à une méthode de classe qui génère une armée aléatoire en fonction d'un nombre de points puis met les curseurs à la valeur correspondante au nombre d'unités de l'armée générée. Cette dernière est éditable par l'utilisateur. On accède aux valeurs des curseurs en parcourant le dictionnaires \texttt{scales} de l'objet SelectionTroupe puis à l'attribut var déclaré dans la classe MonScale. Cette option est disponible pour tous les utilisateurs.
+\bigbreak
+Les trois pages qui seront les plus fréquentées seront celles du menu solo, du menu multijoueur et du menu optimisateur.
+
+Dans les menus, le bouton Afficher armée permet d'afficher l'armée du joueur et ses caractéristiques. Si aucune armée n'a été sélectionnée les statistiques valent simplement zéro. Il est possible de voir son nombre total de point d'attaque, de défense, de vitesse et le coût de l'armée. Les troupes sont également affichées avec le nombre et le type d'unité. Un texte est passé au constructeur de la classe LabelAffichage qui met en forme ce dernier. Il est simplement ajouté par la suite avec la méthode pack.
+
+Un paramètre est possible pour l'affichage des armées, en effet, lors de la récupération d'une armée, celle-ci est affichée avec cette Toplevel et l'armée du joueur est déjà modifiée. Cependant, un bouton quitter sans enregistrer remet l'armée par défaut qui est stockée dans l'attribut \texttt{armeeTemp}.
+
+Le troisième bouton permet de récupérer une armée. Il suffit de donner le nom de l'armée et celle-ci pourra être utilisée y compris dans des combats en multijoueur. On vérifie que le fichier existe, même celui sélectionné depuis l'explorateur de fichiers. Ensuite le dictionnaire effectif contenu dans le fichier est désérialié, une armée est formée avec ce dernier et ajoutée dans l'armée choisie par le joueur via les boutons radios.
+\medbreak
+Enfin, après avoir choisi son armée, l'avoir affichée ou encore l'avoir enregistrée, il faut la faire combattre, pour cela. Plusieurs types de combat sont possibles :
+\begin{enumerate}
+	\item Combat contre une armée aléatoire en solo
+	\item Combat contre l'optimisateur après avoir généré une armée
+	\item Un affrontement entre deux joueurs
+\end{enumerate}
+
+Pour le premier cas, il faut que le joueur solo ait une armée, puis sélectionne le combat contre aléatoire. Une armée aléatoire est générée basée sur le nombre de points de celle de l'utilisateur et le combat démarre. Il utilise notre moteur de combat. Plusieurs images permettent de combattre que le combat est en cours. Elles apparaissent avec un délai d'une seconde pour simuler une attente car le combat est rapide à calculer. Le résultat est affiché à l'aide des frames de résultat chargé au lancement du programme.
+
+Ensuite, il est possible de combattre contre l'IA. Il ne faut pas oublier de créer une armée optimisée pour l'IA grâce à l'algorithme génétique que nous avons implémenté, puis lancer le combat. Les deux armées s'affrontent et le vainqueur est déclaré. Les méthodes qui permettent de lancer ces affrontements sont dans la classe MaFen et lancés directement depuis les boutons des frames.
+
+La page du menu Optimisateur dispose quant à elle de nombreux boutons-radio qui sont rangés dans des LabelsFrame. Cela est dû au fait que l'utilisateur peut choisir des options pour l'armée optimisée. Les valeurs sont récupérées dans des IntVar() la méthode \texttt{algo} va chercher ces valeurs pour lancer la fonction générale de l'optimisateur.
+L'interface permet par ailleurs une visualisation que l'optimisation est en cours, en effet, deux Threads sont lancés. C'est à dire que l'ordinateur va exécuter deux codes en même temps : celui de l'algorithme génétique mais aussi celui de la barre de progression ajoutée à l'interface. Cette barre est créée avec un module de Tktiner : ttk puis ajouté avec la méthode pack.
+De plus, il est possible d'enregistrer directement l'armée générée dans un fichier JSON.
+
+On a donc une méthode \texttt{lancer\_optimisateur} qui lance deux Threads qui sont deux autres méthodes. La méthode \texttt{progress\_bar} et la méthode \texttt{algo}.
+
+\texttt{Thread(target=self.progress\_bar).start()\\
+Thread(target=self.algo).start()}
+
+%deux points dans deux points...
+La barre de progression marche de manière infinie, c'est à dire qu'elle va continuer à faire des allers-retours tant qu'elle n'est pas arrêtée ou détruite. Après avoir fini l'optimisation, elle est détruite. Elle fonctionne de la manière suivante : une barre est créée avec le widget ProgressBar : \texttt{ttk.Progressbar(frame, options)} puis on boucle avec la méthode start qui fait avancer le bandeau dans la barre : \texttt{progress.start(50)}.
+
+Enfin tous les boutons "quitter" sont mis en valeur avec un fond de couleur rouge issu d'une variable globale comprenant le code couleur. Il permet de fermer la fenêtre ou Toplevel actuelle et donc de quitter le jeu proprement.
+
+Dans le fichier main, le logo dans la barre des tâches de l'application Tkinter est changé par la modification de l'iconphoto de l'application lancée.
+
+	\subsection{Structures de données}
+Le jeu est basé sur un système d'armées formées soit par l'utilisateur soit générée aléatoirement. Une armée est un objet Armee instancié depuis la classe Armee.
+
+Une armée possède des attributs d'instance : des points de vie, d'attaque, de défense, de vitesse et un coût total sous forme d'entiers.
+
+Elle possède également un dictionnaire de limites avec pour clé un nom de troupe et pour valeur le maximum de ce type d'unités. 
+
+Le dictionnaire 'troupes' comportera l'ensemble des troupes d'une armée après que cette dernière ait été formée. Il se présente sous la forme clé : nom de la troupe, valeur : liste d'objets Troupe qui correspondent à son nom.
+Une armée est donc composée d'objets Troupe si elle n'est pas vide.
+
+L'ajout des troupes dans l'armée est fait depuis une méthode de l'objet Armee en lui passant un effectif sous forme de dictionnaire (clé : nom, valeur: nombre unités souhaité). Une boucle se charge d'instancier les troupes une à une avec le constructeur de la classe Troupe. Puis la troupe est placée dans la liste correspondante à son nom dans l'armée. On a donc une armée constituée d'un dictionnaire troupes qui comporte des listes d'objets Troupes qui possèdent chacune ses propres caractéristiques.
+
+Les valeurs spécifiques à une troupe se trouvent dans l'attribut de classe carac de la classe Troupe.
+
+Une armée contient une hiérarchie pour détruire les unités dans un ordre précis. Elle est sous la forme d'une liste ordonnée où le premier nom contenu sera l'unité qui succombera en premier lors d'un affrontement.
+
+L'interface graphique utilise des variables propres au module tkinter. Elles sont déclarées par l'appel d'un constructeur de classe du type IntVar() ou StringVar(). Ces variables sont directement liées au widgets et permettent d'actualiser leur valeur de manière graphique lorsqu'elle change.
+
+L'interface graphique permet par ailleurs de sérialiser les armées dans des fichiers JSON pour être réutilisées par la suite. Ces fichiers contiennent un dictionnaire avec pour clé le nom de la troupe et pour valeur un entier correspondant au nombre d'unités. Ce fichier n'est pas une armée mais un effectif qu'il est possible d'ajouter à une armée par la suite via les méthodes associées.
+
+	\subsection{Bibliothèques}
+Voici les bibliothèques que nous avons utilisées pour réaliser notre projet : 
+\begin{itemize}
+	\item Pour le moteur de combat : random, time 
+	\item Pour l'algorithme génétique : copy, time 
+	\item Pour la partie graphique : tkinter, Pil, json, os.path, copy, time, threading, tkinter.filedialog, tkinter.messagebox
+\end{itemize}
+
+
+\section{Architecture du projet}
+%cf tuto openclassroom : (https://openclassrooms.com/fr/courses/4192086-gerez-votre-projet-informatique-facilement/4192391-etape-2-concevez-larchitecture-du-programme)
+% source : https://tex.stackexchange.com/questions/23647/drawing-a-directory-listing-a-la-the-tree-command-in-tikz/34268#34268
+
+Voici l'architecture de notre projet :
+\makeatletter
+\newcount\dirtree@lvl
+\newcount\dirtree@plvl
+\newcount\dirtree@clvl
+\def\dirtree@growth{%
+  \ifnum\tikznumberofcurrentchild=1\relax
+  \global\advance\dirtree@plvl by 1
+  \expandafter\xdef\csname dirtree@p@\the\dirtree@plvl\endcsname{\the\dirtree@lvl}
+  \fi
+  \global\advance\dirtree@lvl by 1\relax
+  \dirtree@clvl=\dirtree@lvl
+  \advance\dirtree@clvl by -\csname dirtree@p@\the\dirtree@plvl\endcsname
+  \pgf@xa=0,5cm\relax
+  \pgf@ya=-0,4cm\relax
+  \pgf@ya=\dirtree@clvl\pgf@ya
+  \pgftransformshift{\pgfqpoint{\the\pgf@xa}{\the\pgf@ya}}%
+  \ifnum\tikznumberofcurrentchild=\tikznumberofchildren
+  \global\advance\dirtree@plvl by -1
+  \fi
+}
+
+\tikzset{
+  dirtree/.style={
+    growth function=\dirtree@growth,
+    every node/.style={anchor=north},
+    every child node/.style={anchor=west},
+    edge from parent path={(\tikzparentnode\tikzparentanchor) |- (\tikzchildnode\tikzchildanchor)}
+  }
+}
+
+
+\begin{figure}[h]
+\begin{center}
+\begin{tikzpicture}[dirtree]
+\node {src} 
+    child { node {Armee.py} }
+    child { node {interface.py} }
+    child { node {Troupe.py} }
+    child { node {moteurCombat.py} }
+    child { node {optimisateur.py} }
+    child { node {FAQ.txt} }
+    child { node {Regles.txt} }
+    child { node {main.py} }
+    child { node {Images}
+    		child { node {combat\_en\_cours1.gif} }
+    		child { node {combat\_en\_cours2.gif} }
+    		child { node {victoire.gif} }
+    		child { node {defaite.gif} }
+    		child { node {egalite.gif} }
+    		child { node {victoire\_joueur1.gif} }
+    		child { node {victoire\_joueur2.gif} }
+    		child { node {icon.png} }
+   	    };
+\end{tikzpicture}
+\end{center}
+\caption{Arborescence des dossiers}
+\end{figure}
+
+%\newpage
+
+	\subsection{Diagrammes des modules et des classes}
+Alex mettre le diagramme puis l'expliquer ?
+
+	\subsection{Cas d’utilisation}
+Cas d'utilisation pour chacune des classes ou seulement certaines, sur quelles critères la choisir alors ? 
+
+	\subsection{Chaînes de traitement}
+Ordre dans lequel les objets sont traités. Diagramme use case, uml.
+
+
+
+\section{Expérimentations et usages}
+
+Expérimentations sur la partie moteur de combat : 
+Expérimentations sur la partie algorithme génétique : 
+Expérimentations sur la partie graphique : Nous avons tenté de mettre des images de fond sur lesquels apparaîtrait des boutons mais nous n'avons pas réussi. La méthode classique est de packer l'image et les boutons sur un canvas mais cela n'a pas fonctionné.
+
+%	\subsection{Capture d’écrans}
+%capture d'écrans : ?
+
+	\subsection{Mesures de performance}
+Peu après avoir commencé à produire du code, la performance de notre code nous a paru important. C'est pour cela que nous avons mené des tests en calculant le temps d'exécution. Cela est devenu encore plus important après la création de l'algorithme génétique.
+Pour cela nous avons utilisé le module time.
+Performance utilisateur vs IA (armée aléatoire) : Très rapide (inférieur à 1 seconde)
+
+Comparaison du temps d'exécution entre une IA faible et une IA forte : La différence de temps d'exécution est importante. % double, triple,... le temps ?
+Comparaison du temps d'exécution des différents niveaux de l'IA : A partir du niveau 3 le temps d'exécution devient conséquent. 
+Comparaison du temps d'exécution avec ou sans mutations génétiques : Les mutations génétiques prennent un plus de temps.
+Comparaison du temps d'exécution avec l'algorithme d'évaluation : En général l'algorithme d'évaluation ne prend pas trop de temps supplémentaires car celui-ci ne fait qu'ajouter quarante combats au maximum supplémentaires. Cependant si l'agorithme indique que ce n'est pas une armée optimisée ...
+
+
+%graphique 
+\section{Conclusion}
+	\subsection{Proposition d'amélioration}
+Pour conclure, nous vous proposons plusieurs fonctionnalités qui pourraient grandement améliorer notre projet :
+\begin{itemize}
+        \item Moteur de combat supérieur à deux armées : cela permettrait de faire des combats à plusieurs joueurs, voire de totalement modifier la manière dont les combats s'opèrent.
+        \item Une interface graphique avec des animations : pour cela il faudrait changer de Tkinter.
+        \item Rajouter une musique de fond : aucune musique de fond n'a été implémentée car les machines de la faculté ne permettent pas d'avoir du son.
+        \item La possibilité de rajouter une unité depuis l'interface : après de multiples essais nous avons réussi à ajouter une unité uniquement en ligne de commande.
+        \item La possibilité de supprimer une unité de base : actuellement nous n'avons pas tenté de le réaliser.
+        \item Le survol de la souris sur une unité depuis la création d'armée permet de voir ses caractéristiques : cela nous demanderait de ne plus utiliser Tkinter.
+        \item L'ajout d'images pour visualiser les différents troupes possibles : Il faudrait pour cela créé les images unes à unes et de les ajouter au programme.
+        \item Une visualisation concrète du combat : Nous pourrions le faire si nous avions des images et que nous les animions. 
+        \item Amélioration de l'algorithme génétique : l'ajout de nouvelles fonctionnalités seraient un plus au programme mais pas au temps d'exécution.
+        %d'autres idées les rajouter
+\end{itemize}
+
+
+%\vspace{12\baselineskip} %voir précisément le nombre de lignes à sauter
+%\bigbreak
+%\smallbreak
+
+\end{document} %fin du document

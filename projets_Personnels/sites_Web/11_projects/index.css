@@ -1,0 +1,98 @@
+body {
+	font-family: 'Uncial Antiqua', Helvetica, sans-serif;
+	background-color: #e6a40a;
+	color: #3c3232e0;
+	margin : 50px;
+}
+a {
+	text-decoration: none;
+	color: #f7ff0b;
+}
+li {
+	list-style:none;
+	margin : 15px;
+}
+.red {
+	color: #177b14;
+}
+hr {
+	height: 6px;
+	width: auto;
+	background-color: #177b14;
+}
+h1 {
+	padding-left: 25%;
+	font-weight: bold;
+	text-decoration: underline;
+	text-transform: uppercase;
+	color: black;
+}
+/**********HEADER**********/
+header {
+	display: grid;
+	grid-template-columns : 60% 30%;
+}
+
+.strange {
+	float:left;
+	height: 600px;
+	width: 15%;
+	/*background-color: red;*/
+	margin : -10px 25px 0 -10px;
+	background-image: url("./images/tyrell.jpg");
+}
+/***NAV***/
+nav {
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content : center;
+	align-items: center;
+}
+nav ul{
+	display: flex;
+	flex-flow : row nowrap;
+	justify-content : flex-end;
+	align-items: center;
+}
+.home {
+	list-style: disclosure-closed;
+}
+.double:hover {
+	text-decoration: underline;
+	text-decoration-style :double;
+}
+
+.up {
+	width: 3px;
+	height: 600px;
+	margin-left: 70%;
+	margin-top:41px;
+	position: absolute;
+	top: 0;
+	left: 270px;
+}
+.contact {
+	margin-right: 5px;
+}
+/*
+.text {
+	margin:0 0 0 15%;
+}*/
+article {
+	display: flex;
+	flex-flow : column nowrap;
+}
+article p {
+	width: 90%;
+	text-align: justify;
+}
+
+/**********MEDIA QUERIES**********/
+@media screen and (max-width:1073px){
+	.up {
+		display: none;	
+	}
+	.strange {
+		display: none;	
+	}
+}

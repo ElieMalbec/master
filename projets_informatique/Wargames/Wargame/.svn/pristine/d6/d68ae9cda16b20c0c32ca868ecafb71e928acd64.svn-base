@@ -1,0 +1,54 @@
+# -*- coding: utf-8 -*-
+import copy
+
+import creationArmee as Ca
+
+import moteurCombat as Mc
+
+
+def meilleure_armee(nombre_armee_max, nombre_troupe):
+    if nombre_armee_max < 2:
+        print("Error, not enought army")
+        return -1
+
+    combat = 1
+    fichier = open("data.txt", "w")
+    fichier.write("Combat : {0} \n".format(combat))
+    armee1 = Ca.creation_armee_alea_troupe_par_troupe(nombre_troupe)
+    armee2 = Ca.creation_armee_alea_troupe_par_troupe(nombre_troupe)
+
+    carmee1 = copy.deepcopy(armee1)  # Le deepcopy copie en profondeur l'objet et pas seulement le premier niveau
+    carmee2 = copy.deepcopy(armee2)
+
+    meilleure_armee = None
+
+    armee_gagnante = Mc.moteur_de_combat(armee1, armee2)
+    if armee_gagnante == 1:
+        meilleure_armee = carmee1
+        fichier.write("Armée 1 gagne, la copie est sauvegardée comme meilleure armée")
+    elif armee_gagnante == 2:
+        meilleure_armee = carmee2
+        fichier.write("Armée 2 gagne, la copie est sauvegardée comme meilleure armée")
+    else:
+        fichier.write("Error no winner\n")
+    del (armee1, armee2)
+
+    for i in range(0, nombre_armee_max - 1):
+        combat += 1
+        fichier.write("\nCombat : {0} \n".format(combat))
+        new_armee = Ca.creation_armee_alea_troupe_par_troupe(nombre_troupe)
+        cnew_armee = copy.deepcopy(new_armee)
+        cmeilleure_armee = copy.deepcopy(meilleure_armee)
+        armee_gagnante = Mc.moteur_de_combat(cmeilleure_armee, new_armee)
+        if armee_gagnante == 1:
+            fichier.write("L'armée n'a pas été battue, elle reste dominante   ")
+            fichier.write(repr(meilleure_armee.retour_totaux()))
+        elif armee_gagnante == 2:
+            fichier.write("L'armée à été battue, la nouvelle la remplace   ")
+            meilleure_armee = cnew_armee
+            fichier.write(repr(cnew_armee.retour_totaux()))
+        else:
+            fichier.write("Error no winner in for\n")
+    fichier.close()
+    return meilleure_armee
+    # repr return the canonical string representation of the object.

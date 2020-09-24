@@ -1,0 +1,8 @@
+from Paysans import*
+from Armee import*
+
+Armee.armeeGenerique(None)
+uneArmee1 = Armee.creerArmee(None, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1)
+Armee.afficherArmee(None, uneArmee1)
+a = Armee.caractéristiquesArmee(None, uneArmee1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 1)
+Armee.afficherCaracteristiquesArmee(None, a)

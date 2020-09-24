@@ -1,0 +1,18 @@
+# -*- coding: utf-8 -*-
+import time  # Pour execution time
+
+import choixUtilisateur as CU
+from tkinter import Image as IMAGE
+
+start_time = time.time()
+
+if __name__ == "__main__":
+    """Boucle de lancement de l'application"""
+    app = CU.MaFen()
+    img = IMAGE("photo", file="Images/icon.png")
+    app.tk.call('wm', 'iconphoto', app._w, img)
+    app.mainloop()
+
+print("\nExecution time : ")
+print("--- %s seconds ---" % (time.time() - start_time))
+del start_time

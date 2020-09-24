@@ -1,0 +1,51 @@
+from Combattants import *
+
+
+class Arbaletriers(Combattants):
+
+    """Classe Arbaletriers héritant de combattant"""
+
+    def __init__(self, nom="Arbaletrier", pv=6, pa=2, df=2, vit=1, cout=5):
+
+        """Création d'un Arbaletrier hérité de Combattant"""
+
+        # Appel du constructeur de la classe mère
+
+        Combattants.__init__(self, nom, pv, pa, df, vit, cout)
+
+    def creerTroupeArbaletriers(self, nombre):
+        """ Méthode qui permet de créer des arbalétriers. La fonction prend en appel le nombre d'unités que l'utilisateur souhaite. Ceux-ci sont ajoutés dans un tableau. Un tableau rempli d'arbalétriers est renvoyé """
+        laTroupeArbaletriers = []
+        for i in range(0, nombre):
+            laTroupeArbaletriers.append(Arbaletriers())
+        return laTroupeArbaletriers
+
+    def afficherTroupeArbaletriers(self, troupe):
+        """ Méthode qui permet d'afficher une troupe d'arbalétriers. Elle prend en paramètres une troupe (un tableau d'unités) d'arbalétriers. Une boucle suivi d'un print permet d'afficher chacune des unités """
+        for i in range(len(troupe)):
+            print(i + 1, " ", troupe[i])
+
+    def calculPV(self, nombre, troupe):
+        """ Méthode qui permet d'afficher le nombre total de point de vie (PV) dont la troupe d'arbalétriers disposera. Elle prend en paramètres un nombre total d'arbalétriers et une troupe d'arbalétriers(tableau). Le calcul du nombre de PV s'effectue en prenant la caractéristique PV du premier arbalétrier contenu dans le tableau 'troupe' puis on multiplie cette donnée par le nombre d'unités présentes  """
+        pvTotal = (troupe[0].pv)*nombre
+        return pvTotal
+    
+    def calculPA(self, nombre, troupe):
+        """ Méthode qui permet d'afficher le nombre total de point d'attaque (PA) dont la troupe d'arbalétriers disposera. Elle prend en paramètres un nombre total d'arbalétriers et une troupe d'arbalétriers(tableau). Le calcul du nombre de PA s'effectue en prenant la caractéristique PA du premier arbalétrier contenu dans le tableau 'troupe' puis on multiplie cette donnée par le nombre d'unités présentes """
+        paTotal = (troupe[0].pa)*nombre
+        return paTotal
+    
+    def calculDF(self, nombre, troupe):
+        """ Méthode qui permet d'afficher le nombre total de point de défense (DF) dont la troupe d'arbalétriers disposera. Elle prend en paramètres un nombre total d'arbalétriers et une troupe d'arbalétriers(tableau). Le calcul du nombre de DF s'effectue en prenant la caractéristique DF du premier arbalétrier contenu dans le tableau 'troupe' puis on multiplie cette donnée par le nombre d'unités présentes """
+        dfTotal = (troupe[0].df)*nombre
+        return dfTotal
+    
+    def calculVIT(self, nombre, troupe):
+        """ Méthode qui permet d'afficher le nombre total de point de vitesse (VIT) dont la troupe d'arbalétriers disposera. Elle prend en paramètres un nombre total d'arbalétriers et une troupe d'arbalétriers(tableau). Le calcul du nombre de VIT s'effectue en prenant la caractéristique VIT du premier arbalétrier contenu dans le tableau 'troupe' puis on multiplie cette donnée par le nombre d'unités présentes """
+        vitTotal = (troupe[0].vit)*nombre
+        return vitTotal
+    
+    def calculCOUT(self, nombre, troupe):
+        """ Méthode qui permet d'afficher le nombre total de coût (COUT) dont la troupe d'arbalétriers disposera. Elle prend en paramètres un nombre total d'arbalétriers et une troupe d'arbalétriers(tableau). Le calcul du nombre de COUT s'effectue en prenant la caractéristique COUT du premier arbalétrier contenu dans le tableau 'troupe' puis on multiplie cette donnée par le nombre d'unités présentes """
+        coutTotal = (troupe[0].cout)*nombre
+        return coutTotal

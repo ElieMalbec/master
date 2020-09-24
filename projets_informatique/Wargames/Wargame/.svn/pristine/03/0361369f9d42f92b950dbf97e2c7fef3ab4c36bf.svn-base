@@ -1,0 +1,146 @@
+# -*- coding: utf-8 -*-
+import CreationTroupe as CT
+
+"""Module permettant de gérer la confrontation de deux armées"""
+
+
+def moteur_de_combat(armee1, armee2):
+    """Le moteur de combat permet de déterminer une armée gagnante, on passe en paramètres les deux armées
+
+    Variable tour indiquant le tour de jeu dans la bataille
+    La hiérarchie des troupes permet de supprimer certaines unités avant d'autres
+    L'armée la plus rapide possède un bonus de début de partie (juste au premier tour de 2.5% d'attaque)
+
+    Tant qu'aucune armée n'est battue (càd plus de troupes), on continue les tours.
+    Gestion si partie infinie, pour plus de 100 tours, renvoi -1
+    Les dégâts infligés à l'autre armée se calculent de la manière suivante :
+            degatsRecuParArmee = armeeAdverse.PA - monarmee.DF
+    Les troupes sont ensuite retirées dans les armées correspondante suivant leur hiérarchie
+    Un résultat des morts est affiché à la fin de chaque tour
+    Les totaux de chaque armée sont remis à zéro puis recalculés pour permettre un nouveau round
+    Cette fontion renvoi 1 pour une victoire de l'armée 1 et 2 pour une victoire de l'armée 2, -1 pour error"
+    """
+
+    tour = 1
+    hierarchie = construire_hierarchie()
+
+    #    print("-------------Armée 1 -------------")
+    #    armee1.afficherTotaux()
+    #    print("\n-------------Armée 2 ---------------")
+    #    armee2.afficherTotaux()
+
+    rapide = comparaison_vitesse(armee1.retour_totaux(), armee2.retour_totaux())
+    if rapide == 1:
+        armee1.PA = modifier_stats(armee1.retour_totaux())
+    #        print("\nVoici les nouvelles valeurs de l'armée 1 pour le premier tour\n", armee1.PA)
+    elif rapide == 2:
+        armee2.PA = modifier_stats(armee2.retour_totaux())
+    #        print("\nVoici les nouvelles valeurs de l'armée 2 pour le premier tour\n", armee2.PA)
+    else:
+        pass
+    #       print("Aucune armée n'a un avantage de vitesse")
+    #    print("\n----------La bataille commence-------\n")
+
+    #     Tant qu'une armée n'est pas battue, on recommence.
+    while not armee_battue(armee1) and not armee_battue(armee2):
+        if tour > 100:  # Si partie infinie stopper
+            break
+        #        print("-------------- Tour {0} --------------".format(tour))
+        degats_recus_armee1 = armee2.PA - armee1.DF
+        degats_recus_armee2 = armee1.PA - armee2.DF
+
+        armee1, reste_pa2, morts1 = retirer_morts(armee1, degats_recus_armee1, hierarchie)
+        armee2, reste_pa1, morts2 = retirer_morts(armee2, degats_recus_armee2, hierarchie)
+
+        armee1.reset_totaux()
+        armee2.reset_totaux()
+
+        armee1.PA += reste_pa1
+        armee2.PA += reste_pa2
+
+        armee1.calcul_totaux()
+        armee2.calcul_totaux()
+
+        #        print("Totaux armée 1 au tour", tour)
+        #        armee1.afficherTotaux()
+        #        print("Totaux armée 2 au tour", tour)
+        #        armee2.afficherTotaux()
+
+        #        print("\nMorts de l'armée 1")
+        #        afficherMorts(morts1)
+        #        print("\nMorts de l'armée 2")
+        #        afficherMorts(morts2)
+
+        tour += 1
+    #        armee1.afficherTotaux()
+    #        armee2.afficherTotaux()
+    if armee_battue(armee1):
+        return 2
+    elif armee_battue(armee2):
+        return 1
+    else:
+        return -1
+
+
+def retirer_morts(armee, points_infliges, hierarchie):
+    """ Fonction permettant de retirer les troupes suivant la hiérarchie dans l'armée.
+    Elle supprime les troupes pour infliger les pointsInfligés sur les PV des unités.
+    Si il n'y a pas assez de points à infliger sur une unité, le reste est renvoyé pour le
+    prochain tour"""
+    morts = {}
+    for cle in hierarchie:
+        if len(armee.troupes[cle]) > 0:
+            while len(CT.CreationTroupe.troupes[cle]) > 0:
+                if points_infliges < CT.CreationTroupe.troupes[cle][1]:
+                    return armee, points_infliges, morts
+                if len(armee.troupes[cle]) > 0:
+                    del (armee.troupes[cle][-1])  # Suppression des troupes une par une
+                points_infliges -= CT.CreationTroupe.troupes[cle][1]
+                if cle in morts:
+                    morts[cle] += 1
+                else:
+                    morts[cle] = 1
+    return armee, 0, morts
+
+
+def afficher_morts(morts):
+    """Permet d'afficher le nombre de morts sous forme simple contenu dans un dictionnaire"""
+    for cle, valeur in morts.items():
+        print(valeur, cle, "sont morts au combat")
+
+
+def armee_battue(armee):
+    """Fonction qui permet de vérifier si il reste encore des unités dans l'armée
+    L'armée est battue si plus de combattants de chaque unité, renvoi alors True"""
+    for troupe in armee.troupes:
+        if len(armee.troupes[troupe]) > 0:
+            return False
+    else:
+        return True
+
+
+def comparaison_vitesse(stats1, stats2):
+    """Permet de compoarer la vitesse des deux armées et retourne la plus rapide"""
+    if stats1[3] > stats2[3]:
+        return 1
+    elif stats2[3] > stats1[3]:
+        return 2
+    else:
+        return 0
+
+
+def modifier_stats(stats_armee):
+    """Augmente la valeur de l'attaque de 10%"""
+    stats_armee = int(stats_armee[1] * 1.025)
+    return stats_armee
+
+
+def construire_hierarchie():
+    """Permet de retourner le placement de la troupe dans la hiérarchie
+    Plus le placement est haut, plus la troupe est résistante et succombe en dernier"""
+    hierarchie = {}
+    for troupe in CT.CreationTroupe.troupes:
+        hierarchie[CT.CreationTroupe.troupes[troupe][0]] = CT.CreationTroupe.troupes[troupe][6]
+        # On affecte à chaque troupe sa valeur dans la hiérarchie
+    hierarchie = sorted(hierarchie, key=hierarchie.get)  # Met une liste ordonnée des troupes suivant leur hiérarchie
+    return hierarchie

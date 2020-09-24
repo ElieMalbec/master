@@ -1,0 +1,260 @@
+/*******Generics******/
+body {
+	background-image: url(./images/fond_jaune.png);
+	font-family: "Trebuchet MS", 'ballpark', 'dayrom', Arial, sans-serif;
+	color: Black;
+	margin: 0 5% 0 5%;
+}
+
+h1, h2, h3, a {
+	text-transform: uppercase;
+	text-decoration: none;
+}
+
+strong {
+	text-decoration: underline;
+	color: Red;
+}
+
+/* Toujours utiliser format pour des questions de performance*/
+/* Toujours du plus léger au lourd  : woff, svg, truetype */
+@font-face {
+	font-family: 'ballpark';
+	src:	url(./polices/dayrom.woff) format('woff'),
+			url(./polices/dayrom.svg)format('svg'),
+			url(./polices/dayrom.eot) format('eot'),	
+			url(./polices/dayrom.ttf)format('ttf');
+	 font-weight:normal;
+    font-style:normal;
+    font-variant:normal;
+
+}
+@font-face {
+	font-family: 'dayrom';
+	src:	url(./polices/ballpark.woff)format('woff'),
+			url(./polices/ballpark.svg)format('svg'),
+			url(./polices/ballpark.eot)format('eot'),
+			url(./polices/ballpark.ttf)format('ttf');
+	font-weight:normal;
+   font-style:normal;
+   font-variant:normal;
+}
+/******Header*****/
+nav {
+	display: grid;
+	grid-template-columns : 60% 40%;
+}
+
+.zozor:first-child {
+	float: left;
+	font-family: 'dayrom';
+	font-weight: bold;
+	font-size: 30px;
+	
+}
+.stick {
+	margin-bottom: -20px;
+}
+
+.stop {
+	clear: both;
+	font-family: 'ballpark';
+	font-weight: normal;
+	font-size: 15px;
+	
+}
+
+div.liens a {
+	text-transform: uppercase;
+	margin: 10px;
+	font-size: 19px;
+}
+
+a.accueil {
+	text-decoration: underline;
+	color: Brown;
+}
+
+div.liens {
+	display: flex;
+	flex-direction : row;
+	flex-wrap : nowrap;
+	justify-content : flex-end;
+	align-items: center;
+}
+/*PIC SF*/
+img.photoSF {
+	border-radius: 5px;
+	height: 220px;
+}
+.SF {
+	margin-bottom: 20px;
+}
+/*******MAIN********/
+/*****SECTION*****/
+section {
+	display: grid;
+	grid-template-columns : 70% 30%;
+}
+/***ARTICLE***/
+article {
+	margin : 0 10px 5px 0;
+}
+article h1 {
+	/*float: left;*/
+	font-weight: normal;
+}
+
+article div {
+	display: flex;
+	flex-direction : row;
+	justify-content: flex-start;
+}
+article div img {
+	width: 5%;
+	margin-right: 5px;
+}
+
+article p {
+	text-align: justify;
+}
+.para1 {
+	clear: both;
+}
+/***ASIDE***/
+aside {
+	color: White;
+	font-family: 'ballpark';
+	background-color: Grey;
+	border-radius: 5%;
+	text-align: justify;
+	padding: 1% 5% 1% 5%;
+	max-height: 75%;
+}
+aside h2 {
+	font-weight: normal;
+	text-align: center;
+	font-size: 1.1em;
+}
+aside p {
+	text-align: justify;
+}
+
+.zozor_classe {
+	text-align: center;
+}
+
+aside .flex-logos {
+	display: flex;
+	flex-direction : row;
+	flex-wrap : nowrap;
+	justify-content : space-between;
+}
+/********FOOTER********/
+footer {
+	background-color: GhostWhite;
+	font-size: 0.8em;
+	font-family: 'ballpark';
+}
+
+footer h3 {
+	text-align: left;
+	font-size: 1em;
+	margin-bottom: 5%;
+}
+
+.thefooter {
+	display: grid;
+	grid-template-columns : 1fr 1fr 1fr;
+}
+
+.flex-pic {
+	display: flex;
+	flex-direction : row;
+	flex-wrap : nowrap;
+	justify-content : flex-start;
+}
+
+.flex-pic img {
+	border : 1px solid black;
+	margin-right: 1%;
+}
+.mesamis {
+	display: grid;
+	grid-template-columns : 1fr 1fr;
+	text-align: left;
+}
+
+.mesamis ul {
+	list-style-image: url('images/ico_liensexterne.png');
+    padding-left: 2px;
+}
+
+/*****MEDIA QUERIES*****/
+@media screen and (max-device-width : 778px){
+	section {
+		display: flex;
+		flex-flow : column nowrap;	
+	}
+	.voyageur div img {
+		width: 10%;	
+	}
+	div.flex-pic {
+		flex-wrap : wrap;	
+	}
+}
+
+@media screen and (max-device-width : 365px) {
+	.voyageur div img {
+		width: 20%;	
+	}
+	div.SF {
+		display:none;	
+	}
+	header img {
+		display:none;	
+	}
+	.zozor {
+		display:none;	
+	}
+	div.liens {
+		display: grid;
+		grid-template-columns : 1fr 1fr;
+		text-align: center;
+		margin: auto;	
+	}/*
+	.photoSF {
+		display: normal;	
+	}*/
+	.nav div.liens{
+		margin : 0 0 0 15%;	
+	}
+}
+
+/***Nav div for my projects***/
+.projects {
+	color: black;
+	background-color:  #f2581e;
+	width: 200px;
+	height: auto;
+	display:flex;
+	flex-flow : row nowrap;
+	margin : auto;
+	justify-content : space-between;
+	padding: 0 5px 0 5px;
+	text-decoration: none;
+	box-shadow: 1px 1px #0d0400;
+}
+.projects:hover{
+	box-shadow: -1px -1px #0d0400;
+}
+.projects a:hover{
+	text-decoration: underline;
+}
+.projects a {
+	text-align: center;
+	text-decoration: none;
+}
+.projects a p{
+	color: white;
+}

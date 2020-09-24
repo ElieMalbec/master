@@ -1,0 +1,134 @@
+\documentclass[a4paper,12pt]{article} %style de document
+\usepackage[utf8]{inputenc} %encodage des caractères
+\usepackage[french]{babel} %paquet de langue français
+\usepackage[T1]{fontenc} %encodage de la police
+\usepackage[top=2cm,bottom=2cm,left=2cm,right=2cm]{geometry} %marges
+\usepackage{graphicx} %'affichage des images
+\usepackage{hyperref}
+\usepackage{verbatim}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{sectsty}
+\definecolor{astral}{RGB}{46,116,181} 
+\sectionfont{\color{red}}
+\subsectionfont{\color{astral}}
+\subsubsectionfont{\color{green}}
+
+\begin{document} %début du document
+
+\title{\includegraphics[scale= 0.5]{}Optimisateur de Wargame}
+\author{Autre}
+\date{Elie Malbec 21805304 - nom + prénom - nom + prénom - étudiant en L1 Informatique - 2018-2019  -  Conception de logiciels}
+\maketitle{\includegraphics[scale= 0.5]{}}
+\vspace{25\baselineskip}
+
+
+\section{Introduction}
+Plan-type d’un rapport (15 à 20 pages)
+1. Objectifs du projetIDescription du concept derrière l’applicationICe qu’il fallait faireICe qui existe déjà
+2. Fonctionnalités implémentéesIDescription des fonctionalitésIOrganisation du projet
+3. Élements techniquesIAlgorithmesIStructures de donnéesIBibliothèques
+4. Architecture du projetIDiagrammes des modules et des classesICas d’utilisationIChaînes de traitement
+5. Expérimentations et usagesICapture d’écransIMesures de performance
+6. ConclusionIRécapitulatif des fonctionnalités principalesIPropositions d’améliorations
+	\subsection{Table des matières}
+		\tableofcontents
+
+
+
+\section{Objectifs du projet, Description du concept derrière l’application, Ce qu’il fallait faire, Ce qui existe déjà}
+	\subsection{Objectifs du projet} 
+La réalisation du projet a été faîte par Alex Lefèvre, Emmanuel Garreau et Elie Malbec. Nous avons décidé de créer un optimisateur de wargame. 
+Les buts du projet sont multiples. Il fallait créer un moteur de combat entre deux armées, un algorithme génétique qui pemettait d'optimiser la création d'armée ainsi qu'un interface graphique.
+(d'autres buts ou alors mieux les détailler ?)
+
+	\subsection{Description du concept derrière l’application}
+	Qu'est-ce qu'un wargame ? Un wargame est un jeu de plateau qui se joue avec des figurines. Le but est de détruire l'armée adverse. Ici l'utilisateur devra constituer son armée en ne dépassant pas un nombre de points préalablement défini. Une fois cela fait, le combat démarre. Dans notre cas un calcul au tour par tour permet de connaître le vainqueur, l'utilisateur n'a rien à faire. 
+Chaque troupe dispose de caractéristiques (point de vie, d'attaque, de défense, de vitesse ainsi que son coût) ce qui nous permet de calculer le nombre total de chacune des caractéristiques d'une armée. Au premier tour l'armée avec la plus grande vitesse gagne un bonus en attaque de 2.5%. 
+Pour connaître le nombre d'unités à enlever nous faisons ce calcul là : Points de vie Armée B - (Attaque armée A - Défense armée B).Ensuite nous parcourons chaque troupe crée et si le nombre de points de vie de la troupe est inférieure aux points de dégâts restants alors nous retirons cette unité. Une hiérarchie est mise en place pour nous permettre d'enlever les troupes les plus faibles en premier. 
+Tout au long du jeu, dans le but d'éviter d'avoir un combat infini, un reste de points de dégâts est crée. Il contient le nombre de points de dégâts qui n'ont pas pu être utilisés pour tuer une unité car leur point de vie était trop important. Ce reste est ajouté au tour suivant. Ainsi deux unités qui ne pouvaient se tuer directement le peuvent grâce à ce reste(cela permet d'accumuler les points d'attaque au fur et à mesure).
+Enfin le vainqueur est déclaré.
+
+	\subsection{Ce qu’il fallait faire}
+Déjà décris dans l'objectif du projet
+
+	\subsection{Ce qui existe déjà}
+càd ? ce qui existe sur internet ? Ou le concept s'il existe déjà ?
+
+
+
+\section{Fonctionnalités implémentées, Description des fonctionalités, Organisation du projet}
+	\subsection{Fonctionnalités implémentées}
+(Qu'est-ce qu'une fonctionnalité concrètement ( une fonction, un grand ensemble de fonctions qui fonctionnent entre elles, un truc encore plus généraliste ???))
+	Au cours du projet de multiples fonctionnalités ont été implémentées : (les lister)
+la création d'armée par un utilisateur, la création d'une armée de manière automatique, le moteur de combat, l'agorithme génétique.
+	\subsection{Description des fonctionalités}
+Voyons en détail chacune d'elles.
+En premier nous avons...
+En dexuième il y a ...
+En troisième ...
+
+	\subsection{Organisation du projet}
+Sur l'organisation en général ou un détail de notre calendrier et de ce que l'on y faisait.
+cf Elie
+
+
+
+\section{Élements techniques, Algorithmes, Structures de données, Bibliothèques}
+	\subsection{Élements techniques}
+
+	\subsection{Algorithmes}
+
+Algorithme pour le moteur de combat : 
+Algorithme pour l'algortihme génétique : 
+Algorithme pour la partie graphique ? : 
+	\subsection{Structures de données}
+	\subsection{Bibliothèques}
+Voici les bibliothèques utilisées.
+
+Pour le moteur de combat : random, 
+Pour l'algorithme génétique : copy, time, shelve, tkinter, ttk
+Pour la partie graphique : tkinter, Pil, json, os.path, copy, time, threading, tkinter.filedialog, tkinter.messagebox
+
+
+
+\section{Architecture du projet, Diagrammes des modules et des classes, Cas d’utilisation, Chaînes de traitement}
+	\subsection{Architecture du projet}
+càd concrètement, arborescence des dossiers ? , 
+
+	\subsection{Diagrammes des modules et des classes}
+Faire un diagramme UML des classes de chaque fichier/ en général ? Puis l'expliquer ?
+
+	\subsection{Cas d’utilisation}
+Cas d'utilisation pour chacune des classes ou seulement certaines, sur quelles critères la choisir alors ? 
+
+	\subsection{Chaînes de traitement}
+??
+
+
+
+\section{Expérimentations et usages, Capture d’écrans, Mesures de performance}
+	\subsection{Expérimentations et usages}
+
+Expérimentations sur la partie moteur de combat :
+Expérimentations sur la partie algorithme génétique :
+Expérimentations sur la partie graphique : truc avec image de fond et bouttons par dessus
+
+	\subsection{Capture d’écrans}
+capture d'écrans :
+
+	\subsection{Mesures de performance}
+Depuis le Peu après avoir commencé à produire du code, la performance de notre code nous a paru important. C'est pour cela que nous avons mené des tests en calculant le temps d'exécution. Cela est devenu encore plus important après la création de l'agorithme génétique.
+Pour cela nous avons utilisé le module time.
+Performance 1v1 ou 1vs IA : 
+performance algo génétique :
+
+\vspace{12\baselineskip} %voir précisément le nombre de lignes à sauter
+
+\bigbreak
+\smallbreak
+\begin{itemize}
+        \item 
+        \item 
+\end{itemize}
+\end{document} %fin du document

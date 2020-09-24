@@ -1,0 +1,72 @@
+# -*- coding: utf-8 -*-
+
+
+class Troupe():
+    """ Classe Troupe héritée de Combattant
+    
+    Elle construit une troupe à partir de son nom avec des valeurs d'attribut spécifiques
+    
+    L'attribut de classe carac est une dictionnaire exhaustif des carac avec pour valeur
+    un tableau contenant [nom, pv, pa, df, vit, cout, hierarchie de mort]
+    L'attribut de classe limites est un dictionnaire avec pour clé les noms des carac possédant une limite
+    et en valeur la limite correspondante
+    
+    Tout ajout de troupe pour la création est à effectué en rajoutant une clé dans les carac mais aussi
+    dans l'attribut de Armee.carac en ajoutant un tableau vide contenant les futurs objets.
+    
+    La valeur hiérachie en indice 6 fonctionne de la manière suivante : 
+        Plus la valeur est élevée, plus la troupe est résistante et meurt en dernier"""
+
+    carac = {  # Nom Troupe            PV   PA  DF  VIT COUT Hiérachie
+        "Arbalétrier": ["Arbalétrier", 6, 2, 0, 1, 5, 14],
+        "Archer": ["Archer", 6, 3, 1, 1, 5, 3],
+        "ArcherCavalier": ["ArcherCavalier", 8, 3, 2, 3, 7, 7],
+        "Arquebusier": ["Arquebusier", 5, 15, 0, 1, 10, 8],
+        "Cataphracte": ["Cataphracte", 15, 6, 5, 5, 13, 13],
+        "Catapulte": ["Catapulte", 35, 25, 1, -10, 70, 19],
+        "Cavalier": ["Cavalier", 12, 5, 4, 3, 10, 16],
+        "Chariot": ["Chariot", 9, 8, 3, 4, 9, 10],
+        "ChevalierAPied": ["ChevalierAPied", 15, 8, 6, 2, 15, 18],
+        "ChienDeGuerre": ["ChienDeGuerre", 3, 4, 0, 3, 3, 9],
+        "ElephantDeCombat": ["ElephantDeCombat", 30, 7, 10, -5, 45, 17],
+        "Epeiste": ["Epeiste", 7, 5, 4, 1, 8, 6],
+        "Frondeur": ["Frondeur", 6, 1, 0, 1, 2, 15],
+        "Généraux": ["Généraux", 20, 10, 8, 3, 15, 20],
+        "Hacheur": ["Hacheur", 6, 4, 1, 1, 4, 5],
+        "Hallebardier": ["Hallebardier", 5, 3, 2, 2, 4, 12],
+        "Javelinier": ["Javelinier", 5, 2, 0, 1, 2, 11],
+        "Lancier": ["Lancier", 5, 2, 1, 1, 2, 2],
+        "Paysan": ["Paysan", 5, 1, 0, 1, 1, 1],
+        "Piquier": ["Piquier", 5, 2, 2, 1, 3, 4]
+    }
+
+    def __init__(self, nom):
+        """Constructeur de troupe, il donne les valeurs aux attributs en fonction du nom de la troupe
+        passé en paramètre, les informations sont collectées dans l'attribut de classe de Troupe.carac
+        les valeurs sont dans un tableau et rangées de la manière suivante :
+            [nom, pv, pa, df, vit, cout]
+            [ 0,  1,  2,  3,  4,    5]
+        Si le nom de la troupe passé en paramètre n'est pas trouvé comme clé dans le tableau de données,
+        on fait appel au contructeur de la classe mère (Combattant) avec des valeurs par défaut"""
+
+        if nom in Troupe.carac:
+            self.nom = Troupe.carac[nom][0]
+            self.pv = Troupe.carac[nom][1]
+            self.pa = Troupe.carac[nom][2]
+            self.df = Troupe.carac[nom][3]
+            self.vit = Troupe.carac[nom][4]
+            self.cout = Troupe.carac[nom][5]
+        else:
+            self.nom = "indéfini"
+            self.pv = 0
+            self.pa = 0
+            self.df = 0
+            self.vit = 0
+            self.cout = 0
+
+    def __str__(self):
+        """Méthode qui permet l'affichage propre et informatif d'un combattant lors d'un print()
+        Elle affiche l'ensemble des informations nécessaires à la caractérisation d'une troupe"""
+
+        return ("Combattant {0}, pv:{1}, pa:{2}, df:{3}, vit:{4}, cout:{5}".format(self.nom, self.pv, self.pa, self.df,
+                                                                                   self.vit, self.cout))

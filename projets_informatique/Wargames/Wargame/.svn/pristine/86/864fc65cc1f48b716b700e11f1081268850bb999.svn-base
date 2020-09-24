@@ -1,0 +1,23 @@
+# -*- coding: utf-8 -*-
+class Combattant(object):
+    """ Création d'un combattant avec des attributs nom, pv, pa, df, vit, cout"""
+
+    def __init__(self, nom="indéfini", pv=0, pa=0, df=0, vit=0, cout=0):
+        """Constructeur de la classe mère, CreationTroupe est hérité de Combattant et possède donc
+        la méthode __str__ pour l'afficahge lors du print() d'un combattant
+        Les valeurs par défaut sont instanciés si le constructeur de CreationTroupe ne trouve
+        pas le nom de la troupe dans les données de CreationTroupe.troupes"""
+
+        self.nom = nom
+        self.pv = pv
+        self.pa = pa
+        self.df = df
+        self.vit = vit
+        self.cout = cout
+
+    def __str__(self):
+        """Méthode qui permet l'affichage propre et informatif d'un combattant lors d'un print()
+        Elle affiche l'ensemble des informations nécessaires à la caractérisation d'une troupe"""
+
+        return ("Combattant {0}, pv:{1}, pa:{2}, df:{3}, vit:{4}, cout:{5}".format(self.nom, self.pv, self.pa, self.df,
+                                                                                   self.vit, self.cout))

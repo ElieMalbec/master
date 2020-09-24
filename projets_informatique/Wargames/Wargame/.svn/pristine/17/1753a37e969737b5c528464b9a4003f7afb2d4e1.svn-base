@@ -1,0 +1,69 @@
+from tkinter import *
+
+class Fenetre(Tk):
+
+    def __init__(self):
+        Tk.__init__(self)
+        self.titre = Label(self, text="Bievenue sur notre logiciel de Wargame !")
+        self.titre.pack(side=TOP)
+        self.cadre = Frame(self, width=1000, height=1000, borderwidth=10)
+        self.cadre.pack()
+        self.boutonUn = Button(self.cadre, text='Wargame Solo', command=self.wargameSolo)
+        self.boutonUn.grid(row=0, column=0)
+        self.boutonDeux = Button(self.cadre, text='Wargame Multijoueur', command=self.wargameMulti)
+        self.boutonDeux.grid(row=0, column=1)
+        self.boutonTrois = Button(self.cadre, text='Wargame Aléatoire', command=self.wargameAlea)
+        self.boutonTrois.grid(row=0, column=2)
+        self.boutonQuatre = Button(self.cadre, text='Wargame Optimisé', command=self.wargameOpti)
+        self.boutonQuatre.grid(row=0, column=3)
+        self.boutonQuitter = Button(self.cadre, text="quitter", command=self.destroy)
+        self.boutonQuitter.grid(row=1, column=1)
+        self.boutonRegles = Button(self.cadre, text='Les règles', command='''self.fonction affichant les règles''')
+        self.boutonRegles.grid(row=1, column=2)
+
+    def wargameSolo(self):
+        Tk.__init__(self)
+        self.titre = Label(self, text="Vous voici dans le monde du Wargame Solo")
+        self.titre.pack(side=TOP)
+        self.cadre = Frame(self, width=1000, height=1000, borderwidth=10)
+        self.cadre.pack()
+        self.boutonUn = Button(self.cadre, text='Concevez votre Armée', command=self.fonction)
+        self.boutonUn.grid(row=0, column=0)
+        self.boutonDeux = Button(self.cadre, text='Affrontez une armée aléatoire', command=self.fonction)
+        self.boutonDeux.grid(row=0, column=1)
+        self.boutonUn = Button(self.cadre, text='Affrontez notre Ia', command=self.fonction)
+        self.boutonUn.grid(row=0, column=2)
+        self.boutonQuitter = Button(self.cadre, text="quitter", command=self.destroy)
+        self.boutonQuitter.grid(row=1, column=1)
+
+    def wargameMulti(self):
+        Tk.__init__(self)
+        self.titre = Label(self, text="Vous voici dans le monde du Wargame Multijoueur")
+        self.titre.pack(side=TOP)
+        self.cadre = Frame(self, width=1000, height=1000, borderwidth=10)
+        self.cadre.pack()
+        self.boutonUn = Button(self.cadre, text='Joueur 1 : Concevez votre Armée', command=self.fonction)
+        self.boutonUn.grid(row=0, column=0)
+        self.boutonUn = Button(self.cadre, text='Joueur 2 : Concevez votre Armée', command=self.fonction)
+        self.boutonUn.grid(row=1, column=0)
+        self.boutonUn = Button(self.cadre, text='Combattre', command=self.fonction)
+        self.boutonUn.grid(row=2, column=0)
+        self.boutonQuitter = Button(self.cadre, text="quitter", command=self.destroy)
+        self.boutonQuitter.grid(row=3, column=1)
+
+    def wargameAlea(self):
+        Tk.__init__(self)
+        self.titre = Label(self, text="Vous voici dans le monde du Wargame Aléatoire")
+        self.titre.pack(side=TOP)
+        self.cadre = Frame(self, width=1000, height=1000, borderwidth=10)
+        self.cadre.pack()
+
+    def wargameMulti(self):
+        Tk.__init__(self)
+        self.titre = Label(self, text="Vous voici dans le monde du Wargame Optimisé")
+        self.titre.pack(side=TOP)
+        self.cadre = Frame(self, width=1000, height=1000, borderwidth=10)
+        self.cadre.pack()
+
+    def fonction(self):
+        pass
