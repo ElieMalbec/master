@@ -1,0 +1,1 @@
+Du <em>contenu</em> avec des <strong>balises</strong> <a href="https://www.w3.org">HTML</a>.

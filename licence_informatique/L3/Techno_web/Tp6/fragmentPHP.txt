@@ -1,0 +1,14 @@
+<?php
+
+/* Ce fichier contient du code PHP. */
+
+echo "Contenu écrit depuis le fragment PHP.\n";
+
+/* Déclaration d'une fonction. */
+function ma_fonction($x) {
+    return $x + 3;
+}
+
+echo "Résultat de l'appel de <code>ma_fonction</code> sur la valeur 8 :\n";
+echo ma_fonction(8) . "\n";
+?>
