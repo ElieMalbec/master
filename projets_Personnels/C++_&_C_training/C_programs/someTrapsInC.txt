@@ -1,0 +1,17 @@
+ = & ==
+a---b
+y = x/*p
+a-=1; & a=-1;
+014 & 14
+'' & ""
+n-->0
+a+++++b ?
+float *g(), (*h)();
+if (flag & flags != 0)
+r = haut<<4 + bas;
+table d'associativité
+*p++ & (*p)++
+if (x[i] > grand);
+	grand = x[i];
+switch case need a break;
+
