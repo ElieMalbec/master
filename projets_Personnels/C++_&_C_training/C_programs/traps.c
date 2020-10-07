@@ -25,5 +25,7 @@ int main(void){
     printf("jours %ld  L:%d %s\n", t, __LINE__, __FILE__);
     FILE * myfile = fopen("myfile", "a+");
     fprintf(myfile, "jours %ld  L:%d %s\n", t, __LINE__, __FILE__);
+    fclose(myfile);
+    //rename("myfile", "mynewfile");
     return 0;
 }
