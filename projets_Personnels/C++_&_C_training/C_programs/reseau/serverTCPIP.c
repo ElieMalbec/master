@@ -20,7 +20,7 @@ int create_tcp_server(int port, int nb_clients){
     sockname.sin_port = htons(port);
     sockname.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    if ((bind(id_socket, (struct sockaddr_in *)  &sockname, sizeof(sockname))) == -1){
+    if ((bind(id_socket, (const struct sockaddr *)  &sockname, sizeof(sockname))) == -1){
         printf("Error bind\n");
         exit(EXIT_FAILURE);
     }
@@ -35,13 +35,14 @@ int create_tcp_server(int port, int nb_clients){
 
 int main(void){
     int socket_id = create_tcp_server(60001, 2);
+    struct sockaddr_in adresse_client;
     int client_id;
-    if ((client_id = accept(socket_id, NULL, 0)) == -1){
+    if ((client_id = accept(socket_id, &adresse_client, 0)) == -1){
         printf("Error accept\n");
         exit(EXIT_FAILURE);
     }
     read(client_id, "hello", 6);
-    //write();
+    write(client_id, "hello\n", 6);
     close(socket_id);
     return 0;
 }

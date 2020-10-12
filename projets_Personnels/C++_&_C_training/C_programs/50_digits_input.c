@@ -13,21 +13,31 @@ void reverse(char arr[], int start, int end);
 int main(void){
     char a[MAX];
     char b[MAX];
+    int   d[MAX];
     for (int i = 0; i < MAX; i++){
         a[i] = '\0';
+    }
+    for (int i = 0; i < MAX; i++){
+        d[i] = 0;
     }
 
     scanf("%s", a);
     scanf("%s", b);
+    scanf("%s", d);
     //print a
     for (int i = 0; i < MAX && a[i] != '\0'; i++){
         printf("%d \n", a[i] - '0');
     }
+    printf("\n");
     //print b
     for (int i = 0; i < MAX && b[i] != '\0'; i++){
         printf("%d \n", b[i] - '0');
     }
-
+    printf("\n");
+    for (int i = 0; i < MAX; i++){
+        printf("%d ", d[i]);
+    }
+    printf("\n");
 
     for (int i = 0; i < MAX && (a[i] != '\0' || b[i] != '\0'); i++){
         printf("%d ", (a[i]-'0') + (b[i]-'0') );
