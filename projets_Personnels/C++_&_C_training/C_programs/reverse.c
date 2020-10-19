@@ -72,29 +72,7 @@ void bubbleSort(int * arr, int size){
   }
 }
 
-double U(int n){
-  if (n <= 0) return 1;
-  else return ((V(n-1)+U(n-1))/2);
-}
-double V(int n){
-  if (n <= 0) return 2;
-  else return ((U(n+1)+V(n-1))/2);
-}
 
-int fibo(int n){
-  if (n == 0) return 0;
-  if (n == 1) return 1;
-  return (fibo (n-2) + fibo(n-1));
-}
-
-/*
-int cpt = 0;
-for (int i = 0; i < n; i++){
-  if (n == 0) ctp+=1;
-  else 
-    cpt = ((U-1 + V-1) /2);
-    
-  }*/
 
 int main(void){
 
@@ -131,10 +109,6 @@ int main(void){
     }
     printf("\n");
 */
-    
-    
-    //double n = U(2);
-    //printf("%f\n", n);
 
     //printf("%d", fibo(19));
     //return 0;
