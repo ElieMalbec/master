@@ -43,9 +43,8 @@
 
 ## :earth_africa: Langues, Bureautique et Technologies
 * **Anglais : courant**
-* Languages informatique (du plus au moins pratiqué) : **C**, Java, **C++**, HTML5, CSS3, Javascript, Latex, Haskell. 
+* Languages informatique (du plus au moins pratiqué) : **C**, **C++**, Java, HTML5, CSS3,  Latex, Javascript, Haskell. 
 * **Git**/SVN & [Github](https://eliemalbec.github.io/master/projets_Personnels/sites_Web/portofolio/portfolio.html)
-* Assembleur : connaissances de base en **assembly x86** (logique et commandes), **gdb** et du disassembleur radare2 
 * Bureautique : Suite Microsoft Office (Word, Excel, Powerpoint), Libre Office.
 * Participation à la piscine en C de [42](https://www.42.fr/) en 2018.
 
