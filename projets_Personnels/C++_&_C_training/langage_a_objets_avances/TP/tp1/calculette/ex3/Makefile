@@ -12,4 +12,4 @@ point.o : Point.cpp
 	${CPP} -c Point.cpp
 
 clean :
-	rm -f 
+	rm -f *.o
