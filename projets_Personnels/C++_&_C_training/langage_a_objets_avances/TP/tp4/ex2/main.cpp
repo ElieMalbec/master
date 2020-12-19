@@ -28,7 +28,20 @@ int main(){
 	v.push_front(101);
 	v.print();
 	std::cout << "memory taken = " << v.memoryTaken() << "\n";
+	
+	std::cout << v.pop_back() << "\n";
+	v.print();
+	std::cout << "memory taken = " << v.memoryTaken() << "\n";
+	
+	std::cout << v.pop_front() << "\n";
+	v.print();
+	std::cout << "memory taken = " << v.memoryTaken() << "\n";
+	
+
+	/* srand(time(NULL));
+	std::cout << rand() << "\n"; */
+	
 	return 0;
 }
 
-//Question 4, 5, 6, 7
+//Question 5, 6, 7

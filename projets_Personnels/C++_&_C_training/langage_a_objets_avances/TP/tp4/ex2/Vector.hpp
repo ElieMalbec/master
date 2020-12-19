@@ -14,6 +14,8 @@ class Vector {
 	void	push_back(int value);
 	void	push_front(int value);
 	int		memoryTaken();
+	int		pop_back();
+	int		pop_front();
 };
 
 #endif

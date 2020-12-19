@@ -62,5 +62,28 @@ void	Vector::push_front(int value){
 int		Vector::memoryTaken(){
 	return this->mem;
 }
-
+int		Vector::pop_back(){
+	int last = tab[size - 1];
+	int *new_array = new int[size-1];
+	for (int i = 0; i < size-1; i++){
+		new_array[i] = tab[i];
+	}
+	delete [] tab;
+	tab = new_array;
+	mem--;
+	size--;
+	return last;
+}
+int		Vector::pop_front(){
+	int debut = tab[0];
+	int *new_array = new int[size-1];
+	for (int i = 1; i < size; i++){
+		new_array[i-1] = tab[i];
+	}
+	delete [] tab;
+	tab = new_array;
+	mem--;
+	size--;
+	return debut;
+}
 int Vector::mem = 0;
