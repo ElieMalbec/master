@@ -1,0 +1,1 @@
+//faire 3 boucles imbriquées et voir si ça donne a+b+c = 1000 et a2 +b2 = c2

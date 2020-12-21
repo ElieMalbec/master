@@ -1,0 +1,4 @@
+1)acteurs : utilisateur(peut être n'importe qui, un étudiant comme un professeur voire même un technicien), technicien, (machine : le sujet/système)
+2)Non, il utilise la machine normalement
+3)Oui, en indiquant avec un bonhomme et en écrivant en dessous que c'ets un technicien.
+4)Oui et non, dépend du rôle de technicien.
